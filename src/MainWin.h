@@ -14,7 +14,10 @@ namespace Ui
 class MainWin;
 }
 QT_END_NAMESPACE
-
+/**
+ * @brief 主窗口
+ *
+ */
 class MainWin : public QMainWindow
 {
 Q_OBJECT
