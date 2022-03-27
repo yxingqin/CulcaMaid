@@ -1,13 +1,15 @@
 #ifndef TEMPLATE_QT_EXPR_H
 #define TEMPLATE_QT_EXPR_H
 /**
- * @brief 表达式处理 工具
+ * @brief 表达式处理
+ *
+ *
  */
 namespace expr
 {
 //运算符的枚举
 /**
- * @brief 定义了
+ * @brief 运算符枚举
  */
 enum class optEnum
 {
@@ -20,8 +22,7 @@ enum class optEnum
 	SUB,
 	MUL,
 	DIV,
-	MOD,//取模
-
+	MOD,
 	POWER,
 	//一元函数
 	ABS,//绝对值
@@ -37,7 +38,12 @@ enum class optEnum
 	SQUAREROOT,
 };
 
-//存储运算符和数据
+/**
+ * @brief 后缀表达式的基本组成单元
+ *
+ * 存储信息： 数据类型 如 未知数，运算符，数值
+ * 可读不可写
+ */
 class exprMeta
 {
 public:

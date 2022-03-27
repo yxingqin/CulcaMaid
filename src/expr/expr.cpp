@@ -1,5 +1,5 @@
 #include "expr.h"
-#include <unordered_set>
+#include <string>
 namespace expr
 {
 constexpr double pi=3.14159265;
@@ -174,10 +174,10 @@ optEnum getOpt(const std::string& expr,int &i)
 				}
 				return optEnum::UNKNOWN;
 			}
-			case 'l':
-				i+=2;
-				if(i-1<len)
-					return expr[i-1];
+//			case 'l':
+//				i+=2;
+//				if(i-1<len)
+//					return expr[i-1];
 
 		}
 	return optEnum::UNKNOWN;
