@@ -174,10 +174,10 @@ optEnum getOpt(const std::string& expr,int &i)
 				}
 				return optEnum::UNKNOWN;
 			}
-			case 'l':
-				i+=2;
-				if(i-1<len)
-					return expr[i-1];
+//			case 'l':
+//				i+=2;
+//				if(i-1<len)
+//					return expr[i-1];
 
 		}
 	return optEnum::UNKNOWN;

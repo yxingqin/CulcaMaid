@@ -8,26 +8,26 @@ set(CMAKE_AUTORCC ON)
 set(CMAKE_AUTOUIC ON)
 
 
-set(CMAKE_PREFIX_PATH "D:/Software/SDK/Qt/5.15.2/mingw81_64")# UOS 无需设置
-set(QTVersion 5)# QT版本
 
 
 
-find_package(Qt${QTVersion}
-        COMPONENTS
+
+if(CMAKE_SYSTEM_NAME MATCHES "Windows")
+    set(CMAKE_PREFIX_PATH "D:/Software/SDK/Qt/5.15.2/mingw81_64")# UOS 无需设置
+endif()
+find_package(Qt5 COMPONENTS
         Core
         Gui
         Widgets
         REQUIRED
         )
 
+
 include_directories("${CMAKE_BINARY_DIR}/${PROJECT_NAME}_autogen/include")
 #include_directories(src/subWidget)# 需要单独引入头文件目录
 file(GLOB_RECURSE   SRCS  RELATIVE ${CMAKE_CURRENT_SOURCE_DIR}  LIST_DIRECTORIES false   src/*.cpp  src/*.ui)
 #添加额外的 源文件 例如资源文件等
 #LIST(APPEND  SRCS res.qrc)
-
-
 
 
 
@@ -38,17 +38,23 @@ if(CMAKE_SYSTEM_NAME MATCHES "Windows")
     elseif(CMAKE_BUILD_TYPE MATCHES "Release")
         add_executable(${PROJECT_NAME} WIN32 ${SRCS})
     endif()
+    target_link_libraries(${PROJECT_NAME}
+            Qt::Core
+            Qt::Gui
+            Qt::Widgets
+            )
 elseif(CMAKE_SYSTEM_NAME MATCHES "Linux")
     # 正对UOS
+    add_executable(${PROJECT_NAME}   ${SRCS} )
+    target_link_libraries(${PROJECT_NAME}
+            Qt5::Core
+            Qt5::Gui
+            Qt5::Widgets
+            )
 endif()
 
 
 
-target_link_libraries(${PROJECT_NAME}
-        Qt::Core
-        Qt::Gui
-        Qt::Widgets
-        )
 
 
 # 针对windows 平台复制 dll 到 build 目录下
@@ -85,7 +91,7 @@ if(CMAKE_SYSTEM_NAME MATCHES "Windows")
         foreach (QT_LIB ${QT_LIB_LIST})
             add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
                     COMMAND ${CMAKE_COMMAND} -E copy
-                    "${QT_INSTALL_PATH}/bin/Qt${QTVersion}${QT_LIB}${DEBUG_SUFFIX}.dll"
+                    "${QT_INSTALL_PATH}/bin/Qt5${QT_LIB}${DEBUG_SUFFIX}.dll"
                     "$<TARGET_FILE_DIR:${PROJECT_NAME}>")
         endforeach (QT_LIB)
     endif ()
