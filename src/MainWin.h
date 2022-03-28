@@ -6,7 +6,7 @@
 #define CALCULMAID_MAINWIN_H
 
 #include <QMainWindow>
-
+#include "Forms/PopMenu/PopMenu.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui
@@ -25,9 +25,11 @@ Q_OBJECT
 public:
 	explicit MainWin(QWidget *parent = nullptr);
 	~MainWin() override;
-
+private:
+	void popMenu();
 private:
 	Ui::MainWin *ui;
+	PopMenu* mPopMenu;
 };
 
 

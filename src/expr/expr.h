@@ -86,7 +86,7 @@ public:
 	};
 public:
 	exprMeta() = delete;
-	//运行隐士类型转换
+	//允许隐式类型转换
 	exprMeta(optEnum opt);
 	exprMeta(double num);
 	exprMeta(char key);
