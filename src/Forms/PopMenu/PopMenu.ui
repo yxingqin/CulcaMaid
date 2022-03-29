@@ -6,15 +6,27 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>183</width>
-    <height>431</height>
+    <width>204</width>
+    <height>472</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>PopMenu</string>
   </property>
+  <property name="windowOpacity">
+   <double>0.000000000000000</double>
+  </property>
   <property name="styleSheet">
-   <string notr="true">QWidget{border:2px; background:white; border-radius:5px;}
+   <string notr="true">QWidget#PopMenu{
+background-color:rtransparent;
+border:none;
+}
+
+QFrame#frame
+{
+border:2px;  background-color:white; border-radius:5px;border-bottom:1px solid black;
+padding:0;
+}
 
 QScrollBar:vertical{background:transparent; width:8px;}
 QScrollBar::handle:vertical{background:rgb(224,224,224); width:5px; border-radius:3px;}
@@ -34,7 +46,7 @@ QListWidget::Item:hover{background:rgb(246,246,247);}</string>
     <number>0</number>
    </property>
    <property name="topMargin">
-    <number>10</number>
+    <number>0</number>
    </property>
    <property name="rightMargin">
     <number>0</number>
@@ -43,7 +55,50 @@ QListWidget::Item:hover{background:rgb(246,246,247);}</string>
     <number>0</number>
    </property>
    <item>
-    <widget class="QListWidget" name="listw_calcu"/>
+    <widget class="QFrame" name="frame">
+     <property name="frameShape">
+      <enum>QFrame::StyledPanel</enum>
+     </property>
+     <property name="frameShadow">
+      <enum>QFrame::Raised</enum>
+     </property>
+     <layout class="QVBoxLayout" name="verticalLayout_2">
+      <property name="spacing">
+       <number>0</number>
+      </property>
+      <property name="leftMargin">
+       <number>0</number>
+      </property>
+      <property name="topMargin">
+       <number>0</number>
+      </property>
+      <property name="rightMargin">
+       <number>0</number>
+      </property>
+      <property name="bottomMargin">
+       <number>0</number>
+      </property>
+      <item>
+       <spacer name="verticalSpacer">
+        <property name="orientation">
+         <enum>Qt::Vertical</enum>
+        </property>
+        <property name="sizeType">
+         <enum>QSizePolicy::Minimum</enum>
+        </property>
+        <property name="sizeHint" stdset="0">
+         <size>
+          <width>20</width>
+          <height>35</height>
+         </size>
+        </property>
+       </spacer>
+      </item>
+      <item>
+       <widget class="QListWidget" name="listw_calcu"/>
+      </item>
+     </layout>
+    </widget>
    </item>
   </layout>
  </widget>

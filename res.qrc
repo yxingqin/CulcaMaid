@@ -1,5 +1,6 @@
 <RCC>
     <qresource prefix="/">
+        <file>res/qss/all.qss</file>
         <file>res/icon/calcu.png</file>
         <file>res/icon/menu.png</file>
     </qresource>
