@@ -22,10 +22,11 @@ Q_OBJECT
 public:
 	explicit PopMenu(QWidget *parent = nullptr);
 	~PopMenu() override;
-
+private:
+	void addItem(QString title,QString icon);
 private:
 	Ui::PopMenu *ui;
-	QList<QString> mlist_calcu;
+
 };
 
 

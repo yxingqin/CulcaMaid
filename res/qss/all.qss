@@ -1,9 +1,8 @@
 * {
     font:15px "Microsoft YaHei";
     text-align:center;
+    background-color:#eef4f9;
+    border-radius:15px;
+
 }
 
-.QWidget {
-      border:none;
-      border-radius:20px;
-}

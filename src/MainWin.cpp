@@ -19,11 +19,9 @@ MainWin::MainWin(QWidget *parent) :
 
 	//弹出式菜单
 	mPopMenu=new PopMenu(ui->centralwidget);
-	mPopMenu->show();
-	mPopMenu->stackUnder(ui->btn_popMune);
 	mPopMenu->hide();
+	ui->btn_popMune->raise();//防止被遮挡
 	connect(ui->btn_popMune,&QPushButton::clicked,this,&MainWin::popMenu);
-
 }
 
 MainWin::~MainWin()
@@ -35,14 +33,15 @@ void MainWin::popMenu()
 {
 	if(mPopMenu->isHidden())
 	{
-		int x=ui->btn_popMune->x();
-		int y=ui->btn_popMune->y();
-		mPopMenu->move(x,y);
+		mPopMenu->resize(this->width()/2,this->height());
+		mPopMenu->move(0,0);
 		mPopMenu->show();
-		ui->btn_popMune->activateWindow();
-
-
+		ui->btn_popMune->setStyleSheet("background-color:#FFF");
 	}else
+	{
 		mPopMenu->hide();
+		ui->btn_popMune->setStyleSheet("background-color:#eef4f9");
+	}
+
 }
 

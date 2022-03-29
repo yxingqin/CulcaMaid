@@ -6,24 +6,31 @@
 
 #include "PopMenu.h"
 #include "ui_PopMenu.h"
+#include "PopMenuItem.h"
 
 PopMenu::PopMenu(QWidget *parent) :
 		QWidget(parent), ui(new Ui::PopMenu)
 {
 	ui->setupUi(this);
-	mlist_calcu<<"标准"<<"科学"<<"程序员"<<"绘图"<<"日期"<<"关系";
+	//添加 项目
+	QList<QString> listItem{"标准","科学","程序员","程序员","日期","关系"};
+	addItem("标准",":/res/icon/calcu.png");
+	addItem("科学",":/res/icon/science.png");
+	addItem("程序员",":/res/icon/program.png");
+	addItem("日期",":/res/icon/date.png");
+	addItem("关系",":/res/icon/relation.png");
 
-	//计算器子菜单
-	for(auto& it:mlist_calcu)
-	{
-		ui->listw_calcu->addItem(new QListWidgetItem(QIcon(":/res/icon/calcu.png"),it));
-
-
-	}
 }
 
 PopMenu::~PopMenu()
 {
 	delete ui;
+}
+
+void PopMenu::addItem(QString title, QString icon)
+{
+	QListWidgetItem * newWidget = new QListWidgetItem(ui->listw_calcu);
+	PopMenuItem* popMenuItem=new PopMenuItem(ui->listw_calcu,title,icon);
+	ui->listw_calcu->setItemWidget(newWidget,popMenuItem);
 }
 
