@@ -8,15 +8,14 @@
 #include "MainWin.h"
 #include "ui_MainWin.h"
 #include <QDebug>
-#include <QEvent>
+#include <QResizeEvent>
 MainWin::MainWin(QWidget *parent) :
 		QMainWindow(parent), ui(new Ui::MainWin)
 {
 	ui->setupUi(this);
 
     QDesktopWidget *desktop = QApplication::desktop();//窗口居中
-    move((desktop->width() - width())/ 2,height()/2);
-
+	this->setGeometry((desktop->width() - width())/ 2,height()/2,420,610);
 
 	//弹出式菜单
 	mPopMenu=new PopMenu(ui->centralwidget);
@@ -24,7 +23,9 @@ MainWin::MainWin(QWidget *parent) :
 	ui->btn_popMune->raise();//防止被遮挡
 	connect(ui->btn_popMune,&QPushButton::clicked,this,&MainWin::popMenu);
 	//历史记录
-
+	ui->swdg_sub->hide();
+	ui->page_sub1->hide();
+	connect(ui->btn_history,&QPushButton::clicked,this,&MainWin::popHistory);
 }
 
 MainWin::~MainWin()
@@ -40,7 +41,7 @@ void MainWin::popMenu()//弹出菜单
 	{
 		ui->btn_popMune->setStyleSheet("background-color:#FFF");
 		int w=this->width()/2;
-		w=w>150?150:w;
+		w=w>256?256:w;
 		mPopMenu->resize(w,this->height());
 		pAnimation->setStartValue(QPoint(-w,0));
 		pAnimation->setEndValue(QPoint(0,0));
@@ -60,14 +61,45 @@ void MainWin::popMenu()//弹出菜单
 
 void MainWin::resizeEvent(QResizeEvent *event)
 {
+	auto size=event->size();
+
 	if(mPopMenu->x()>=0)//调整菜单高度
 	{
 		int w=this->width()/2;
-		w=w>150?150:w;
+		w=w>256?256:w;
 		mPopMenu->resize(w,this->height());
 	}
-
+	//280+380 显示history
+	if(size.width()>=660)
+	{
+		ui->btn_history->hide();
+		ui->page_sub1->setParent(ui->swdg_sub);
+		ui->page_sub1->setGeometry(0,0, 280,this->height());
+		ui->page_sub1->show();
+		ui->swdg_sub->show();
+	}
+	else
+	{
+		ui->btn_history->show();
+		ui->swdg_sub->hide();
+		ui->page_sub1->hide();
+	}
 	QWidget::resizeEvent(event);
+}
+
+void MainWin::popHistory()
+{
+	if(this->width()<660)
+	{
+		if(ui->page_sub1->isHidden())
+		{
+			ui->page_sub1->setParent(this);
+			ui->page_sub1->setGeometry(0,this->height()/2, this->width(),this->height()/2);
+			ui->page_sub1->show();
+		}
+		else
+			ui->page_sub1->hide();
+	}
 }
 
 

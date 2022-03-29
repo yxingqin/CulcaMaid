@@ -8,7 +8,6 @@
 #include <QMainWindow>
 #include <QPropertyAnimation>
 #include "Forms/PopMenu/PopMenu.h"
-
 QT_BEGIN_NAMESPACE
 namespace Ui
 {
@@ -26,8 +25,10 @@ Q_OBJECT
 public:
 	explicit MainWin(QWidget *parent = nullptr);
 	~MainWin() override;
-private:
+private slots:
 	void popMenu();
+	void popHistory();
+private:
 	void resizeEvent(QResizeEvent *event)override;
 private:
 	Ui::MainWin *ui;

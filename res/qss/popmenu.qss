@@ -1,19 +1,16 @@
-*
-{
+/*弹出菜单的样式*/
+* {
 background-color:#FFF;
 border:0;
 }
-#scrollAreaWidgetContents>QLabel
-{
+#scrollAreaWidgetContents>QLabel{
 margin:12px 0;
 }
-QWidget#PopMenu
-{
+QWidget#PopMenu{
 padding:0;
 }
 
-QFrame#frame
-{
+QFrame#frame{
 border:2px;  border-radius:0 15px 15px 0;
 padding:0;
 }
