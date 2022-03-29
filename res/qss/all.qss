@@ -6,3 +6,12 @@
 
 }
 
+QScrollBar:vertical{background:transparent; width:8px;}
+QScrollBar::handle:vertical{background:rgb(224,224,224); width:5px; border-radius:3px;}
+QScrollBar::up-arrow:vertical{border:none;}
+QScrollBar::sub-line:vertical{background:transparent;}
+QScrollBar::add-line:vertical{background:transparent;}
+
+QListWidget{border:1px;border-radius:5px;}
+QListWidget::Item{height:40px;}
+QListWidget::Item:hover{background:#eff4f6;}

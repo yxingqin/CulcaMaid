@@ -6,6 +6,7 @@
 #define CALCULMAID_MAINWIN_H
 
 #include <QMainWindow>
+#include <QPropertyAnimation>
 #include "Forms/PopMenu/PopMenu.h"
 
 QT_BEGIN_NAMESPACE
@@ -27,6 +28,7 @@ public:
 	~MainWin() override;
 private:
 	void popMenu();
+	void resizeEvent(QResizeEvent *event)override;
 private:
 	Ui::MainWin *ui;
 	PopMenu* mPopMenu;

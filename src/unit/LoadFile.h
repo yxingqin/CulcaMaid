@@ -3,7 +3,7 @@
 #include <QString>
 namespace Load
 {
-
+QString loadStyle(const QString& fileName );
 void setStyle(const QString& fileName);
 }
 

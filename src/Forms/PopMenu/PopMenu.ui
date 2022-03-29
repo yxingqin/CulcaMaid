@@ -111,7 +111,7 @@ QListWidget::Item:hover{background:#eff4f6;}</string>
            <x>0</x>
            <y>0</y>
            <width>150</width>
-           <height>818</height>
+           <height>858</height>
           </rect>
          </property>
          <layout class="QVBoxLayout" name="verticalLayout_4">
@@ -127,7 +127,7 @@ QListWidget::Item:hover{background:#eff4f6;}</string>
             <property name="minimumSize">
              <size>
               <width>0</width>
-              <height>210</height>
+              <height>250</height>
              </size>
             </property>
            </widget>
