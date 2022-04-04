@@ -26,10 +26,12 @@ public:
 	explicit MainWin(QWidget *parent = nullptr);
 	~MainWin() override;
 private slots:
-	void popMenu();
-	void popHistory();
+	void switchMenu();
+	void switchHistory();
 private:
 	void resizeEvent(QResizeEvent *event)override;
+	void mousePressEvent(QMouseEvent *event)override;
+	bool eventFilter(QObject *watched, QEvent *event)override;
 private:
 	Ui::MainWin *ui;
 	PopMenu* mPopMenu;

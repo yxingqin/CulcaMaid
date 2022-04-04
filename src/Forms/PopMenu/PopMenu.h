@@ -1,11 +1,11 @@
 //
-// Created by 24100 on 2022/3/28.
+// Created by 24100 on 2022/4/4.
 //
 
 #ifndef CALCULMAID_POPMENU_H
 #define CALCULMAID_POPMENU_H
 
-#include <QWidget>
+#include <QFrame>
 #include <QListWidget>
 
 
@@ -16,18 +16,18 @@ class PopMenu;
 }
 QT_END_NAMESPACE
 
-class PopMenu : public QWidget
+class PopMenu : public QFrame
 {
 Q_OBJECT
 friend class MainWin;
 public:
 	explicit PopMenu(QWidget *parent = nullptr);
 	~PopMenu() override;
+
 private:
 	void addItem(QString title,QString icon);
-private:
+	QListWidget* list_culca;
 	Ui::PopMenu *ui;
-	QListWidget *list_culca;
 };
 
 

@@ -25,6 +25,7 @@ find_package(Qt5 COMPONENTS
 
 include_directories("${CMAKE_BINARY_DIR}/${PROJECT_NAME}_autogen/include")
 include_directories(src/Forms)# 需要单独引入头文件目录
+include_directories(src/unit)
 file(GLOB_RECURSE   SRCS  RELATIVE ${CMAKE_CURRENT_SOURCE_DIR}  LIST_DIRECTORIES false   src/*.cpp  src/*.ui)
 #添加额外的 源文件 例如资源文件等
 LIST(APPEND  SRCS res.qrc)

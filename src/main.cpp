@@ -1,7 +1,7 @@
 #include <QApplication>
 #include <QPushButton>
 #include "MainWin.h"
-#include "unit/LoadFile.h"
+#include "LoadFile.h"
 int main(int argc, char *argv[])
 {
 	QApplication a(argc, argv);

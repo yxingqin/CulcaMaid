@@ -1,13 +1,9 @@
-//
-// Created by 24100 on 2022/3/27.
-//
-
-// You may need to build the project (run Qt uic code generator) to get "ui_MainWin.h" resolved
 #include <QDesktopWidget>
 #include <QAbstractButton>
+#include <QMouseEvent>
 #include "MainWin.h"
 #include <QDebug>
-#include <QResizeEvent>
+
 #include "ui_MainWin.h"
 
 
@@ -18,33 +14,33 @@ MainWin::MainWin(QWidget *parent) :
 
     QDesktopWidget *desktop = QApplication::desktop();//窗口居中
 	this->setGeometry((desktop->width() - width())/ 2,height()/2,420,610);
-
 	//弹出式菜单
 	mPopMenu=new PopMenu(ui->centralwidget);
 	mPopMenu->move(-mPopMenu->width(),0);
 	ui->btn_popMune->raise();//防止被遮挡
-	connect(ui->btn_popMune,&QPushButton::clicked,this,&MainWin::popMenu);
+	connect(ui->btn_popMune,&QPushButton::clicked,this,&MainWin::switchMenu);
 	//历史记录
 	ui->swdg_sub->hide();
 	ui->page_sub1->hide();
-	connect(ui->btn_history,&QPushButton::clicked,this,&MainWin::popHistory);
+	connect(ui->btn_history,&QPushButton::clicked,this,&MainWin::switchHistory);
 
-
+	//设置页面切换
 	connect(mPopMenu->list_culca,&QListWidget::currentRowChanged,this,[this](int row){
-
 		ui->swdg_main->setCurrentIndex(row);
-		popMenu();
+		switchMenu();
 	});
-
+	//点击隐藏这两菜单
+	mPopMenu->installEventFilter(this);
+	ui->page_sub1->installEventFilter(this);
+	this->installEventFilter(this);
 }
 
 MainWin::~MainWin()
 {
 	delete ui;
-
 }
 
-void MainWin::popMenu()//弹出菜单
+void MainWin::switchMenu()//切换菜单
 {
 	QPropertyAnimation *pAnimation = new QPropertyAnimation(mPopMenu, "pos",mPopMenu);
 	if(mPopMenu->x()<0)
@@ -64,7 +60,8 @@ void MainWin::popMenu()//弹出菜单
 		pAnimation->setDuration(100);
 	}
 	pAnimation->start();
-	mPopMenu->show();
+	if(!ui->page_sub1->isHidden())
+		switchHistory();
 }
 
 void MainWin::resizeEvent(QResizeEvent *event)
@@ -95,7 +92,7 @@ void MainWin::resizeEvent(QResizeEvent *event)
 	QWidget::resizeEvent(event);
 }
 
-void MainWin::popHistory()
+void MainWin::switchHistory()
 {
 	if(this->width()<660)
 	{
@@ -104,10 +101,36 @@ void MainWin::popHistory()
 			ui->page_sub1->setParent(this);
 			ui->page_sub1->setGeometry(0,this->height()/2, this->width(),this->height()/2);
 			ui->page_sub1->show();
+			if(mPopMenu->x()>=0)
+				switchMenu();
 		}
 		else
 			ui->page_sub1->hide();
 	}
+}
+
+void MainWin::mousePressEvent(QMouseEvent *event)
+{
+
+
+
+	QWidget::mousePressEvent(event);
+}
+
+bool MainWin::eventFilter(QObject *watched, QEvent *event)
+{
+	if(event->type()==QEvent::MouseButtonPress)
+	{
+		if(watched==this)
+		{
+			if(mPopMenu->x()>=0)
+				switchMenu();
+			if(!ui->page_sub1->isHidden())
+				switchHistory();
+		}
+	}
+
+	return QObject::eventFilter(watched, event);
 }
 
 
