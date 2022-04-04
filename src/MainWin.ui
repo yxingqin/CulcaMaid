@@ -26,9 +26,13 @@
    <string>MainWin</string>
   </property>
   <property name="styleSheet">
-   <string notr="true">QFrame#frame {
-margin:0;
-padding:0;
+   <string notr="true">#MainWin {
+background-color:#eef4f9;
+}
+
+#btn_popMune {
+background: transparent;
+border:none;
 }</string>
   </property>
   <widget class="QWidget" name="centralwidget">
@@ -40,7 +44,7 @@ padding:0;
      <number>0</number>
     </property>
     <property name="topMargin">
-     <number>0</number>
+     <number>6</number>
     </property>
     <property name="rightMargin">
      <number>0</number>
@@ -96,12 +100,18 @@ padding:0;
         <item>
          <widget class="QPushButton" name="btn_history">
           <property name="text">
-           <string>历史</string>
+           <string/>
           </property>
           <property name="icon">
            <iconset>
             <selectedon>:/res/icon/history.png</selectedon>
            </iconset>
+          </property>
+          <property name="iconSize">
+           <size>
+            <width>25</width>
+            <height>25</height>
+           </size>
           </property>
          </widget>
         </item>
@@ -135,37 +145,83 @@ padding:0;
          <string notr="true"/>
         </property>
         <property name="currentIndex">
-         <number>1</number>
+         <number>0</number>
         </property>
-        <widget class="QWidget" name="page_main1">
-         <widget class="QPushButton" name="pushButton">
-          <property name="geometry">
-           <rect>
-            <x>170</x>
-            <y>280</y>
-            <width>75</width>
-            <height>23</height>
-           </rect>
+        <widget class="QWidget" name="page_main0">
+         <property name="styleSheet">
+          <string notr="true">QLineEdit {
+	margin:5px 0;
+}
+
+QPushButton {
+margin:1px;
+min-height: 40px;
+min-width:40px;
+font-size:12px;
+text-align:center;
+
+border-top: 5px solid qlineargradient(y0:0, y1:1,stop: 0 #ececef, stop: 1 transparent);
+border-left: 5px solid qlineargradient(x0:0, x1:1,stop: 0 #ececef, stop: 1 transparent);
+ border-bottom: 5px solid qlineargradient(y0:0, y1:1,stop: 0 white, stop: 1  #D3D3D3);
+border-right: 5px solid qlineargradient(x0:0, x1:1,stop:  0 white, stop: 1 #D3D3D3);
+}</string>
+         </property>
+         <layout class="QVBoxLayout" name="verticalLayout_3">
+          <property name="spacing">
+           <number>0</number>
           </property>
-          <property name="text">
-           <string>标准</string>
+          <property name="sizeConstraint">
+           <enum>QLayout::SetMaximumSize</enum>
           </property>
-         </widget>
+          <property name="leftMargin">
+           <number>0</number>
+          </property>
+          <property name="topMargin">
+           <number>0</number>
+          </property>
+          <property name="rightMargin">
+           <number>0</number>
+          </property>
+          <property name="bottomMargin">
+           <number>0</number>
+          </property>
+          <item>
+           <widget class="PageStandard" name="wdgStandard" native="true">
+            <property name="maximumSize">
+             <size>
+              <width>425</width>
+              <height>690</height>
+             </size>
+            </property>
+           </widget>
+          </item>
+         </layout>
         </widget>
-        <widget class="QWidget" name="page_main2">
-         <widget class="QPushButton" name="pushButton_2">
-          <property name="geometry">
-           <rect>
-            <x>120</x>
-            <y>140</y>
-            <width>75</width>
-            <height>23</height>
-           </rect>
-          </property>
-          <property name="text">
-           <string>科学</string>
-          </property>
-         </widget>
+        <widget class="QWidget" name="page_main1">
+         <property name="minimumSize">
+          <size>
+           <width>425</width>
+           <height>690</height>
+          </size>
+         </property>
+         <property name="maximumSize">
+          <size>
+           <width>425</width>
+           <height>690</height>
+          </size>
+         </property>
+         <layout class="QVBoxLayout" name="verticalLayout_4">
+          <item>
+           <widget class="PageDate" name="wdgData" native="true">
+            <property name="maximumSize">
+             <size>
+              <width>120</width>
+              <height>80</height>
+             </size>
+            </property>
+           </widget>
+          </item>
+         </layout>
         </widget>
        </widget>
       </item>
@@ -193,9 +249,12 @@ padding:0;
       </property>
       <widget class="QWidget" name="page_sub1">
        <property name="styleSheet">
-        <string notr="true">background-color:#000;</string>
+        <string notr="true">background:#FFF;</string>
        </property>
        <layout class="QVBoxLayout" name="verticalLayout">
+        <property name="topMargin">
+         <number>10</number>
+        </property>
         <item>
          <layout class="QHBoxLayout" name="horizontalLayout_2">
           <item>
@@ -253,6 +312,20 @@ padding:0;
    </layout>
   </widget>
  </widget>
+ <customwidgets>
+  <customwidget>
+   <class>PageStandard</class>
+   <extends>QWidget</extends>
+   <header>PageStandard/PageStandard.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>PageDate</class>
+   <extends>QWidget</extends>
+   <header>PageDate/PageDate.h</header>
+   <container>1</container>
+  </customwidget>
+ </customwidgets>
  <resources>
   <include location="../res.qrc"/>
  </resources>

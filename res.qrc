@@ -10,6 +10,5 @@
     <file>res/icon/science.png</file>
     <file>res/icon/setting.png</file>
     <file>res/qss/all.qss</file>
-    <file>res/qss/popmenu.qss</file>
   </qresource>
 </RCC>

@@ -6,6 +6,7 @@
 #define CALCULMAID_POPMENU_H
 
 #include <QWidget>
+#include <QListWidget>
 
 
 QT_BEGIN_NAMESPACE
@@ -18,7 +19,7 @@ QT_END_NAMESPACE
 class PopMenu : public QWidget
 {
 Q_OBJECT
-
+friend class MainWin;
 public:
 	explicit PopMenu(QWidget *parent = nullptr);
 	~PopMenu() override;
@@ -26,7 +27,7 @@ private:
 	void addItem(QString title,QString icon);
 private:
 	Ui::PopMenu *ui;
-
+	QListWidget *list_culca;
 };
 
 

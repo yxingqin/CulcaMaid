@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>176</width>
+    <width>185</width>
     <height>607</height>
    </rect>
   </property>
@@ -23,35 +23,37 @@
    <double>0.000000000000000</double>
   </property>
   <property name="styleSheet">
-   <string notr="true">*
-{
+   <string notr="true">/*弹出菜单*/
+* {
 background-color:#FFF;
 border:0;
+font-size:12pt;
 }
-#scrollAreaWidgetContents&gt;QLabel
-{
+#scrollAreaWidgetContents&gt;QLabel{
 margin:12px 0;
 }
-QWidget#PopMenu
-{
+QWidget#PopMenu{
 padding:0;
 }
 
-QFrame#frame
-{
+QFrame#frame{
 border:2px;  border-radius:0 15px 15px 0;
 padding:0;
 }
-
-QScrollBar:vertical{background:transparent; width:8px;}
-QScrollBar::handle:vertical{background:rgb(224,224,224); width:5px; border-radius:3px;}
-QScrollBar::up-arrow:vertical{border:none;}
-QScrollBar::sub-line:vertical{background:transparent;}
-QScrollBar::add-line:vertical{background:transparent;}
-
-
-QListWidget::Item{height:40px;}
-QListWidget::Item:hover{background:#eff4f6;}</string>
+/*列表框*/
+.QListWidget {border-radius:5px;}
+QListWidget::item {
+height:40px; margin-left:10px;
+background-color: transparent;
+}
+QListWidget::item:hover {
+background-color: #f1f4f7;
+}
+QListWidget::item:selected {
+border:none;
+border-left: 3px solid #0067c0;
+}
+</string>
   </property>
   <layout class="QHBoxLayout" name="horizontalLayout">
    <property name="spacing">
@@ -78,6 +80,9 @@ QListWidget::Item:hover{background:#eff4f6;}</string>
       <enum>QFrame::Raised</enum>
      </property>
      <layout class="QVBoxLayout" name="verticalLayout">
+      <property name="leftMargin">
+       <number>0</number>
+      </property>
       <item>
        <spacer name="verticalSpacer">
         <property name="orientation">
@@ -110,11 +115,23 @@ QListWidget::Item:hover{background:#eff4f6;}</string>
           <rect>
            <x>0</x>
            <y>0</y>
-           <width>150</width>
-           <height>858</height>
+           <width>159</width>
+           <height>848</height>
           </rect>
          </property>
          <layout class="QVBoxLayout" name="verticalLayout_4">
+          <property name="leftMargin">
+           <number>0</number>
+          </property>
+          <property name="topMargin">
+           <number>0</number>
+          </property>
+          <property name="rightMargin">
+           <number>0</number>
+          </property>
+          <property name="bottomMargin">
+           <number>0</number>
+          </property>
           <item>
            <widget class="QLabel" name="label">
             <property name="text">
@@ -168,6 +185,12 @@ QListWidget::Item:hover{background:#eff4f6;}</string>
          <enum>QFrame::Raised</enum>
         </property>
         <layout class="QHBoxLayout" name="horizontalLayout_2">
+         <property name="leftMargin">
+          <number>0</number>
+         </property>
+         <property name="topMargin">
+          <number>9</number>
+         </property>
          <item>
           <widget class="QPushButton" name="btn_setting">
            <property name="minimumSize">

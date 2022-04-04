@@ -6,9 +6,11 @@
 #include <QDesktopWidget>
 #include <QAbstractButton>
 #include "MainWin.h"
-#include "ui_MainWin.h"
 #include <QDebug>
 #include <QResizeEvent>
+#include "ui_MainWin.h"
+
+
 MainWin::MainWin(QWidget *parent) :
 		QMainWindow(parent), ui(new Ui::MainWin)
 {
@@ -26,6 +28,14 @@ MainWin::MainWin(QWidget *parent) :
 	ui->swdg_sub->hide();
 	ui->page_sub1->hide();
 	connect(ui->btn_history,&QPushButton::clicked,this,&MainWin::popHistory);
+
+
+	connect(mPopMenu->list_culca,&QListWidget::currentRowChanged,this,[this](int row){
+
+		ui->swdg_main->setCurrentIndex(row);
+		popMenu();
+	});
+
 }
 
 MainWin::~MainWin()
@@ -39,7 +49,6 @@ void MainWin::popMenu()//弹出菜单
 	QPropertyAnimation *pAnimation = new QPropertyAnimation(mPopMenu, "pos",mPopMenu);
 	if(mPopMenu->x()<0)
 	{
-		ui->btn_popMune->setStyleSheet("background-color:#FFF");
 		int w=this->width()/2;
 		w=w>256?256:w;
 		mPopMenu->resize(w,this->height());
@@ -49,7 +58,6 @@ void MainWin::popMenu()//弹出菜单
 		pAnimation->setDuration(150);
 	}else
 	{
-		ui->btn_popMune->setStyleSheet("background-color:#eef4f9");
 		pAnimation->setStartValue(QPoint(0,0));
 		pAnimation->setEndValue(QPoint(-mPopMenu->width(),0));
 		pAnimation->setEasingCurve(QEasingCurve::InQuad);
