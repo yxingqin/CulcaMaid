@@ -11,7 +11,6 @@ set(CMAKE_AUTOUIC ON)
 
 
 
-
 if(CMAKE_SYSTEM_NAME MATCHES "Windows")
     set(CMAKE_PREFIX_PATH "D:/Software/SDK/Qt/5.15.2/mingw81_64")# UOS 无需设置
 endif()
@@ -33,7 +32,7 @@ LIST(APPEND  SRCS res.qrc)
 
 
 if(CMAKE_SYSTEM_NAME MATCHES "Windows")
-    # 正对window
+    # 针对window
     if(CMAKE_BUILD_TYPE MATCHES "Debug")
         add_executable(${PROJECT_NAME}   ${SRCS} )
     elseif(CMAKE_BUILD_TYPE MATCHES "Release")
@@ -45,7 +44,7 @@ if(CMAKE_SYSTEM_NAME MATCHES "Windows")
             Qt::Widgets
             )
 elseif(CMAKE_SYSTEM_NAME MATCHES "Linux")
-    # 正对UOS
+    # 针对UOS
     add_executable(${PROJECT_NAME}   ${SRCS} )
     target_link_libraries(${PROJECT_NAME}
             Qt5::Core

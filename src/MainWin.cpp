@@ -14,6 +14,7 @@ MainWin::MainWin(QWidget *parent) :
 	//加载qss
 	setStyleSheet(Load::loadStyle(":/res/qss/mainwin.qss"));
 
+//    qputenv("QT_SCALE_FACTOR", "1.25");
     QDesktopWidget *desktop = QApplication::desktop();//窗口居中
 	this->setGeometry((desktop->width() - width())/ 2,height()/2,420,610);
 	//弹出式菜单
