@@ -7,6 +7,7 @@
 
 #include <QMainWindow>
 #include <QPropertyAnimation>
+#include <QGraphicsDropShadowEffect>
 #include "Forms/PopMenu/PopMenu.h"
 QT_BEGIN_NAMESPACE
 namespace Ui
@@ -31,10 +32,11 @@ private slots:
 private:
 	void resizeEvent(QResizeEvent *event)override;
 	bool eventFilter(QObject *watched, QEvent *event)override;
-	void AllInstallEventFilter(QObject* object);
+
 private:
 	Ui::MainWin *ui;
 	PopMenu* mPopMenu;
+	QGraphicsDropShadowEffect* shadowEffect;
 };
 
 

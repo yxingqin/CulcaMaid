@@ -12,15 +12,12 @@ PopMenu::PopMenu(QWidget *parent) :
 		QFrame(parent), ui(new Ui::PopMenu)
 {
 	ui->setupUi(this);
-
 	//阴影
-	QGraphicsDropShadowEffect* shadowEffect=new QGraphicsDropShadowEffect(this);
+	auto shadowEffect=new QGraphicsDropShadowEffect(this);
 	shadowEffect->setColor("#778899");
 	shadowEffect->setOffset(0,0);
 	shadowEffect->setBlurRadius(22);
 	this->setGraphicsEffect(shadowEffect);
-
-
 	//添加 项目
 	addItem("标准",":/res/icon/calcu.png");
 	addItem("科学",":/res/icon/science.png");

@@ -1,30 +1,33 @@
 QLineEdit {
-	background:transparent;
+	background: transparent;
 }
 
 #ledt_out1 {
-	margin:0px 0px;
-	padding:0px;
-	font-size:10pt;
-}
-#ledt_out2 {
-	padding:0px;
-	font-size:24pt;
+	margin: 0px 0px;
+	padding: 0px;
+	font-size: 10pt;
 }
 
-QPushButton {
-margin:3px;
-min-height: 40px;
-min-width:40px;
-font-size:16px;
-text-align:center;
-background-color:#fbfbfb;
+#ledt_out2 {
+    font-weight:bolder;
+	padding: 0px;
+	font-size: 24pt;
 }
-QPushButton:hover
-{
-background-color:#fcfcfc;
+
+QLabel {
+	margin: 3px;
+	min-height: 40px;
+	min-width: 40px;
+	font-size: 16px;
+	text-align: center;
+	background-color: #fbfbfb;
 }
-QPushButton:pressed
-{
-background-color:#f9f9f9
+
+QLabel :hover {
+
+	background-color: #fcfcfc;
+}
+
+QLabel :pressed {
+	background-color: #f9f9f9
 }
