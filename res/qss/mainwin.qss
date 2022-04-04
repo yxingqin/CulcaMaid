@@ -1,0 +1,14 @@
+/*主页面*/
+
+#MainWin {
+background-color:#eef4f9;
+}
+
+#btn_popMune {
+background: transparent;
+border:none;
+}
+
+#swdg_main {
+margin-top:10px;
+}

@@ -10,5 +10,7 @@
     <file>res/icon/science.png</file>
     <file>res/icon/setting.png</file>
     <file>res/qss/all.qss</file>
+    <file>res/qss/mainwin.qss</file>
+    <file>res/qss/standard.qss</file>
   </qresource>
 </RCC>

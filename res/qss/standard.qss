@@ -1,0 +1,30 @@
+QLineEdit {
+	background:transparent;
+}
+
+#ledt_out1 {
+	margin:0px 0px;
+	padding:0px;
+	font-size:10pt;
+}
+#ledt_out2 {
+	padding:0px;
+	font-size:24pt;
+}
+
+QPushButton {
+margin:3px;
+min-height: 40px;
+min-width:40px;
+font-size:16px;
+text-align:center;
+background-color:#fbfbfb;
+}
+QPushButton:hover
+{
+background-color:#fcfcfc;
+}
+QPushButton:pressed
+{
+background-color:#f9f9f9
+}

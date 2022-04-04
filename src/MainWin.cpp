@@ -3,7 +3,7 @@
 #include <QMouseEvent>
 #include "MainWin.h"
 #include <QDebug>
-
+#include "LoadFile.h"
 #include "ui_MainWin.h"
 
 
@@ -11,6 +11,8 @@ MainWin::MainWin(QWidget *parent) :
 		QMainWindow(parent), ui(new Ui::MainWin)
 {
 	ui->setupUi(this);
+	//加载qss
+	setStyleSheet(Load::loadStyle(":/res/qss/mainwin.qss"));
 
     QDesktopWidget *desktop = QApplication::desktop();//窗口居中
 	this->setGeometry((desktop->width() - width())/ 2,height()/2,420,610);
@@ -119,7 +121,7 @@ void MainWin::mousePressEvent(QMouseEvent *event)
 
 bool MainWin::eventFilter(QObject *watched, QEvent *event)
 {
-	if(event->type()==QEvent::MouseButtonPress)
+	if(event->type()==QEvent::MouseButtonPress)//隐藏popMenu和history
 	{
 		if(watched==this)
 		{
