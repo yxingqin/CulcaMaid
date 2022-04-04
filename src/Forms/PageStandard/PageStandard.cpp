@@ -1,6 +1,11 @@
 #include <LoadFile.h>
 #include "PageStandard.h"
 #include "ui_PageStandard.h"
+#include <QDebug>
+
+#include <chrono>
+
+
 
 
 PageStandard::PageStandard(QWidget *parent) :
@@ -14,4 +19,6 @@ PageStandard::~PageStandard()
 {
 	delete ui;
 }
+
+
 

@@ -30,8 +30,8 @@ private slots:
 	void switchHistory();
 private:
 	void resizeEvent(QResizeEvent *event)override;
-	void mousePressEvent(QMouseEvent *event)override;
 	bool eventFilter(QObject *watched, QEvent *event)override;
+	void AllInstallEventFilter(QObject* object);
 private:
 	Ui::MainWin *ui;
 	PopMenu* mPopMenu;

@@ -24,6 +24,7 @@ public:
 	~PageStandard() override;
 
 private:
+
 	Ui::PageStandard *ui;
 };
 

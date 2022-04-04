@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>703</width>
-    <height>741</height>
+    <width>158</width>
+    <height>699</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -25,9 +25,10 @@ margin:12px 0;
 }
 
 #PopMenu {
-
-border-top-left-radius:0px;
+border-top-left-radius:0px; 
 border-top-right-radius:8px;
+border-bottom-left-radius:0px; 
+border-bottom-right-radius:8px; 
 
 }
 
@@ -97,7 +98,7 @@ border-left: 3px solid #0067c0;
           <rect>
            <x>0</x>
            <y>0</y>
-           <width>659</width>
+           <width>114</width>
            <height>848</height>
           </rect>
          </property>

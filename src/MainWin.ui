@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>707</width>
-    <height>739</height>
+    <width>320</width>
+    <height>500</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -141,8 +141,8 @@ margin-top:10px;
        <widget class="QStackedWidget" name="swdg_main">
         <property name="minimumSize">
          <size>
-          <width>360</width>
-          <height>450</height>
+          <width>0</width>
+          <height>0</height>
          </size>
         </property>
         <property name="styleSheet">
@@ -155,7 +155,7 @@ margin-top:10px;
          <property name="styleSheet">
           <string notr="true"/>
          </property>
-         <layout class="QHBoxLayout" name="horizontalLayout_4">
+         <layout class="QVBoxLayout" name="verticalLayout_4">
           <property name="spacing">
            <number>0</number>
           </property>
@@ -200,6 +200,24 @@ margin-top:10px;
           </size>
          </property>
          <layout class="QVBoxLayout" name="verticalLayout_3">
+          <property name="spacing">
+           <number>0</number>
+          </property>
+          <property name="sizeConstraint">
+           <enum>QLayout::SetMaximumSize</enum>
+          </property>
+          <property name="leftMargin">
+           <number>0</number>
+          </property>
+          <property name="topMargin">
+           <number>0</number>
+          </property>
+          <property name="rightMargin">
+           <number>0</number>
+          </property>
+          <property name="bottomMargin">
+           <number>0</number>
+          </property>
           <item>
            <widget class="PageDate" name="pData" native="true">
             <property name="maximumSize">
