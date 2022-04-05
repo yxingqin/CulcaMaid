@@ -7,7 +7,7 @@
 
 #include <QFrame>
 #include <QListWidget>
-
+#include "PageSetting/PageSetting.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui
@@ -26,7 +26,9 @@ public:
 
 private:
 	void addItem(QString title,QString icon);
+private:
 	QListWidget* list_culca;
+	PageSetting* mpSetting;
 	Ui::PopMenu *ui;
 };
 

@@ -34,8 +34,11 @@ MainWin::MainWin(QWidget *parent) :
 	connect(ui->btn_history, &QPushButton::clicked, this, &MainWin::switchHistory);
 	//设置页面切换
 	connect(mPopMenu->list_culca, &QListWidget::currentRowChanged, this, &MainWin::switchPageCal);
+	ui->swdg_main->setCurrentIndex(0);
+	ui->swdg_sub->setCurrentIndex(0);
 	//处理某部分事件
 	installEventFilter(this);
+
 }
 
 MainWin::~MainWin()
@@ -135,7 +138,6 @@ bool MainWin::eventFilter(QObject *watched, QEvent *event)
 
 void MainWin::switchPageCal(int row)
 {
-	qDebug()<<"row: "<<row;
 	ui->swdg_main->setCurrentIndex(row);
 	switchMenu();
 }

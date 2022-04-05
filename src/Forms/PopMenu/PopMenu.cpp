@@ -12,6 +12,12 @@ PopMenu::PopMenu(QWidget *parent) :
 		QFrame(parent), ui(new Ui::PopMenu)
 {
 	ui->setupUi(this);
+	//设置页面
+	mpSetting=new PageSetting();
+	connect(ui->btn_setting,&QPushButton::clicked,this,[this]()
+	{
+		mpSetting->show();
+	});
 	//阴影
 	auto shadowEffect=new QGraphicsDropShadowEffect(this);
 	shadowEffect->setColor("#778899");
@@ -32,6 +38,7 @@ PopMenu::PopMenu(QWidget *parent) :
 PopMenu::~PopMenu()
 {
 	delete ui;
+	delete mpSetting;
 }
 
 void PopMenu::addItem(QString title, QString icon)

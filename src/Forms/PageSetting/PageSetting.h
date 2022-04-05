@@ -5,7 +5,7 @@
 #ifndef CALCULMAID_PAGESETTING_H
 #define CALCULMAID_PAGESETTING_H
 
-#include <QFrame>
+#include <QWidget>
 
 
 QT_BEGIN_NAMESPACE
@@ -15,7 +15,7 @@ class PageSetting;
 }
 QT_END_NAMESPACE
 
-class PageSetting : public QFrame
+class PageSetting : public QWidget
 {
 Q_OBJECT
 

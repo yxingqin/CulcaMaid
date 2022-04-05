@@ -9,7 +9,7 @@
 
 
 PageSetting::PageSetting(QWidget *parent) :
-		QFrame(parent), ui(new Ui::PageSetting)
+		QWidget(parent), ui(new Ui::PageSetting)
 {
 	ui->setupUi(this);
 }
