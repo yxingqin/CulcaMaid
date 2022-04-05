@@ -21,7 +21,7 @@ PopMenu::PopMenu(QWidget *parent) :
 	//阴影
 	auto shadowEffect=new QGraphicsDropShadowEffect(this);
 	shadowEffect->setColor("#778899");
-	shadowEffect->setOffset(0,0);
+	shadowEffect->setOffset(1,5);
 	shadowEffect->setBlurRadius(22);
 	this->setGraphicsEffect(shadowEffect);
 	//添加 项目

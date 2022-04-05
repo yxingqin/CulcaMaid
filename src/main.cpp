@@ -4,10 +4,18 @@
 #include "LoadFile.h"
 int main(int argc, char *argv[])
 {
-    QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);//打开高分屏嗅探
-    QCoreApplication::setAttribute(Qt::AA_UseHighDpiPixmaps);//使用高分位图
-    QGuiApplication::setHighDpiScaleFactorRoundingPolicy(Qt::HighDpiScaleFactorRoundingPolicy::PassThrough);
-    //高分屏设置支持
+	//高分屏 设置
+#if (QT_VERSION >= QT_VERSION_CHECK(6,0,0))
+    QApplication::setHighDpiScaleFactorRoundingPolicy(Qt::HighDpiScaleFactorRoundingPolicy::Floor);
+#endif
+#if (QT_VERSION > QT_VERSION_CHECK(5,6,0))
+	QApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
+	QApplication::setAttribute(Qt::AA_UseHighDpiPixmaps);
+	QGuiApplication::setHighDpiScaleFactorRoundingPolicy(Qt::HighDpiScaleFactorRoundingPolicy::PassThrough);
+#endif
+#if (QT_VERSION > QT_VERSION_CHECK(5,4,0))
+	QApplication::setAttribute(Qt::AA_ShareOpenGLContexts);
+#endif
 
 	QApplication a(argc, argv);
 
