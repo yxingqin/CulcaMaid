@@ -6,6 +6,8 @@
 #define CALCULMAID_PAGEDATE_H
 
 #include <QFrame>
+#include <qmath.h>
+#include <QTime>
 
 
 QT_BEGIN_NAMESPACE
@@ -22,6 +24,7 @@ Q_OBJECT
 public:
 	explicit PageDate(QWidget *parent = nullptr);
 	~PageDate() override;
+
 
 private:
 	Ui::PageDate *ui;

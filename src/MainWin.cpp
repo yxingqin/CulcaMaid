@@ -12,6 +12,7 @@ MainWin::MainWin(QWidget *parent) :
 {
 	ui->setupUi(this);
 	//加载qss
+    this->setAttribute(Qt::WA_TranslucentBackground);
 	setStyleSheet(Load::loadStyle(":/res/qss/mainwin.qss"));
 
     //去除边框
