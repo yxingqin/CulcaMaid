@@ -21,13 +21,8 @@
   margin-top: 10px;
 }
 
-
-.QWidget {
-  background-color: #f3f3f3;
-}
-
 #frame {
-  background-color: #f3f3f3;
+  background-color: #edf5f9;
   border: none;
   border-radius: 8px;
 }

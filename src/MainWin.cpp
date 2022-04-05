@@ -10,7 +10,7 @@ constexpr int MENU_WIDTH = 256;
 constexpr int WIN_TITLE_HEIGHT = 32;
 constexpr int DETECT  = 5;//鼠标感应距离
 MainWin::MainWin(QWidget *parent) :
-		QWidget(parent), ui(new Ui::MainWin)
+		QWidget(parent), ui(new Ui::MainWin), canMove(false)
 {
 	ui->setupUi(this);
 	//加载qss
@@ -175,26 +175,26 @@ void MainWin::switchPageCal(int row)
 
 void MainWin::mouseMoveEvent(QMouseEvent *event)
 {
+	//拖动窗口
+	if(canMove == true)
+		this->move(event->globalPos()+mouseRPos);
 
 	QWidget::mouseMoveEvent(event);
-	QPoint y = event->globalPos();//鼠标相对于桌面左上角的位置，鼠标全局位置
-	QPoint x = y-this->z;//窗口位置  左上角的点
-	this->move(x);//窗口移动
+
 }
 
 void MainWin::mousePressEvent(QMouseEvent *event)
 {
 	if(ui->win_title->geometry().contains(event->pos()))
 	{
-		QWidget::mousePressEvent(event);
-		QPoint y = event->globalPos();//鼠标相对于桌面左上角的位置，鼠标全局位置
-		QPoint x = this->geometry().topLeft();//窗口位置  左上角的点
-		this->z = y-x;//z是定值 因为在按下去的时候 鼠标位置相对于窗口位置不变
+		canMove= true;
+		mouseRPos=this->pos()-event->globalPos();
 	}
+	QWidget::mousePressEvent(event);
 }
 
 void MainWin::mouseReleaseEvent(QMouseEvent *event)
 {
+	canMove= false;
 	QWidget::mouseReleaseEvent(event);
-	this->z = QPoint();
 }

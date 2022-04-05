@@ -43,7 +43,8 @@ private:
 	void resizeEvent(QResizeEvent *event)override;
 private:
 	Ui::MainWin *ui;
-	QPoint z;
+	QPoint mouseRPos;//鼠标相对位置窗口左上角 用于拖动窗口
+	bool canMove;
 	PopMenu *mPopMenu;
 	QPropertyAnimation *animationMenu;
 	QPropertyAnimation *animationSub1;
