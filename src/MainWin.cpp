@@ -8,7 +8,7 @@
 constexpr int NARROW_WIDTH = 660;
 constexpr int MENU_WIDTH = 256;
 constexpr int WIN_TITLE_HEIGHT = 32;
-constexpr int DETECT  = 5;//鼠标感应距离
+constexpr int MARGIN  = 20;//边距
 MainWin::MainWin(QWidget *parent) :
 		QWidget(parent), ui(new Ui::MainWin), canMove(false)
 {
@@ -18,6 +18,9 @@ MainWin::MainWin(QWidget *parent) :
 	//去除边框
 	this->setWindowFlags(Qt::FramelessWindowHint);
 	this->setAttribute(Qt::WA_TranslucentBackground);
+	//跟踪鼠标位置
+	setMouseTracking(true);
+
 	//title
 	connect(ui->btn_close,&QPushButton::clicked,this,&QWidget::close);
 	connect(ui->btn_minsize,&QPushButton::clicked,this,&QWidget::showMinimized);
@@ -43,6 +46,7 @@ MainWin::MainWin(QWidget *parent) :
 	//动画
 	animationMenu = new QPropertyAnimation(mPopMenu, "pos", this);
 	animationSub1 = new QPropertyAnimation(ui->swdg_sub, "geometry", this);
+
 }
 
 MainWin::~MainWin()
@@ -156,9 +160,7 @@ bool MainWin::eventFilter(QObject *watched, QEvent *event)
 		case QEvent::MouseButtonPress:
 		{
 			if (watched == ui->lbl_title)
-			{
 				switchMenu();
-			}
 			break;
 		}
 		default:
@@ -175,26 +177,98 @@ void MainWin::switchPageCal(int row)
 
 void MainWin::mouseMoveEvent(QMouseEvent *event)
 {
+
+	stretch(event->pos());
+
 	//拖动窗口
 	if(canMove == true)
 		this->move(event->globalPos()+mouseRPos);
+}//TODO: 窗口拖动大小
 
-	QWidget::mouseMoveEvent(event);
-
-}
 
 void MainWin::mousePressEvent(QMouseEvent *event)
 {
-	if(ui->win_title->geometry().contains(event->pos()))
-	{
-		canMove= true;
-		mouseRPos=this->pos()-event->globalPos();
-	}
-	QWidget::mousePressEvent(event);
+	mouseRPos=this->pos()-event->globalPos();//记录相对位置
+	canMove=ui->win_title->geometry().contains(event->pos())?true:false;//可以拖动
+
 }
 
 void MainWin::mouseReleaseEvent(QMouseEvent *event)
 {
 	canMove= false;
+
 	QWidget::mouseReleaseEvent(event);
+}
+
+int MainWin::getPosArea(const QPoint &point)
+{
+	int posX = point.x();
+	int posY = point.y();
+	int Width = width();
+	int Height = height();
+	int X = 0;//x所在区域
+	int Y = 0;//y所在区域
+	//判断x所在区域
+	if (posX > (Width - MARGIN))
+		X = 3;
+	else if (posX < MARGIN)
+		X = 1;
+	else
+		X = 2;
+
+	//判断y所在区域
+	if (posY > (Height - MARGIN))
+		Y = 3;
+	else if (posY < MARGIN)
+		Y = 1;
+	else
+		Y = 2;
+	return Y*10+X;
+}
+
+void MainWin::mouseDoubleClickEvent(QMouseEvent *event)
+{
+	if(ui->win_title->geometry().contains(event->pos()))
+		showMaximized();
+	QWidget::mouseDoubleClickEvent(event);
+}
+
+void MainWin::stretch(const QPoint &point)
+{
+	//设置光标样式
+	if(!isMaximized())
+	{
+		qDebug()<<getPosArea(point);
+		switch (getPosArea(point))
+		{
+			//左上 右下
+			case 11:
+			case 33:
+				setCursor(Qt::SizeFDiagCursor);
+				break;
+				//右上 左下
+			case 13:
+			case 31:
+				setCursor(Qt::SizeBDiagCursor);
+				break;
+				//上下
+			case 12:
+			case 32:
+				setCursor(Qt::SizeVerCursor);
+				break;
+				//左右
+			case 21:
+			case 23:
+				setCursor(Qt::SizeHorCursor);
+				break;
+			default:
+				setCursor(Qt::ArrowCursor);
+
+				break;
+		}
+
+
+
+	}
+
 }

@@ -32,8 +32,11 @@ public:
 public:
 	void mouseMoveEvent(QMouseEvent *event)override;
 	void mousePressEvent(QMouseEvent *event)override;
-	void mouseReleaseEvent(QMouseEvent *event);
+	void mouseReleaseEvent(QMouseEvent *event)override;
+	void mouseDoubleClickEvent(QMouseEvent *event)override;
 	bool eventFilter(QObject *watched, QEvent *event) override;
+
+
 private slots:
 	void switchMenu();
 	void switchSubPage();
@@ -41,10 +44,12 @@ private slots:
 	//void switchPageCv(int row);//切换转换器的页面
 private:
 	void resizeEvent(QResizeEvent *event)override;
+	int getPosArea(const QPoint& point);//返回 11 12 13 .... 33 标记 鼠标所在区域
+	void stretch(const QPoint& point);//拉伸 窗口,返回是否拉伸了窗口 如果拉伸的窗口 取消拖动窗口
 private:
 	Ui::MainWin *ui;
 	QPoint mouseRPos;//鼠标相对位置窗口左上角 用于拖动窗口
-	bool canMove;
+	bool canMove;//可以拖动
 	PopMenu *mPopMenu;
 	QPropertyAnimation *animationMenu;
 	QPropertyAnimation *animationSub1;
