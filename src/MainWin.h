@@ -8,6 +8,8 @@
 #include <QMainWindow>
 #include <QPropertyAnimation>
 #include <QGraphicsDropShadowEffect>
+#include <QMouseEvent>
+#include <QPoint>
 #include "Forms/PopMenu/PopMenu.h"
 QT_BEGIN_NAMESPACE
 namespace Ui
@@ -25,15 +27,23 @@ Q_OBJECT
 
 public:
 	explicit MainWin(QWidget *parent = nullptr);
+
+    void mouseMoveEvent(QMouseEvent *event);
+    void mousePressEvent(QMouseEvent *event);
+    void mouseRelaseEvent(QMouseEvent *event);
+    //鼠标点击事件
 	~MainWin() override;
 private slots:
 	void switchMenu();
 	void switchHistory();
 	void switchPageCal(int row);//切换计算器的主页页面和子页面
 	//void switchPageCv(int row);//切换转换器的页面
+
+    void onMybuttonClicked();
 private:
 	void resizeEvent(QResizeEvent *event)override;
 	bool eventFilter(QObject *watched, QEvent *event)override;
+    QPoint z;
 private:
 	Ui::MainWin *ui;
 	PopMenu* mPopMenu;

@@ -12,7 +12,7 @@ set(CMAKE_AUTOUIC ON)
 
 
 if(CMAKE_SYSTEM_NAME MATCHES "Windows")
-    set(CMAKE_PREFIX_PATH "D:/Software/SDK/Qt/5.15.2/mingw81_64")# UOS 无需设置
+    set(CMAKE_PREFIX_PATH "C:/Qt/5.15.2/mingw81_64")# UOS 无需设置
 endif()
 find_package(Qt5 COMPONENTS
         Core

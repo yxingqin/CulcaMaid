@@ -14,6 +14,9 @@ MainWin::MainWin(QWidget *parent) :
 	//加载qss
 	setStyleSheet(Load::loadStyle(":/res/qss/mainwin.qss"));
 
+    //去除边框
+    this->setWindowFlags(Qt::FramelessWindowHint);
+
 //    qputenv("QT_SCALE_FACTOR", "1.25");
 	QDesktopWidget *desktop = QApplication::desktop();//窗口居中
 	this->setGeometry((desktop->width() - width()) / 2, height() / 2, 420, 610);
@@ -143,7 +146,32 @@ void MainWin::switchPageCal(int row)
 }
 
 
+void MainWin::mouseMoveEvent(QMouseEvent *event)
+{
 
+    QWidget::mouseMoveEvent(event);
+    QPoint y = event->globalPos();//鼠标相对于桌面左上角的位置，鼠标全局位置
+    QPoint x = y-this->z;//窗口位置  左上角的点
+    this->move(x);//窗口移动
+}
+
+void MainWin::mousePressEvent(QMouseEvent *event)
+{
+    QWidget::mousePressEvent(event);
+    QPoint y = event->globalPos();//鼠标相对于桌面左上角的位置，鼠标全局位置
+    QPoint x = this->geometry().topLeft();//窗口位置  左上角的点
+    this->z = y-x;//z是定值 因为在按下去的时候 鼠标位置相对于窗口位置不变
+}
+
+void MainWin::mouseRelaseEvent(QMouseEvent *event)
+{
+    QWidget::mouseReleaseEvent(event);
+    this->z = QPoint();
+}
+void MainWin::onMybuttonClicked()
+{
+    qDebug()<<"Widget::onMybuttonClicked()";
+}
 
 
 
