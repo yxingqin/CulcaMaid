@@ -78,8 +78,11 @@ background-color:#f9f9f9
        <height>80</height>
       </size>
      </property>
+     <property name="inputMask">
+      <string/>
+     </property>
      <property name="text">
-      <string>输出框2</string>
+      <string/>
      </property>
      <property name="frame">
       <bool>false</bool>
@@ -88,7 +91,10 @@ background-color:#f9f9f9
       <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
      </property>
      <property name="readOnly">
-      <bool>true</bool>
+      <bool>false</bool>
+     </property>
+     <property name="clearButtonEnabled">
+      <bool>false</bool>
      </property>
     </widget>
    </item>

@@ -1,11 +1,11 @@
 //
-// Created by 24100 on 2022/4/4.
+// Created by 24100 on 2022/4/5.
 //
 
 #ifndef CALCULMAID_PAGEDATE_H
 #define CALCULMAID_PAGEDATE_H
 
-#include <QWidget>
+#include <QFrame>
 
 
 QT_BEGIN_NAMESPACE
@@ -15,7 +15,7 @@ class PageDate;
 }
 QT_END_NAMESPACE
 
-class PageDate : public QWidget
+class PageDate : public QFrame
 {
 Q_OBJECT
 

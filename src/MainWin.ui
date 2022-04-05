@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>320</width>
-    <height>500</height>
+    <width>669</width>
+    <height>731</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -149,7 +149,7 @@ margin-top:10px;
          <string notr="true"/>
         </property>
         <property name="currentIndex">
-         <number>0</number>
+         <number>3</number>
         </property>
         <widget class="QWidget" name="page_main0">
          <property name="styleSheet">
@@ -219,12 +219,68 @@ margin-top:10px;
            <number>0</number>
           </property>
           <item>
-           <widget class="PageDate" name="pData" native="true">
-            <property name="maximumSize">
-             <size>
-              <width>16777215</width>
-              <height>16777215</height>
-             </size>
+           <widget class="PageScience" name="pScience">
+            <property name="frameShape">
+             <enum>QFrame::StyledPanel</enum>
+            </property>
+            <property name="frameShadow">
+             <enum>QFrame::Raised</enum>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </widget>
+        <widget class="QWidget" name="page_main2">
+         <layout class="QVBoxLayout" name="verticalLayout_5">
+          <item>
+           <widget class="PageProgram" name="pProgram">
+            <property name="frameShape">
+             <enum>QFrame::StyledPanel</enum>
+            </property>
+            <property name="frameShadow">
+             <enum>QFrame::Raised</enum>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </widget>
+        <widget class="QWidget" name="page_main3">
+         <layout class="QVBoxLayout" name="verticalLayout_6">
+          <item>
+           <widget class="PageFuncPlot" name="pFuntPlot">
+            <property name="frameShape">
+             <enum>QFrame::StyledPanel</enum>
+            </property>
+            <property name="frameShadow">
+             <enum>QFrame::Raised</enum>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </widget>
+        <widget class="QWidget" name="page_main4">
+         <layout class="QVBoxLayout" name="verticalLayout_7">
+          <item>
+           <widget class="PageDate" name="pData">
+            <property name="frameShape">
+             <enum>QFrame::StyledPanel</enum>
+            </property>
+            <property name="frameShadow">
+             <enum>QFrame::Raised</enum>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </widget>
+        <widget class="QWidget" name="page_main5">
+         <layout class="QVBoxLayout" name="verticalLayout_8">
+          <item>
+           <widget class="PageRelation" name="pRelation">
+            <property name="frameShape">
+             <enum>QFrame::StyledPanel</enum>
+            </property>
+            <property name="frameShadow">
+             <enum>QFrame::Raised</enum>
             </property>
            </widget>
           </item>
@@ -328,8 +384,32 @@ margin-top:10px;
   </customwidget>
   <customwidget>
    <class>PageDate</class>
-   <extends>QWidget</extends>
+   <extends>QFrame</extends>
    <header>PageDate/PageDate.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>PageScience</class>
+   <extends>QFrame</extends>
+   <header>PageScience/PageScience.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>PageProgram</class>
+   <extends>QFrame</extends>
+   <header>PageProgram/PageProgram.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>PageRelation</class>
+   <extends>QFrame</extends>
+   <header>PageRelation/PageRelation.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>PageFuncPlot</class>
+   <extends>QFrame</extends>
+   <header>PageFuncPlot/PageFuncPlot.h</header>
    <container>1</container>
   </customwidget>
  </customwidgets>

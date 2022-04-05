@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>PageDate</class>
- <widget class="QFrame" name="PageDate">
+ <class>PageFuncPlot</class>
+ <widget class="QFrame" name="PageFuncPlot">
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -11,7 +11,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>PageDate</string>
+   <string>PageFuncPlot</string>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
    <item>
@@ -22,7 +22,7 @@
       </font>
      </property>
      <property name="text">
-      <string>日期计算器</string>
+      <string>函数绘图</string>
      </property>
      <property name="alignment">
       <set>Qt::AlignCenter</set>

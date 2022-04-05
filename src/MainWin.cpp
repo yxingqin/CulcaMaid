@@ -33,11 +33,7 @@ MainWin::MainWin(QWidget *parent) :
 	ui->page_sub1->show();
 	connect(ui->btn_history, &QPushButton::clicked, this, &MainWin::switchHistory);
 	//设置页面切换
-	connect(mPopMenu->list_culca, &QListWidget::currentRowChanged, this, [this](int row)
-	{
-		ui->swdg_main->setCurrentIndex(row);
-		switchMenu();
-	});
+	connect(mPopMenu->list_culca, &QListWidget::currentRowChanged, this, &MainWin::switchPageCal);
 	//处理某部分事件
 	installEventFilter(this);
 }
@@ -135,6 +131,13 @@ bool MainWin::eventFilter(QObject *watched, QEvent *event)
 			switchHistory();
 	}
 	return QObject::eventFilter(watched, event);
+}
+
+void MainWin::switchPageCal(int row)
+{
+	qDebug()<<"row: "<<row;
+	ui->swdg_main->setCurrentIndex(row);
+	switchMenu();
 }
 
 
