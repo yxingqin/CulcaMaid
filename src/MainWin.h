@@ -25,19 +25,20 @@ Q_OBJECT
 
 public:
 	explicit MainWin(QWidget *parent = nullptr);
+	bool eventFilter(QObject *watched, QEvent *event)override;
 	~MainWin() override;
 private slots:
 	void switchMenu();
-	void switchHistory();
+	void switchSubPage();
 	void switchPageCal(int row);//切换计算器的主页页面和子页面
 	//void switchPageCv(int row);//切换转换器的页面
 private:
 	void resizeEvent(QResizeEvent *event)override;
-	bool eventFilter(QObject *watched, QEvent *event)override;
 private:
 	Ui::MainWin *ui;
 	PopMenu* mPopMenu;
-	QGraphicsDropShadowEffect* shadowEffect;
+	QPropertyAnimation* animationMenu;
+	QPropertyAnimation* animationSub1;
 };
 
 

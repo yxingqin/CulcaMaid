@@ -82,7 +82,7 @@ background-color:#f9f9f9
       <string/>
      </property>
      <property name="text">
-      <string/>
+      <string>0</string>
      </property>
      <property name="frame">
       <bool>false</bool>

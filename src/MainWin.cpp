@@ -6,6 +6,8 @@
 #include "LoadFile.h"
 #include "ui_MainWin.h"
 
+constexpr int NARROW_WIDTH = 660;
+constexpr int MENU_WIDTH = 256;
 
 MainWin::MainWin(QWidget *parent) :
 		QMainWindow(parent), ui(new Ui::MainWin)
@@ -13,31 +15,28 @@ MainWin::MainWin(QWidget *parent) :
 	ui->setupUi(this);
 	//加载qss
 	setStyleSheet(Load::loadStyle(":/res/qss/mainwin.qss"));
-
 //    qputenv("QT_SCALE_FACTOR", "1.25");
+	//窗口位置
 	QDesktopWidget *desktop = QApplication::desktop();//窗口居中
 	this->setGeometry((desktop->width() - width()) / 2, height() / 2, 420, 610);
-	//阴影
-	shadowEffect=new QGraphicsDropShadowEffect(this);
-	shadowEffect->setColor("#778899");
-	shadowEffect->setOffset(0,0);
-	shadowEffect->setBlurRadius(22);
 	//弹出式菜单
-	mPopMenu = new PopMenu(ui->centralwidget);
+	mPopMenu = new PopMenu(ui->wdg_main);
 	mPopMenu->move(-mPopMenu->width(), 0);
 	ui->btn_popMune->raise();//防止被遮挡
 	connect(ui->btn_popMune, &QPushButton::clicked, this, &MainWin::switchMenu);
-	//历史记录页面切换
-	ui->page_sub1->setParent(this);
-	ui->page_sub1->setGeometry(0, this->height(), this->width(), this->height() / 2);
-	ui->page_sub1->show();
-	connect(ui->btn_history, &QPushButton::clicked, this, &MainWin::switchHistory);
+	//子界面显示
+	connect(ui->btn_tool, &QPushButton::clicked, this, &MainWin::switchSubPage);
 	//设置页面切换
 	connect(mPopMenu->list_culca, &QListWidget::currentRowChanged, this, &MainWin::switchPageCal);
 	ui->swdg_main->setCurrentIndex(0);
 	ui->swdg_sub->setCurrentIndex(0);
 	//处理某部分事件
-	installEventFilter(this);
+	mPopMenu->installEventFilter(this);
+	ui->page_sub1->installEventFilter(this);
+	ui->lbl_title->installEventFilter(this);
+	//动画
+	animationMenu = new QPropertyAnimation(mPopMenu, "pos", this);
+	animationSub1 = new QPropertyAnimation(ui->swdg_sub, "geometry", this);
 
 }
 
@@ -48,26 +47,27 @@ MainWin::~MainWin()
 
 void MainWin::switchMenu()//切换菜单
 {
-	QPropertyAnimation *pAnimation = new QPropertyAnimation(mPopMenu, "pos", mPopMenu);
+
 	if (mPopMenu->x() < 0)
 	{
 		int w = this->width() / 2;
-		w = w > 256 ? 256 : w;
+		w = w > MENU_WIDTH ? MENU_WIDTH : w;
 		mPopMenu->resize(w, this->height());
-		pAnimation->setStartValue(QPoint(-w, 0));
-		pAnimation->setEndValue(QPoint(0, 0));
-		pAnimation->setEasingCurve(QEasingCurve::OutCurve);
-		pAnimation->setDuration(150);
+		animationMenu->setStartValue(QPoint(-w, 0));
+		animationMenu->setEndValue(QPoint(0, 0));
+		animationMenu->setEasingCurve(QEasingCurve::OutCurve);
+		animationMenu->setDuration(150);
 	} else
 	{
-		pAnimation->setStartValue(QPoint(0, 0));
-		pAnimation->setEndValue(QPoint(-mPopMenu->width(), 0));
-		pAnimation->setEasingCurve(QEasingCurve::InQuad);
-		pAnimation->setDuration(100);
+		animationMenu->setStartValue(QPoint(0, 0));
+		animationMenu->setEndValue(QPoint(-mPopMenu->width(), 0));
+		animationMenu->setEasingCurve(QEasingCurve::InQuad);
+		animationMenu->setDuration(100);
 	}
-	pAnimation->start();
-	if (ui->page_sub1->y()<this->height())
-		switchHistory();
+
+	animationMenu->start();
+	if (ui->swdg_sub->y() < this->height())//如果subpage显示关闭子窗口
+		switchSubPage();
 }
 
 void MainWin::resizeEvent(QResizeEvent *event)
@@ -80,58 +80,77 @@ void MainWin::resizeEvent(QResizeEvent *event)
 		w = w > 256 ? 256 : w;
 		mPopMenu->resize(w, this->height());
 	}
-	//280+380 显示子窗口
-	if (size.width() >= 660)
+	if (size.width() >= NARROW_WIDTH)//手动调整子页面和主页面的大小与位置
 	{
-		ui->btn_history->hide();
-		ui->page_sub1->setParent(ui->swdg_sub);
-		ui->page_sub1->setGeometry(0, 0, 280, this->height());
-		ui->swdg_sub->show();
-		ui->page_sub1->setGraphicsEffect(nullptr);
+		//280+380    subpage移动主窗口的左边
+		ui->btn_tool->hide();
+		int w = this->width() / 5;
+		w = w < 280 ? 280 : w;
+		ui->wdg_main->setGeometry(0, 0, this->width() - w, this->height());
+		ui->swdg_sub->setGeometry(ui->wdg_main->width(), 0, w, this->height());
+		ui->swdg_sub->setGraphicsEffect(nullptr);
 	} else
 	{
-		ui->btn_history->show();
-		ui->swdg_sub->hide();
+		//subpage移动到窗口下面 主页面 占满布局
+		ui->btn_tool->show();
+		ui->wdg_main->setGeometry(0, 0, this->width(), this->height());
+		ui->swdg_sub->move(0, this->height());
 	}
 	QWidget::resizeEvent(event);
 }
 
-void MainWin::switchHistory()
+void MainWin::switchSubPage()
 {
-	if (this->width() < 660)
+	if (this->width() < NARROW_WIDTH)
 	{
-		ui->page_sub1->setParent(this);
-		ui->page_sub1->setGraphicsEffect(shadowEffect);
-		QPropertyAnimation *pAnimation = new QPropertyAnimation(ui->page_sub1, "geometry", ui->page_sub1);
-		if (ui->page_sub1->y() >= this->height() ) //显示
+		if (ui->swdg_sub->y() >= this->height()) //显示
 		{
-			pAnimation->setStartValue(QRect(0, this->height(), this->width(), this->height() / 2));
-			pAnimation->setEndValue(QRect(0, this->height() / 2, this->width(), this->height() / 2));
-			pAnimation->setEasingCurve(QEasingCurve::OutCurve);
-			pAnimation->setDuration(150);
+			animationSub1->setStartValue(QRect(0, this->height(), this->width(), this->height() / 2));
+			animationSub1->setEndValue(QRect(0, this->height() / 2, this->width(), this->height() / 2));
+			animationSub1->setEasingCurve(QEasingCurve::OutCurve);
+			animationSub1->setDuration(150);
+			//阴影
+			auto shadowEffect = new QGraphicsDropShadowEffect(ui->swdg_sub);
+			shadowEffect->setColor("#778899");
+			shadowEffect->setOffset(0, 0);
+			shadowEffect->setBlurRadius(22);
+			ui->swdg_sub->setGraphicsEffect(shadowEffect);
 			if (mPopMenu->x() >= 0)
 				switchMenu();
 		} else//隐藏
 		{
-			pAnimation->setStartValue(QRect(0, this->height()/2, this->width(), this->height() / 2));
-			pAnimation->setEndValue(QRect(0, this->height(), this->width(), this->height() / 2));
-			pAnimation->setEasingCurve(QEasingCurve::OutCurve);
-			pAnimation->setDuration(150);
+			animationSub1->setStartValue(QRect(0, this->height() / 2, this->width(), this->height() / 2));
+			animationSub1->setEndValue(QRect(0, this->height(), this->width(), this->height() / 2));
+			animationSub1->setEasingCurve(QEasingCurve::OutCurve);
+			animationSub1->setDuration(150);
 		}
-		pAnimation->start();
+		animationSub1->start();
 	}
 }
 
 bool MainWin::eventFilter(QObject *watched, QEvent *event)
 {
-	if(event->type()==QEvent::MouseButtonPress)
+
+	switch (event->type())
 	{
-		QMouseEvent* mouseEvent=static_cast<QMouseEvent*>(event);
-		auto pos=mouseEvent->pos();
-		if(!mPopMenu->geometry().contains(pos)&&mPopMenu->x() >= 0)
-			switchMenu();
-		if(!ui->page_sub1->geometry().contains(pos)&&!ui->page_sub1->y()>=this->height())
-			switchHistory();
+		case  QEvent::Leave:
+		{
+			if (mPopMenu->x() >= 0)
+				switchMenu();
+			if (ui->swdg_sub->y() < this->height())
+				switchSubPage();
+			break;
+		}
+		case QEvent::MouseButtonPress:
+		{
+			if(watched==ui->lbl_title)
+			{
+				switchMenu();
+			}
+			break;
+		}
+		default:
+			break;
 	}
 	return QObject::eventFilter(watched, event);
 }
