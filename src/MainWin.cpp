@@ -3,6 +3,8 @@
 #include <QMouseEvent>
 #include "MainWin.h"
 #include <QDebug>
+#include <QPainter>
+#include <QStylePainter>
 #include "LoadFile.h"
 #include "ui_MainWin.h"
 constexpr int NARROW_WIDTH = 660;
@@ -238,7 +240,7 @@ void MainWin::stretch(const QPoint &point)
 	//设置光标样式
 	if(!isMaximized())
 	{
-		qDebug()<<getPosArea(point);
+
 		switch (getPosArea(point))
 		{
 			//左上 右下
@@ -271,4 +273,19 @@ void MainWin::stretch(const QPoint &point)
 
 	}
 
+}
+
+bool MainWin::event(QEvent *event)
+{
+	qDebug()<<event;
+	return QWidget::event(event);
+}
+
+void MainWin::paintEvent(QPaintEvent *event)
+{
+	QStyleOption option;
+	option.init(this);
+	QStylePainter stylePainter(this);
+	stylePainter.drawPrimitive(QStyle::PE_Widget, option);
+	QWidget::paintEvent(event);
 }

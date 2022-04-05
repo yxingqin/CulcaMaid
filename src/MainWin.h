@@ -35,8 +35,8 @@ public:
 	void mouseReleaseEvent(QMouseEvent *event)override;
 	void mouseDoubleClickEvent(QMouseEvent *event)override;
 	bool eventFilter(QObject *watched, QEvent *event) override;
-
-
+	bool event(QEvent *event)override;
+	void paintEvent(QPaintEvent *event)override;
 private slots:
 	void switchMenu();
 	void switchSubPage();

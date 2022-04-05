@@ -14,7 +14,7 @@ QLineEdit {
 	font-size: 24pt;
 }
 
-QLabel {
+QPushButton {
 	margin: 3px;
 	min-height: 40px;
 	min-width: 40px;
@@ -23,11 +23,10 @@ QLabel {
 	background-color: #fbfbfb;
 }
 
-QLabel :hover {
-
-	background-color: #fcfcfc;
+QPushButton:hover {
+	background-color: #f3f7fa;
 }
 
-QLabel :pressed {
+QPushButton:pressed {
 	background-color: #f9f9f9
 }

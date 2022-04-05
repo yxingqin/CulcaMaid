@@ -9,7 +9,9 @@
 
 /*主界面*/
 #MainWin {
-  background-color: #eef4f9;
+    background-color: #edf5f9;
+    border: none;
+    border-radius: 8px;
 }
 
 #btn_popMune {
@@ -21,8 +23,3 @@
   margin-top: 10px;
 }
 
-#frame {
-  background-color: #edf5f9;
-  border: none;
-  border-radius: 8px;
-}
