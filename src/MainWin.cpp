@@ -5,17 +5,23 @@
 #include <QDebug>
 #include "LoadFile.h"
 #include "ui_MainWin.h"
-
 constexpr int NARROW_WIDTH = 660;
 constexpr int MENU_WIDTH = 256;
-
+constexpr int WIN_TITLE_HEIGHT = 32;
+constexpr int DETECT  = 5;//鼠标感应距离
 MainWin::MainWin(QWidget *parent) :
-		QMainWindow(parent), ui(new Ui::MainWin)
+		QWidget(parent), ui(new Ui::MainWin)
 {
 	ui->setupUi(this);
 	//加载qss
 	setStyleSheet(Load::loadStyle(":/res/qss/mainwin.qss"));
-//    qputenv("QT_SCALE_FACTOR", "1.25");
+	//去除边框
+	this->setWindowFlags(Qt::FramelessWindowHint);
+	this->setAttribute(Qt::WA_TranslucentBackground);
+	//title
+	connect(ui->btn_close,&QPushButton::clicked,this,&QWidget::close);
+	connect(ui->btn_minsize,&QPushButton::clicked,this,&QWidget::showMinimized);
+	connect(ui->btn_maxsize,&QPushButton::clicked,this,&QWidget::showMaximized);
 	//窗口位置
 	QDesktopWidget *desktop = QApplication::desktop();//窗口居中
 	this->setGeometry((desktop->width() - width()) / 2, height() / 2, 420, 610);
@@ -37,7 +43,6 @@ MainWin::MainWin(QWidget *parent) :
 	//动画
 	animationMenu = new QPropertyAnimation(mPopMenu, "pos", this);
 	animationSub1 = new QPropertyAnimation(ui->swdg_sub, "geometry", this);
-
 }
 
 MainWin::~MainWin()
@@ -45,14 +50,14 @@ MainWin::~MainWin()
 	delete ui;
 }
 
-void MainWin::switchMenu()//切换菜单
+void MainWin::switchMenu()//切换菜单 调整大小 添加动画
 {
 
 	if (mPopMenu->x() < 0)
 	{
 		int w = this->width() / 2;
 		w = w > MENU_WIDTH ? MENU_WIDTH : w;
-		mPopMenu->resize(w, this->height());
+		mPopMenu->resize(w, ui->wdg_main->height());
 		animationMenu->setStartValue(QPoint(-w, 0));
 		animationMenu->setEndValue(QPoint(0, 0));
 		animationMenu->setEasingCurve(QEasingCurve::OutCurve);
@@ -73,29 +78,36 @@ void MainWin::switchMenu()//切换菜单
 void MainWin::resizeEvent(QResizeEvent *event)
 {
 	auto size = event->size();
-
-	if (mPopMenu->x() >= 0)//调整菜单高度
-	{
-		int w = this->width() / 2;
-		w = w > 256 ? 256 : w;
-		mPopMenu->resize(w, this->height());
-	}
-	if (size.width() >= NARROW_WIDTH)//手动调整子页面和主页面的大小与位置
+	//调整界面的高度
+	ui->win_title->setGeometry(0,0,this->width(),WIN_TITLE_HEIGHT);
+	int height=this->height()-WIN_TITLE_HEIGHT;
+	//手动调整子页面和主页面的大小与位置
+	if (size.width() >= NARROW_WIDTH)
 	{
 		//280+380    subpage移动主窗口的左边
 		ui->btn_tool->hide();
 		int w = this->width() / 5;
 		w = w < 280 ? 280 : w;
-		ui->wdg_main->setGeometry(0, 0, this->width() - w, this->height());
-		ui->swdg_sub->setGeometry(ui->wdg_main->width(), 0, w, this->height());
+		ui->wdg_main->setGeometry(0, WIN_TITLE_HEIGHT, this->width() - w, height);
+		ui->swdg_sub->setGeometry(ui->wdg_main->width(), WIN_TITLE_HEIGHT, w, height);
 		ui->swdg_sub->setGraphicsEffect(nullptr);
 	} else
 	{
 		//subpage移动到窗口下面 主页面 占满布局
 		ui->btn_tool->show();
-		ui->wdg_main->setGeometry(0, 0, this->width(), this->height());
+		ui->wdg_main->setGeometry(0, WIN_TITLE_HEIGHT, this->width(), height);
 		ui->swdg_sub->move(0, this->height());
 	}
+
+
+	if (mPopMenu->x() >= 0)//调整MENU的高度
+	{
+		int w = this->width() / 2;
+		w = w > 256 ? 256 : w;
+		mPopMenu->setGeometry(0,WIN_TITLE_HEIGHT,w, ui->wdg_main->height());
+	}
+
+
 	QWidget::resizeEvent(event);
 }
 
@@ -161,11 +173,28 @@ void MainWin::switchPageCal(int row)
 	switchMenu();
 }
 
+void MainWin::mouseMoveEvent(QMouseEvent *event)
+{
 
+	QWidget::mouseMoveEvent(event);
+	QPoint y = event->globalPos();//鼠标相对于桌面左上角的位置，鼠标全局位置
+	QPoint x = y-this->z;//窗口位置  左上角的点
+	this->move(x);//窗口移动
+}
 
+void MainWin::mousePressEvent(QMouseEvent *event)
+{
+	if(ui->win_title->geometry().contains(event->pos()))
+	{
+		QWidget::mousePressEvent(event);
+		QPoint y = event->globalPos();//鼠标相对于桌面左上角的位置，鼠标全局位置
+		QPoint x = this->geometry().topLeft();//窗口位置  左上角的点
+		this->z = y-x;//z是定值 因为在按下去的时候 鼠标位置相对于窗口位置不变
+	}
+}
 
-
-
-
-
-
+void MainWin::mouseReleaseEvent(QMouseEvent *event)
+{
+	QWidget::mouseReleaseEvent(event);
+	this->z = QPoint();
+}

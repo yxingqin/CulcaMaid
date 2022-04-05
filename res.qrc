@@ -9,6 +9,9 @@
     <file>res/icon/relation.png</file>
     <file>res/icon/science.png</file>
     <file>res/icon/setting.png</file>
+    <file>res/icon/min.png</file>
+    <file>res/icon/max.png</file>
+    <file>res/icon/close.png</file>
     <file>res/qss/all.qss</file>
     <file>res/qss/mainwin.qss</file>
     <file>res/qss/standard.qss</file>
