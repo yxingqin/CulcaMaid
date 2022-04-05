@@ -9,6 +9,7 @@
 #include <QPropertyAnimation>
 #include <QGraphicsDropShadowEffect>
 #include "Forms/PopMenu/PopMenu.h"
+
 QT_BEGIN_NAMESPACE
 namespace Ui
 {
@@ -25,7 +26,7 @@ Q_OBJECT
 
 public:
 	explicit MainWin(QWidget *parent = nullptr);
-	bool eventFilter(QObject *watched, QEvent *event)override;
+	bool eventFilter(QObject *watched, QEvent *event) override;
 	~MainWin() override;
 private slots:
 	void switchMenu();
@@ -33,12 +34,12 @@ private slots:
 	void switchPageCal(int row);//切换计算器的主页页面和子页面
 	//void switchPageCv(int row);//切换转换器的页面
 private:
-	void resizeEvent(QResizeEvent *event)override;
+	void resizeEvent(QResizeEvent *event) override;
 private:
 	Ui::MainWin *ui;
-	PopMenu* mPopMenu;
-	QPropertyAnimation* animationMenu;
-	QPropertyAnimation* animationSub1;
+	PopMenu *mPopMenu;
+	QPropertyAnimation *animationMenu;
+	QPropertyAnimation *animationSub1;
 };
 
 

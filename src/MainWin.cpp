@@ -111,7 +111,7 @@ void MainWin::switchSubPage()
 			animationSub1->setDuration(150);
 			//阴影
 			auto shadowEffect = new QGraphicsDropShadowEffect(ui->swdg_sub);
-			shadowEffect->setColor("#778899");
+			shadowEffect->setColor({"#778899"});
 			shadowEffect->setOffset(0, 0);
 			shadowEffect->setBlurRadius(22);
 			ui->swdg_sub->setGraphicsEffect(shadowEffect);
@@ -133,7 +133,7 @@ bool MainWin::eventFilter(QObject *watched, QEvent *event)
 
 	switch (event->type())
 	{
-		case  QEvent::Leave:
+		case QEvent::Leave:
 		{
 			if (mPopMenu->x() >= 0)
 				switchMenu();
@@ -143,7 +143,7 @@ bool MainWin::eventFilter(QObject *watched, QEvent *event)
 		}
 		case QEvent::MouseButtonPress:
 		{
-			if(watched==ui->lbl_title)
+			if (watched == ui->lbl_title)
 			{
 				switchMenu();
 			}
