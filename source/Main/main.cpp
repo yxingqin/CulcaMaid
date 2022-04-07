@@ -1,5 +1,7 @@
 #include <QApplication>
 #include <QPushButton>
+#include <QDesktopWidget>
+#include <XWin.h>
 #include "MainWin.h"
 #include "LoadFile.h"
 int main(int argc, char *argv[])
@@ -18,10 +20,10 @@ int main(int argc, char *argv[])
 #endif
 
 	QApplication a(argc, argv);
-
 	Load::setStyle(":/res/qss/all.qss");
-
-	MainWin w;
+	XWin w(new MainWin());
+	w.resize(420,610);
+	w.move((QApplication::desktop()->width()-w.width())/2,305);
 	w.show();
 
 	return QApplication::exec();

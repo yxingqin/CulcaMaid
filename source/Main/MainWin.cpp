@@ -1,40 +1,20 @@
-#include <QDesktopWidget>
-#include <QAbstractButton>
-#include <QMouseEvent>
 #include "MainWin.h"
-#include <QDebug>
-#include <QPainter>
-#include <QStylePainter>
 #include "LoadFile.h"
 #include "ui_MainWin.h"
+
 constexpr int NARROW_WIDTH = 660;
 constexpr int MENU_WIDTH = 256;
-constexpr int WIN_TITLE_HEIGHT = 32;
 constexpr int MARGIN  = 2;//边距
 MainWin::MainWin(QWidget *parent) :
-		QWidget(parent), ui(new Ui::MainWin), canMove(false)
+		QWidget(parent), ui(new Ui::MainWin)
 {
 	ui->setupUi(this);
 	//加载qss
 	setStyleSheet(Load::loadStyle(":/res/qss/mainwin.qss"));
-	//去除边框
-	setWindowFlag(Qt::FramelessWindowHint, true);
-	//this->setAttribute(Qt::WA_TranslucentBackground);
-	//主页面阴影
-//	auto shadow=new QGraphicsDropShadowEffect(this);
-//	shadow->setColor("#778899");
-//	shadow->setOffset(2,0);
-//	shadow->setBlurRadius(8);
-//	this->setGraphicsEffect(shadow);
+	setAttribute(Qt::WA_StyledBackground, true);
+
 	//跟踪鼠标位置
 	setMouseTracking(true);
-	//title
-	connect(ui->btn_close,&QPushButton::clicked,this,&QWidget::close);
-	connect(ui->btn_minsize,&QPushButton::clicked,this,&QWidget::showMinimized);
-	connect(ui->btn_maxsize,&QPushButton::clicked,this,&QWidget::showMaximized);
-	//窗口位置
-	QDesktopWidget *desktop = QApplication::desktop();//窗口居中
-	this->setGeometry((desktop->width() - width()) / 2, height() / 2, 420, 610);
 	//弹出式菜单
 	mPopMenu = new PopMenu(ui->wdg_main);
 
@@ -90,9 +70,6 @@ void MainWin::switchMenu()//切换菜单 调整大小 添加动画
 void MainWin::resizeEvent(QResizeEvent *event)
 {
 	auto size = event->size();
-	//调整界面的高度
-	ui->win_title->setGeometry(0,0,this->width(),WIN_TITLE_HEIGHT);
-	int height=this->height()-WIN_TITLE_HEIGHT;
 	//手动调整子页面和主页面的大小与位置
 	if (size.width() >= NARROW_WIDTH)
 	{
@@ -100,14 +77,14 @@ void MainWin::resizeEvent(QResizeEvent *event)
 		ui->btn_tool->hide();
 		int w = this->width() / 5;
 		w = w < 280 ? 280 : w;
-		ui->wdg_main->setGeometry(0, WIN_TITLE_HEIGHT, this->width() - w, height);
-		ui->swdg_sub->setGeometry(ui->wdg_main->width(), WIN_TITLE_HEIGHT, w, height);
+		ui->wdg_main->setGeometry(0, 0, size.width() - w, size.height());
+		ui->swdg_sub->setGeometry(ui->wdg_main->width(), 0, w, size.height());
 		ui->swdg_sub->setGraphicsEffect(nullptr);
 	} else
 	{
 		//subpage移动到窗口下面 主页面 占满布局
 		ui->btn_tool->show();
-		ui->wdg_main->setGeometry(0, WIN_TITLE_HEIGHT, this->width(), height);
+		ui->wdg_main->setGeometry(0, 0, this->width(), size.height());
 		ui->swdg_sub->move(0, this->height());
 	}
 
@@ -183,115 +160,9 @@ void MainWin::switchPageCal(int row)
 	switchMenu();
 }
 
-void MainWin::mouseMoveEvent(QMouseEvent *event)
-{
-
-	stretch(event->pos());
-
-	//拖动窗口
-	if(canMove == true)
-		this->move(event->globalPos()+mouseRPos);
-}//TODO: 窗口拖动大小
-
-
-void MainWin::mousePressEvent(QMouseEvent *event)
-{
-	mouseRPos=this->pos()-event->globalPos();//记录相对位置
-	canMove=ui->win_title->geometry().contains(event->pos())?true:false;//可以拖动
-
-}
-
-void MainWin::mouseReleaseEvent(QMouseEvent *event)
-{
-	canMove= false;
-
-	QWidget::mouseReleaseEvent(event);
-}
-
-int MainWin::getPosArea(const QPoint &point)
-{
-	int posX = point.x();
-	int posY = point.y();
-	int Width = width();
-	int Height = height();
-	int X = 0;//x所在区域
-	int Y = 0;//y所在区域
-	//判断x所在区域
-	if (posX > (Width - MARGIN))
-		X = 3;
-	else if (posX < MARGIN)
-		X = 1;
-	else
-		X = 2;
-
-	//判断y所在区域
-	if (posY > (Height - MARGIN))
-		Y = 3;
-	else if (posY < MARGIN)
-		Y = 1;
-	else
-		Y = 2;
-	return Y*10+X;
-}
-
-void MainWin::mouseDoubleClickEvent(QMouseEvent *event)
-{
-	if(ui->win_title->geometry().contains(event->pos()))
-		showMaximized();
-	QWidget::mouseDoubleClickEvent(event);
-}
-
-void MainWin::stretch(const QPoint &point)
-{
-	//设置光标样式
-	if(!isMaximized())
-	{
-
-		switch (getPosArea(point))
-		{
-			//左上 右下
-			case 11:
-			case 33:
-				setCursor(Qt::SizeFDiagCursor);
-				break;
-				//右上 左下
-			case 13:
-			case 31:
-				setCursor(Qt::SizeBDiagCursor);
-				break;
-				//上下
-			case 12:
-			case 32:
-				setCursor(Qt::SizeVerCursor);
-				break;
-				//左右
-			case 21:
-			case 23:
-				setCursor(Qt::SizeHorCursor);
-				break;
-			default:
-				setCursor(Qt::ArrowCursor);
-
-				break;
-		}
-
-
-
-	}
-
-}
-
 bool MainWin::event(QEvent *event)
 {
 	//qDebug()<<event;
 	return QWidget::event(event);
 }
 
-void MainWin::paintEvent(QPaintEvent *event)
-{
-	QStyleOption option;
-	option.init(this);
-	QStylePainter stylePainter(this);
-	stylePainter.drawPrimitive(QStyle::PE_Widget, option);
-	QWidget::paintEvent(event);
-}
