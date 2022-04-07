@@ -20,11 +20,15 @@ int main(int argc, char *argv[])
 #endif
 
 	QApplication a(argc, argv);
-	Load::setStyle(":/res/qss/all.qss");
+	qApp->setStyleSheet(Load::loadStyle(":/res/qss/all.qss"));
 	XWin w(new MainWin());
+	w.show();
 	w.resize(420,610);
 	w.move((QApplication::desktop()->width()-w.width())/2,305);
-	w.show();
-
+	w.setWinIcon(QIcon(":/res/icon/calcu.png"));
+	w.setMaxIcon(QIcon(":/res/icon/max.png"));
+	w.setMinIcon(QIcon(":/res/icon/min.png"));
+	w.setCloseIcon(QIcon(":/res/icon/close.png"));
+	w.setTitleStyleSheet("* {background-color:#edf5f9}");
 	return QApplication::exec();
 }

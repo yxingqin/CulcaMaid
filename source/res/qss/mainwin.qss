@@ -1,17 +1,8 @@
 /*主页面*/
-/* title */
-#lbl_wtitle {
-  font-size: 8pt;
-}
-#win_title>QPushButton {
-    margin:0px 8px;
-}
 
-/*主界面*/
-#MainWin {
+.QWidget {
     background-color: #edf5f9;
     border: none;
-    border-radius: 8px;
 }
 
 #btn_popMune {

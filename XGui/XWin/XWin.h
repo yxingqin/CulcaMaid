@@ -23,7 +23,6 @@ signals://传递给父窗口
 	void clickMin();
 	void clickClose();
 	void clickIcon();
-	void dClickTitle();//双击标题栏
 private:
 	QHBoxLayout *horizontalLayout;
 	QPushButton *btn_icon;
@@ -32,6 +31,8 @@ private:
 	QPushButton *btn_max;
 	QPushButton *btn_min;
 	QPushButton *btn_close;
+private:
+	static const char* styleSheet;
 };
 
 
@@ -50,6 +51,9 @@ public:
 	/** 设置页面属性 **/
 	//设置 widget
 	void setClient(QWidget* client);
+	void setStyleSheet(const QString& styleSheet);
+	void setTitleStyleSheet(const QString& styleSheet);
+
 	//标题栏
 	void setTitleText(const QString& text);
 	void setWinIcon(const QIcon &icon);
@@ -62,7 +66,6 @@ public:
 	/** 获取部分属性 **/
 	int getTitleHeight() const;
 	int getPadding() const;
-
 	/** 事件 **/
 	void resizeEvent(QResizeEvent *event)override;//手动布局
 	/** 事件过滤 **/
@@ -80,9 +83,11 @@ private:
 	int shadowSize;//阴影宽度
 	QPoint oldPos;//鼠标按下时 鼠标全局位置
 	QRect oldRect;//鼠标按下时 窗口位置和大小
+	QRect oldRectMax;//当最大化时 窗口位置大小
 	bool moveEnable;//当前是否可以 拖动窗口
 	bool resizeEnable;//当前是否可以调整窗口大小
-	int mouseArea;
+private:
+	static const char* styleSheet;
 };
 
 

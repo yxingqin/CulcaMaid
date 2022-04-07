@@ -5,12 +5,31 @@
 #include <QApplication>
 #include <QGraphicsDropShadowEffect>
 
+const char* XWin::styleSheet=R"(
+		.QFrame {
+		  background-color: #F3F3F3;
+		  border: 1px black;
+		  border-radius: 8px;
+		}
+	)";
+const char* XWinTitle::styleSheet=R"(
+		QPushButton {
+		    margin: 0px 8px;
+		    border: none;
+		}
+		.QLabel {
+		    margin: 0px 10px;
+			font-size:12pt;
+		}
+)";
+
+
 XWin::XWin(QWidget *Client, QWidget *parent)
 		: QWidget(parent), mClient(Client), moveEnable(false), resizeEnable(false), padding(10), titleHeight(32), shadowSize(5)
 {
 	oldPos={};
 	oldRect={};
-
+	oldRectMax={};
 	//设置窗口属性
 	this->setWindowFlags(windowFlags() | Qt::Window);//作为一个单独窗口显示
 	this->setWindowFlag(Qt::FramelessWindowHint, true);//设置无边框属性
@@ -18,13 +37,7 @@ XWin::XWin(QWidget *Client, QWidget *parent)
 	this->setAttribute(Qt::WA_Hover, true);
 
 	//界面设置
-	setStyleSheet(R"(
-		.QFrame {
-		  background-color: #F3F3F3;
-		  border: 1px black;
-		  border-radius: 8px;
-		}
-	)");
+	setStyleSheet(styleSheet);
 	mFrame=new QFrame(this);
 	mWinTitle = new XWinTitle(mFrame);//标题栏
 	setClient(Client);
@@ -34,28 +47,20 @@ XWin::XWin(QWidget *Client, QWidget *parent)
 	shadowEffect->setBlurRadius(2*shadowSize);
 	mFrame->setGraphicsEffect(shadowEffect);
 	this->installEventFilter(this);
+	mWinTitle->installEventFilter(this);
+
+	auto lambda=[this](){isMaximized()?showNormal():showMaximized();};
 
 	connect(mWinTitle,&XWinTitle::clickMin,this,&QWidget::showMinimized);
-	connect(mWinTitle,&XWinTitle::clickMax,this,[this](){
-		isMaximized()?showMinimized():showMaximized();
-	});
+	connect(mWinTitle,&XWinTitle::clickMax,this,lambda);
 	connect(mWinTitle,&XWinTitle::clickClose,this,&QWidget::close);
 
 }
 
 XWinTitle::XWinTitle(QWidget *parent) : QWidget(parent)
 {
-	setStyleSheet(QString::fromUtf8("QPushButton{\n"
-	                                "margin:0px 8px;\n"
-	                                "\n"
-	                                "border:none;\n"
-	                                "}\n"
-	                                "#btn_icon {\n"
-	                                "margin:2px;\n"
-	                                "}\n"
-	                                "#lbl_title {\n"
-	                                "margin:10px;\n"
-	                                "}"));
+	setStyleSheet(styleSheet);
+	setAttribute(Qt::WA_StyledBackground, true);
 	//控件
 	btn_icon = new QPushButton(this);
 	btn_icon->setIcon(style()->standardIcon(QStyle::SP_TitleBarMenuButton));
@@ -84,13 +89,12 @@ XWinTitle::XWinTitle(QWidget *parent) : QWidget(parent)
 	connect(btn_close,&QPushButton::clicked,this,&XWinTitle::clickClose);
 	connect(btn_icon,&QPushButton::clicked,this,&XWinTitle::clickIcon);
 
+
 }
 
 
 XWin::~XWin()
-{
-
-}
+= default;
 
 
 void XWin::resizeEvent(QResizeEvent *event)//手动布局
@@ -154,8 +158,8 @@ unsigned short XWin::getMouseArea(const QPoint &pos)
 	int posY = pos.y();
 	int Width = width();
 	int Height = height();
-	int X = 0;//x所在区域
-	int Y = 0;//y所在区域
+	int X;//x所在区域
+	int Y;//y所在区域
 	//判断x所在区域
 	if (posX > (Width - padding))
 		X = 3;
@@ -176,22 +180,26 @@ unsigned short XWin::getMouseArea(const QPoint &pos)
 
 bool XWin::eventFilter(QObject *watched, QEvent *event)
 {
-	switch (event->type())
+	if(watched==this)
 	{
-		case QEvent::HoverMove:
-			onHover(static_cast<QHoverEvent*>(event));
-			break;
-		case QEvent::MouseButtonPress:
-			onMousePressed(static_cast<QMouseEvent*>(event));
-			break;
-		case QEvent::MouseButtonRelease:
-			resizeEnable= false;
-			moveEnable= false;
-			setCursor(Qt::ArrowCursor);
-			break;
-		default:
-			break;
-	}
+		switch (event->type())
+		{
+			case QEvent::HoverMove:
+				onHover(static_cast<QHoverEvent*>(event));
+				break;
+			case QEvent::MouseButtonPress:
+				onMousePressed(static_cast<QMouseEvent*>(event));
+				break;
+			case QEvent::MouseButtonRelease:
+				resizeEnable= false;
+				moveEnable= false;
+				setCursor(Qt::ArrowCursor);
+				break;
+			default:
+				break;
+		}
+	}else if(watched==mWinTitle&&event->type()==QEvent::MouseButtonDblClick)
+		isMaximized()?showNormal():showMaximized();
 	return QObject::eventFilter(watched, event);
 }
 
@@ -200,7 +208,7 @@ void XWin::onMousePressed(QMouseEvent *event)
 	oldPos=event->globalPos();//鼠标相对于 左上角的偏移
 	oldRect=this->geometry();
 
-	mouseArea= getMouseArea(event->pos());
+	int mouseArea= getMouseArea(event->pos());
 
 	resizeEnable= (mouseArea!=22);//标记可以调整大小
 	moveEnable=mWinTitle->geometry().contains(event->pos());//标记可以拖动位置
@@ -209,7 +217,6 @@ void XWin::onMousePressed(QMouseEvent *event)
 void XWin::onHover(QHoverEvent *event)
 {
 	int area= getMouseArea(event->pos());
-	auto curRect=this->geometry();
 	auto curPos=QCursor::pos();
 	int offsetW=oldPos.x()-curPos.x();
 	int offsetH=oldPos.y()-curPos.y();
@@ -299,4 +306,13 @@ void XWin::setClient(QWidget *client)
 	}
 }
 
+void XWin::setStyleSheet(const QString &styleSheet)
+{
+	QWidget::setStyleSheet(styleSheet+XWin::styleSheet);
+}
+
+void XWin::setTitleStyleSheet(const QString &styleSheet)
+{
+	mWinTitle->setStyleSheet(XWinTitle::styleSheet+styleSheet);
+}
 

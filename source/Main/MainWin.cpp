@@ -1,6 +1,7 @@
 #include "MainWin.h"
 #include "LoadFile.h"
 #include "ui_MainWin.h"
+#include <QDebug>
 
 constexpr int NARROW_WIDTH = 660;
 constexpr int MENU_WIDTH = 256;
@@ -12,16 +13,15 @@ MainWin::MainWin(QWidget *parent) :
 	//加载qss
 	setStyleSheet(Load::loadStyle(":/res/qss/mainwin.qss"));
 	setAttribute(Qt::WA_StyledBackground, true);
-
 	//跟踪鼠标位置
 	setMouseTracking(true);
 	//弹出式菜单
 	mPopMenu = new PopMenu(ui->wdg_main);
-
-	mPopMenu->move(-mPopMenu->width(), 0);
+	mPopMenu->move(-mPopMenu->width()-5, 0);
 	ui->btn_popMune->raise();//防止被遮挡
 	connect(ui->btn_popMune, &QPushButton::clicked, this, &MainWin::switchMenu);
 	//子界面显示
+	ui->swdg_sub->raise();//防止被遮挡
 	connect(ui->btn_tool, &QPushButton::clicked, this, &MainWin::switchSubPage);
 	//设置页面切换
 	connect(mPopMenu->list_culca, &QListWidget::currentRowChanged, this, &MainWin::switchPageCal);
@@ -50,14 +50,14 @@ void MainWin::switchMenu()//切换菜单 调整大小 添加动画
 		int w = this->width() / 2;
 		w = w > MENU_WIDTH ? MENU_WIDTH : w;
 		mPopMenu->resize(w, ui->wdg_main->height());
-		animationMenu->setStartValue(QPoint(-w, 2));
+		animationMenu->setStartValue(QPoint(-w-5, 2));
 		animationMenu->setEndValue(QPoint(0, 2));
 		animationMenu->setEasingCurve(QEasingCurve::OutCurve);
 		animationMenu->setDuration(150);
 	} else
 	{
 		animationMenu->setStartValue(QPoint(0, 2));
-		animationMenu->setEndValue(QPoint(-mPopMenu->width(), 2));
+		animationMenu->setEndValue(QPoint(-mPopMenu->width()-5, 2));
 		animationMenu->setEasingCurve(QEasingCurve::InQuad);
 		animationMenu->setDuration(100);
 	}
@@ -93,7 +93,7 @@ void MainWin::resizeEvent(QResizeEvent *event)
 	{
 		int w = this->width() / 2;
 		w = w > 256 ? 256 : w;
-		mPopMenu->setGeometry(0,2,w, ui->wdg_main->height());
+		mPopMenu->setGeometry(0,0,w, ui->wdg_main->height());
 	}
 
 

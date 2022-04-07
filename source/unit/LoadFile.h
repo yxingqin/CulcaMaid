@@ -4,7 +4,6 @@
 namespace Load
 {
 QString loadStyle(const QString& fileName );
-void setStyle(const QString& fileName);
 }
 
 #endif //CALCULMAID_LOADFILE_H
