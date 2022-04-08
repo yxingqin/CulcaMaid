@@ -13,12 +13,13 @@ int main(int argc, char *argv[])
 #if (QT_VERSION > QT_VERSION_CHECK(5,6,0))
 	QApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
 	QApplication::setAttribute(Qt::AA_UseHighDpiPixmaps);
-	QGuiApplication::setHighDpiScaleFactorRoundingPolicy(Qt::HighDpiScaleFactorRoundingPolicy::PassThrough);
 #endif
 #if (QT_VERSION > QT_VERSION_CHECK(5,4,0))
 	QApplication::setAttribute(Qt::AA_ShareOpenGLContexts);
 #endif
-
+#ifdef Q_OS_WIN
+	QGuiApplication::setHighDpiScaleFactorRoundingPolicy(Qt::HighDpiScaleFactorRoundingPolicy::PassThrough);
+#endif
 	QApplication a(argc, argv);
 	qApp->setStyleSheet(Load::loadStyle(":/res/qss/all.qss"));
 	XWin w(new MainWin());
