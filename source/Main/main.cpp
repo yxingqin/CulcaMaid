@@ -24,6 +24,7 @@ int main(int argc, char *argv[])
 	XWin w(new MainWin());
 	w.show();
 	w.resize(420,610);
+	w.setMinimumSize(320,520);
 	w.move((QApplication::desktop()->width()-w.width())/2,305);
 	w.setWinIcon(QIcon(":/res/icon/calcu.png"));
 	w.setMaxIcon(QIcon(":/res/icon/max.png"));

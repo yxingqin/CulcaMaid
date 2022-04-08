@@ -34,7 +34,6 @@ MainWin::MainWin(QWidget *parent) :
 	//动画
 	animationMenu = new QPropertyAnimation(mPopMenu, "pos", this);
 	animationSub1 = new QPropertyAnimation(ui->swdg_sub, "geometry", this);
-
 }
 
 MainWin::~MainWin()
