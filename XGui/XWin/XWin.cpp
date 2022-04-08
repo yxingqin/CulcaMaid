@@ -22,7 +22,11 @@ const char *XWinTitle::styleSheet = R"(
 		}
 )";
 
-
+/**
+ *
+ * @param Client
+ * @param parent :父亲组件是Qwidget类
+ */
 XWin::XWin(QWidget *Client, QWidget *parent)
 		: QWidget(parent), mClient(Client), moveEnable(false), padding(15), titleHeight(32), shadowSize(6)
 {
@@ -160,6 +164,15 @@ void XWin::setCloseIcon(const QIcon &icon)
 	mWinTitle->btn_close->setIcon(icon);
 }
 
+/**
+ * @brief 是一个用来判断鼠标所在区域的函数，为鼠标样式改变以及窗口拖拽提供支持
+ * @param pos 传入值是当前窗口坐标
+ * @return 返回值十位是Y的坐标 个位是X的坐标
+ * @retval 11:鼠标位于左上角  33:鼠标位于右下角 13：鼠标位于右上角 31：鼠标位于左下角
+ * 		   12：鼠标位于上边   32：鼠标位于下边  21，鼠标位于左边 23：鼠标位于右边
+ * @note padding 是一个固定值 指的是内边距 返回值编码方式：十位 1：上侧 2：忽略 3：下侧  ，个位：1：左侧 2：忽略 3：右侧
+ *
+ */
 unsigned short XWin::getMouseArea(const QPoint &pos)
 {
 	int posX = pos.x();
@@ -185,7 +198,12 @@ unsigned short XWin::getMouseArea(const QPoint &pos)
 		Y = 2;
 	return Y * 10 + X;
 }
-
+/**
+ *
+ * @param watched
+ * @param event
+ * @return
+ */
 bool XWin::eventFilter(QObject *watched, QEvent *event)
 {
 	if (watched == this)
@@ -222,6 +240,11 @@ void XWin::onMousePressed(QMouseEvent *event)
 	moveEnable = mWinTitle->geometry().contains(event->pos());//标记可以拖动位置
 }
 
+/**
+ * @brief 重写鼠标Hober事件 实现鼠标在热区实现拖拽改变窗口大小以及长宽比例
+ * @param event 鼠标Hover事件
+ * @fn setMouseCursor(curArea)：改变鼠标样式  stretchWindow(curArea) 改变窗口大小
+ */
 void XWin::onHover(QHoverEvent *event)
 {
 	auto curArea= getMouseArea(event->pos());
@@ -287,6 +310,14 @@ void XWin::setMouseCursor(unsigned short area)
 			break;
 	}
 }
+
+/**
+ * @brief 实现窗口边缘拖拽功能
+ * @param area :传入控件参数，以便进行判断
+ * @retun :none
+ * @var mouseArea:私有变量 @see XWin::getMouseArea(const QPoint &pos)
+ *
+ */
 void XWin::stretchWindow(unsigned short area)
 {
 	auto curPos = QCursor::pos();
@@ -297,7 +328,7 @@ void XWin::stretchWindow(unsigned short area)
 		QRect rect;//窗口被拖动之后的大小
 		switch (mouseArea)
 		{
-			//左上
+				//左上
 			case 11:
 				rect.setRect(curPos.x(), curPos.y(), oldRect.width() + offsetW, oldRect.height() + offsetH);
 				break;

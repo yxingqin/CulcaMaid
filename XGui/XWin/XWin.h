@@ -1,3 +1,12 @@
+/** @brief  实现无边框窗口
+ *  @file Xwin.h
+ *  @author 谁tmd的搞的
+ *  @version V0.0.1
+ *  @date  2022-4-7
+ *  @note  null
+ *  @since 2022
+ */
+
 #ifndef XGUI_XWIN_H
 #define XGUI_XWIN_H
 #include <QObject>
@@ -88,6 +97,11 @@ private:
 	QRect oldRect;//鼠标按下时 窗口位置和大小
 	int mouseArea;//当鼠标按下时 鼠标所在区域 用于判定是否可以拖动大小
 	bool moveEnable;//当前是否可以 拖动窗口
+
+	//11:鼠标位于左上角  33:鼠标位于右下角 13：鼠标位于右上角 31：鼠标位于左下角
+	// * 		   12：鼠标位于上边   32：鼠标位于下边  21，鼠标位于左边 23：鼠标位于右边
+	// *
+	enum azimuth{topLift=11,bottomRight=33,topRight=13,bottomLift=31,top=12,bottom=32,lift=21,right=23};
 private:
 	static const char* styleSheet;
 };
