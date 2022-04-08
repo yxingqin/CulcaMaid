@@ -5,7 +5,6 @@
 
 constexpr int NARROW_WIDTH = 660;
 constexpr int MENU_WIDTH = 256;
-constexpr int MARGIN  = 2;//边距
 MainWin::MainWin(QWidget *parent) :
 		QWidget(parent), ui(new Ui::MainWin)
 {
@@ -34,6 +33,8 @@ MainWin::MainWin(QWidget *parent) :
 	//动画
 	animationMenu = new QPropertyAnimation(mPopMenu, "pos", this);
 	animationSub1 = new QPropertyAnimation(ui->swdg_sub, "geometry", this);
+
+	setMinimumSize(320,500);
 }
 
 MainWin::~MainWin()
@@ -161,7 +162,6 @@ void MainWin::switchPageCal(int row)
 
 bool MainWin::event(QEvent *event)
 {
-	//qDebug()<<event;
 	return QWidget::event(event);
 }
 

@@ -67,13 +67,13 @@ public:
 	int getTitleHeight() const;
 	int getPadding() const;
 	/** 事件 **/
-	void resizeEvent(QResizeEvent *event)override;//手动布局
 	void showEvent(QShowEvent *event)override;//
 	/** 事件过滤 **/
 	bool eventFilter(QObject *watched, QEvent *event);//处理 鼠标拖动位置拖动大小 等事件
 private:
 	void onMousePressed(QMouseEvent* event);
 	void onHover(QHoverEvent *event);
+	void onResize(QResizeEvent *event);//手动布局
 	unsigned short getMouseArea(const QPoint& pos);//获取鼠标所在的区域的标记 ，用于设置光标样式和  窗口被划分为9个区域 横向 3 纵向 3 res 个位标y 十位标记x .
 	void setMouseCursor(unsigned short area);//设置鼠标光标
 	void stretchWindow(unsigned short area);//窗口 拖动 改变大小

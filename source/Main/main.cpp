@@ -23,13 +23,13 @@ int main(int argc, char *argv[])
 	qApp->setStyleSheet(Load::loadStyle(":/res/qss/all.qss"));
 	XWin w(new MainWin());
 	w.show();
-	w.resize(420,610);
-	w.setMinimumSize(320,520);
+	w.resize(400,620);
+	w.setTitleText("计算姬");
 	w.move((QApplication::desktop()->width()-w.width())/2,305);
 	w.setWinIcon(QIcon(":/res/icon/calcu.png"));
 	w.setMaxIcon(QIcon(":/res/icon/max.png"));
 	w.setMinIcon(QIcon(":/res/icon/min.png"));
 	w.setCloseIcon(QIcon(":/res/icon/close.png"));
-	w.setTitleStyleSheet("* {background-color:#edf5f9}");
+	w.setStyleSheet("#frame {background-color:#edf5f9}");
 	return QApplication::exec();
 }
