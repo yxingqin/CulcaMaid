@@ -75,8 +75,8 @@ private:
 	void onMousePressed(QMouseEvent* event);
 	void onHover(QHoverEvent *event);
 	unsigned short getMouseArea(const QPoint& pos);//获取鼠标所在的区域的标记 ，用于设置光标样式和  窗口被划分为9个区域 横向 3 纵向 3 res 个位标y 十位标记x .
-	void setMouseCursor(const QHoverEvent *event);//设置鼠标光标
-	void stretchWindow(const QHoverEvent *event);//窗口拖动改变大小
+	void setMouseCursor(unsigned short area);//设置鼠标光标
+	void stretchWindow(unsigned short area);//窗口 拖动 改变大小
 private:
 	QWidget* mClient;//内部客户区
 	XWinTitle* mWinTitle;//窗口标题栏

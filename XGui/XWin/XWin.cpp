@@ -215,8 +215,9 @@ void XWin::onMousePressed(QMouseEvent *event)
 
 void XWin::onHover(QHoverEvent *event)
 {
-	setMouseCursor(event);
-	stretchWindow(event);
+	auto curArea= getMouseArea(event->pos());
+	setMouseCursor(curArea);
+	stretchWindow(curArea);
 }
 
 
@@ -246,9 +247,9 @@ void XWin::showEvent(QShowEvent *event)
 	QWidget::showEvent(event);
 }
 
-void XWin::setMouseCursor(const QHoverEvent *event)
+void XWin::setMouseCursor(unsigned short area)
 {
-	switch (getMouseArea(event->pos()))
+	switch (area)
 	{
 		//左上 右下
 		case 11:
@@ -275,53 +276,58 @@ void XWin::setMouseCursor(const QHoverEvent *event)
 			break;
 	}
 }
-
-void XWin::stretchWindow(const QHoverEvent *event)
+#include <QDebug>
+void XWin::stretchWindow(unsigned short area)
 {
 	auto curPos = QCursor::pos();
 	int offsetW = oldPos.x() - curPos.x();
 	int offsetH = oldPos.y() - curPos.y();
 
+	QRect rect;//窗口被拖动之后的大小
+
 	switch (mouseArea)
 	{
 		//左上
 		case 11:
-			this->setGeometry(curPos.x(), curPos.y(), oldRect.width() + offsetW, oldRect.height() + offsetH);
+			rect.setRect(curPos.x(), curPos.y(), oldRect.width() + offsetW, oldRect.height() + offsetH);
 			break;
 			//右下
 		case 33:
-			this->setGeometry(oldRect.x(), oldRect.y(), oldRect.width() - offsetW, oldRect.height() - offsetH);
+			rect.setRect(oldRect.x(), oldRect.y(), oldRect.width() - offsetW, oldRect.height() - offsetH);
 			break;
 			//右上
 		case 13:
-			this->setGeometry(curPos.x() - oldRect.width() + offsetW, curPos.y(), oldRect.width() - offsetW,
-			                  oldRect.height() + offsetH);
+			rect.setRect(curPos.x() - oldRect.width() + offsetW, curPos.y(), oldRect.width() - offsetW,
+			             oldRect.height() + offsetH);
 			break;
 			//左下
 		case 31:
-			this->setGeometry(curPos.x(), curPos.y() + offsetH - oldRect.height(), oldRect.width() + offsetW,
-			                  oldRect.height() - offsetH);
+			rect.setRect(curPos.x(), curPos.y() + offsetH - oldRect.height(), oldRect.width() + offsetW,
+			             oldRect.height() - offsetH);
 			break;
 			//上
 		case 12:
-			this->setGeometry(oldRect.x(), oldRect.y() - offsetH, oldRect.width(), oldRect.height() + offsetH);
+			rect.setRect(oldRect.x(), oldRect.y() - offsetH, oldRect.width(), oldRect.height() + offsetH);
 			break;
 			//下
 		case 32:
-			this->setGeometry(oldRect.x(), oldRect.y(), oldRect.width(), oldRect.height() - offsetH);
+			rect.setRect(oldRect.x(), oldRect.y(), oldRect.width(), oldRect.height() - offsetH);
 			break;
 			//左右
 		case 21:
-			this->setGeometry(oldRect.x() - offsetW, oldRect.y(), oldRect.width() + offsetW, oldRect.height());
+			rect.setRect(oldRect.x() - offsetW, oldRect.y(), oldRect.width() + offsetW, oldRect.height());
 			break;
 		case 23:
-			this->setGeometry(oldRect.x(), oldRect.y(), oldRect.width() - offsetW, oldRect.height());
+			rect.setRect(oldRect.x(), oldRect.y(), oldRect.width() - offsetW, oldRect.height());
 			break;
 		default:
 			break;
 	}
+
+	if(rect.width()>QWidget::minimumWidth()&&rect.height()>QWidget::minimumHeight())
+		setGeometry(rect);
 	//拖动窗口
-	if (moveEnable && mouseArea!=12)
+	if (moveEnable && mouseArea==22)
 		this->move(curPos + (QPoint{oldRect.x(), oldRect.y()} - oldPos));//全局位置+偏移== 移动位置
 }
 
