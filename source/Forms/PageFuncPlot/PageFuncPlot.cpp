@@ -60,8 +60,20 @@ void PageFuncPlot::wheelEvent(QWheelEvent *event)
 {
 
 	double dr = 1 + 0.1 * event->angleDelta().y() / 120;
-	maxX *= dr;
-	minX *= dr;
+	double maxX1 = maxX * dr;
+	double minX1 = minX * dr;
+	if (dr > 1 || maxX - minX > 0.01)
+	{
+		maxX = maxX1;
+		minX = minX1;
+	}
+	double maxY1 = maxY * dr;
+	double minY1 = minY * dr;
+	if (dr > 1 || maxY - minY > 0.01)
+	{
+		maxY = maxY1;
+		minY = minY1;
+	}
 	update();
 	QFrame::wheelEvent(event);
 }
@@ -137,7 +149,7 @@ void PageFuncPlot::drawGridAxis(QPainter &painter)
 	{
 		if (i == 0)
 			continue;
-		QString text = QString::asprintf("%.0f", i);
+		QString text = (spaceY > 100 || spaceY < 1) ? QString::number(i, 'e', 0) : QString::number(i, 'f', 0);
 
 		int w = scaleFm.horizontalAdvance(text);
 		int di = LyToDy(i);
