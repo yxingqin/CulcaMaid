@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>893</width>
-    <height>773</height>
+    <height>935</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -100,10 +100,10 @@
   <widget class="QWidget" name="wdg_main" native="true">
    <property name="geometry">
     <rect>
-     <x>20</x>
-     <y>80</y>
+     <x>60</x>
+     <y>40</y>
      <width>429</width>
-     <height>684</height>
+     <height>733</height>
     </rect>
    </property>
    <property name="sizePolicy">
@@ -117,16 +117,16 @@
      <number>0</number>
     </property>
     <property name="leftMargin">
-     <number>2</number>
+     <number>8</number>
     </property>
     <property name="topMargin">
      <number>8</number>
     </property>
     <property name="rightMargin">
-     <number>2</number>
+     <number>8</number>
     </property>
     <property name="bottomMargin">
-     <number>0</number>
+     <number>8</number>
     </property>
     <item>
      <layout class="QHBoxLayout" name="horizontalLayout">
@@ -225,7 +225,7 @@
        <string notr="true"/>
       </property>
       <property name="currentIndex">
-       <number>5</number>
+       <number>3</number>
       </property>
       <widget class="QWidget" name="page_main0">
        <property name="styleSheet">
@@ -336,7 +336,7 @@
        </layout>
       </widget>
       <widget class="QWidget" name="page_main3">
-       <layout class="QVBoxLayout" name="verticalLayout_6">
+       <layout class="QVBoxLayout" name="verticalLayout">
         <property name="spacing">
          <number>0</number>
         </property>

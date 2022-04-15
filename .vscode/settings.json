@@ -1,0 +1,13 @@
+{
+    "files.associations": {
+        "qgraphicsscene": "cpp",
+        "qframe": "cpp",
+        "qgraphicsitem": "cpp",
+        "qdebug": "cpp",
+        "qpainter": "cpp",
+        "chrono": "cpp",
+        "limits": "cpp",
+        "qresizeevent": "cpp",
+        "qcalendarwidget": "cpp"
+    }
+}

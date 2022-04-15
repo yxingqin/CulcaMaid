@@ -3,10 +3,11 @@
 #include "ui_MainWin.h"
 #include <QDebug>
 
+#include <QCalendarWidget>
+
 constexpr int NARROW_WIDTH = 660;
 constexpr int MENU_WIDTH = 256;
-MainWin::MainWin(QWidget *parent) :
-		QWidget(parent), ui(new Ui::MainWin)
+MainWin::MainWin(QWidget *parent) : QWidget(parent), ui(new Ui::MainWin)
 {
 	ui->setupUi(this);
 	//加载qss
@@ -16,11 +17,11 @@ MainWin::MainWin(QWidget *parent) :
 	setMouseTracking(true);
 	//弹出式菜单
 	mPopMenu = new PopMenu(ui->wdg_main);
-	mPopMenu->move(-mPopMenu->width()-5, 0);
-	ui->btn_popMune->raise();//防止被遮挡
+	mPopMenu->move(-mPopMenu->width() - 5, 0);
+	ui->btn_popMune->raise(); //防止被遮挡
 	connect(ui->btn_popMune, &QPushButton::clicked, this, &MainWin::switchMenu);
 	//子界面显示
-	ui->swdg_sub->raise();//防止被遮挡
+	ui->swdg_sub->raise(); //防止被遮挡
 	connect(ui->btn_tool, &QPushButton::clicked, this, &MainWin::switchSubPage);
 	//设置页面切换
 	connect(mPopMenu->list_culca, &QListWidget::currentRowChanged, this, &MainWin::switchPageCal);
@@ -34,7 +35,8 @@ MainWin::MainWin(QWidget *parent) :
 	animationMenu = new QPropertyAnimation(mPopMenu, "pos", this);
 	animationSub1 = new QPropertyAnimation(ui->swdg_sub, "geometry", this);
 
-	setMinimumSize(320,500);
+	setMinimumSize(320, 500);
+	ui->swdg_main->setCurrentIndex(3);
 }
 
 MainWin::~MainWin()
@@ -42,7 +44,7 @@ MainWin::~MainWin()
 	delete ui;
 }
 
-void MainWin::switchMenu()//切换菜单 调整大小 添加动画
+void MainWin::switchMenu() //切换菜单 调整大小 添加动画
 {
 
 	if (mPopMenu->x() < 0)
@@ -50,20 +52,21 @@ void MainWin::switchMenu()//切换菜单 调整大小 添加动画
 		int w = this->width() / 2;
 		w = w > MENU_WIDTH ? MENU_WIDTH : w;
 		mPopMenu->resize(w, ui->wdg_main->height());
-		animationMenu->setStartValue(QPoint(-w-5, 2));
+		animationMenu->setStartValue(QPoint(-w - 5, 2));
 		animationMenu->setEndValue(QPoint(0, 2));
 		animationMenu->setEasingCurve(QEasingCurve::OutCurve);
 		animationMenu->setDuration(150);
-	} else
+	}
+	else
 	{
 		animationMenu->setStartValue(QPoint(0, 2));
-		animationMenu->setEndValue(QPoint(-mPopMenu->width()-5, 2));
+		animationMenu->setEndValue(QPoint(-mPopMenu->width() - 5, 2));
 		animationMenu->setEasingCurve(QEasingCurve::InQuad);
 		animationMenu->setDuration(100);
 	}
 
 	animationMenu->start();
-	if (ui->swdg_sub->y() < this->height())//如果subpage显示关闭子窗口
+	if (ui->swdg_sub->y() < this->height()) //如果subpage显示关闭子窗口
 		switchSubPage();
 }
 
@@ -73,29 +76,28 @@ void MainWin::resizeEvent(QResizeEvent *event)
 	//手动调整子页面和主页面的大小与位置
 	if (size.width() >= NARROW_WIDTH)
 	{
-		//280+380    subpage移动主窗口的左边
+		// 280+380    subpage移动主窗口的左边
 		ui->btn_tool->hide();
 		int w = this->width() / 5;
 		w = w < 280 ? 280 : w;
 		ui->wdg_main->setGeometry(0, 0, size.width() - w, size.height());
 		ui->swdg_sub->setGeometry(ui->wdg_main->width(), 0, w, size.height());
 		ui->swdg_sub->setGraphicsEffect(nullptr);
-	} else
+	}
+	else
 	{
-		//subpage移动到窗口下面 主页面 占满布局
+		// subpage移动到窗口下面 主页面 占满布局
 		ui->btn_tool->show();
 		ui->wdg_main->setGeometry(0, 0, this->width(), size.height());
 		ui->swdg_sub->move(0, this->height());
 	}
 
-
-	if (mPopMenu->x() >= 0)//调整MENU的高度
+	if (mPopMenu->x() >= 0) //调整MENU的高度
 	{
 		int w = this->width() / 2;
 		w = w > 256 ? 256 : w;
-		mPopMenu->setGeometry(0,0,w, ui->wdg_main->height());
+		mPopMenu->setGeometry(0, 0, w, ui->wdg_main->height());
 	}
-
 
 	QWidget::resizeEvent(event);
 }
@@ -118,7 +120,8 @@ void MainWin::switchSubPage()
 			ui->swdg_sub->setGraphicsEffect(shadowEffect);
 			if (mPopMenu->x() >= 0)
 				switchMenu();
-		} else//隐藏
+		}
+		else //隐藏
 		{
 			animationSub1->setStartValue(QRect(0, this->height() / 2, this->width(), this->height() / 2));
 			animationSub1->setEndValue(QRect(0, this->height(), this->width(), this->height() / 2));
@@ -134,22 +137,22 @@ bool MainWin::eventFilter(QObject *watched, QEvent *event)
 
 	switch (event->type())
 	{
-		case QEvent::Leave:
-		{
-			if (mPopMenu->x() >= 0)
-				switchMenu();
-			if (ui->swdg_sub->y() < this->height())
-				switchSubPage();
-			break;
-		}
-		case QEvent::MouseButtonPress:
-		{
-			if (watched == ui->lbl_title)
-				switchMenu();
-			break;
-		}
-		default:
-			break;
+	case QEvent::Leave:
+	{
+		if (mPopMenu->x() >= 0)
+			switchMenu();
+		if (ui->swdg_sub->y() < this->height())
+			switchSubPage();
+		break;
+	}
+	case QEvent::MouseButtonPress:
+	{
+		if (watched == ui->lbl_title)
+			switchMenu();
+		break;
+	}
+	default:
+		break;
 	}
 	return QObject::eventFilter(watched, event);
 }
@@ -164,4 +167,3 @@ bool MainWin::event(QEvent *event)
 {
 	return QWidget::event(event);
 }
-
