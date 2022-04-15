@@ -8,6 +8,7 @@
         "chrono": "cpp",
         "limits": "cpp",
         "qresizeevent": "cpp",
-        "qcalendarwidget": "cpp"
+        "qcalendarwidget": "cpp",
+        "sstream": "cpp"
     }
 }

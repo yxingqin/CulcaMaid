@@ -6,7 +6,7 @@
 #include <QPainter>
 #include <cmath>
 PageFuncPlot::PageFuncPlot(QWidget *parent)
-	: QFrame(parent), ui(new Ui::PageFuncPlot), scaleFont("微软雅黑", 10, QFont::Bold, true),
+	: QFrame(parent), ui(new Ui::PageFuncPlot), scaleFont("微软雅黑", 10, QFont::Thin, true),
 	  scaleFm(scaleFont)
 {
 	ui->setupUi(this);
@@ -23,13 +23,13 @@ PageFuncPlot::~PageFuncPlot()
 void PageFuncPlot::paintEvent(QPaintEvent *event)
 {
 	QPainter painter(this);
+	//白色背景
 	painter.setFont(scaleFont);
-	painter.setPen(QPen("#f3f7fa"));
-	painter.setBrush(QBrush("#f3f7fa"));
+	painter.setPen(Qt::white);
+	painter.setBrush(Qt::white);
 	painter.drawRect(rect());
 	painter.setRenderHint(QPainter::SmoothPixmapTransform);
-	drawGrid(painter);
-	drawAxis(painter);
+	drawGridAxis(painter);
 }
 
 void PageFuncPlot::mousePressEvent(QMouseEvent *event)
@@ -40,7 +40,6 @@ void PageFuncPlot::mousePressEvent(QMouseEvent *event)
 	pminY = minY;
 	pmaxX = maxX;
 	pmaxY = maxY;
-
 	QFrame::mousePressEvent(event);
 }
 
@@ -59,63 +58,97 @@ void PageFuncPlot::mouseMoveEvent(QMouseEvent *event)
 
 void PageFuncPlot::wheelEvent(QWheelEvent *event)
 {
-	double day = event->angleDelta().y() / 1200;
+
+	double dr = 1 + 0.1 * event->angleDelta().y() / 120;
+	maxX *= dr;
+	minX *= dr;
+	update();
 	QFrame::wheelEvent(event);
 }
 
-void PageFuncPlot::drawGrid(QPainter &painter)
+void PageFuncPlot::drawGridAxis(QPainter &painter)
 {
 	painter.setPen(QPen("#c2c2c2"));
-	// Y 方向
+	painter.setFont(scaleFont);
+	//绘制网格
+	// Y 方向 间距 space 划线开始点 begin
 	double rangeX = maxX - minX;
-	//计算间距 space 划线开始点 begin
-	double tmpX = pow(10, ceil(log10(rangeX)));
-	double spaceX = rangeX > tmpX / 2 ? tmpX / 50 : tmpX / 100;
-	double beginX = spaceX * ceil(minX / spaceX);
-	for (; beginX < maxX; beginX += spaceX)
+	double spaceX = pow(10, ceil(log10(rangeX)));
+	spaceX = rangeX > spaceX / 2 ? spaceX / 50 : spaceX / 100;
+	for (double beginX = spaceX * ceil(minX / spaceX); beginX < maxX; beginX += spaceX)
 	{
 		int dx = LxToDx(beginX);
 		painter.drawLine(dx, 0, dx, height());
-
-		if (static_cast<int>(beginX / spaceX) % 5 == 0)
-		{
-			QString str = QString::asprintf("%.0f", beginX);
-			painter.drawText(dx - scaleFm.horizontalAdvance(str) / 2, height(), str);
-		}
 	}
-
-	// X 方向
+	// X 方向 间距 space 划线开始点 begin
 	double rangeY = maxY - minY;
-	//计算间距 space 划线开始点 begin
-	double tmpY = pow(10, ceil(log10(rangeY)));
-	double spaceY = rangeX > tmpY / 2 ? tmpY / 50 : tmpY / 100;
-	double beginY = spaceY * ceil(minY / spaceY);
-	for (; beginY < maxY; beginY += spaceY)
+	double spaceY = pow(10, ceil(log10(rangeY)));
+	spaceY = rangeY > spaceY / 2 ? spaceY / 50 : spaceY / 100;
+	for (double beginY = spaceY * ceil(minY / spaceY); beginY < maxY; beginY += spaceY)
 	{
 		int dy = LyToDy(beginY);
 		painter.drawLine(0, dy, width(), dy);
-		if (static_cast<int>(beginY / spaceY) % 5 == 0)
-			painter.drawText(0, dy + scaleFm.ascent() / 2, QString::asprintf("%.0f", beginY));
 	}
-}
-
-void PageFuncPlot::drawAxis(QPainter &painter)
-{
 
 	//绘制 坐标轴
-	painter.setPen(QPen("#000"));
+	painter.setPen(Qt::black);
 	int Ox = LyToDy(0);
 	int Oy = LxToDx(0);
-	if (Ox < height() && Ox > 0)
+
+	//锁定 轴的范围
+	if (Ox > 0 && Ox < height())
 	{
 		painter.drawLine(0, Ox, width(), Ox);
 		painter.drawLine(width(), Ox, width() - 5, Ox + 5);
 		painter.drawLine(width(), Ox, width() - 5, Ox - 5);
 	}
-	if (Oy < width() && Oy > 0)
+	if (Oy > 0 && Oy < width())
 	{
 		painter.drawLine(Oy, 0, Oy, height());
 		painter.drawLine(Oy, 0, Oy - 5, 5);
 		painter.drawLine(Oy, 0, Oy + 5, 5);
+	}
+
+	//绘制刻度
+	// Y 方向
+	spaceX *= 5;
+	int fh = scaleFm.ascent();
+	if (Ox < 0)
+		Ox = fh;
+	if (Ox > height())
+		Ox = height() - fh;
+	Ox = Ox + fh / 2;
+	for (double i = ceil(minX / spaceX) * spaceX; i < maxX; i += spaceX)
+	{
+
+		QString text = i != 0 && (spaceX > 100 || spaceX < 1) ? QString::number(i, 'e', 0) : QString::number(i, 'f', 0);
+
+		int w = scaleFm.horizontalAdvance(text);
+		int di = LxToDx(i) - w / 2;
+		painter.setPen(Qt::white);
+		painter.drawRect(di, Ox, w, -fh);
+		painter.setPen(Qt::black);
+		painter.drawText(di, Ox, text);
+	}
+	// X 方向
+	spaceY *= 5;
+
+	for (double i = ceil(minY / spaceY) * spaceY; i < maxY; i += spaceY)
+	{
+		if (i == 0)
+			continue;
+		QString text = QString::asprintf("%.0f", i);
+
+		int w = scaleFm.horizontalAdvance(text);
+		int di = LyToDy(i);
+		int y = Oy - w / 2;
+		if (y < 0)
+			y = 0;
+		if (y > width())
+			y = width() - w;
+		painter.setPen(Qt::white);
+		painter.drawRect(y, di, w, -fh);
+		painter.setPen(Qt::black);
+		painter.drawText(y, di, text);
 	}
 }

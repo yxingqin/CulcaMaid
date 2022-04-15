@@ -29,8 +29,7 @@ private:
 	void mouseMoveEvent(QMouseEvent *event) override;
 	void wheelEvent(QWheelEvent *event) override;
 	//绘图
-	void drawGrid(QPainter &painter);
-	void drawAxis(QPainter &painter);
+	void drawGridAxis(QPainter &painter); //绘制 网格和坐标轴
 	// 设备坐标和逻辑坐标转换
 	inline double DxToLx(int x) const
 	{
