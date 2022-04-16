@@ -1,22 +1,22 @@
 project(XGui)
 
 
-find_package(Qt5 COMPONENTS
-        Core
-        Gui
-        Widgets
-        REQUIRED)
+file(GLOB SRCS include/*.* source/*.*)
+
 include_directories("${CMAKE_BINARY_DIR}/${PROJECT_NAME}_autogen/include")
 
-add_library(${PROJECT_NAME} SHARED
-        XWin/XWin.cpp
+add_library(${PROJECT_NAME} SHARED)
+
+target_sources(${PROJECT_NAME} PRIVATE
+        ${SRCS}
         )
-target_link_libraries(${PROJECT_NAME}
+
+target_link_libraries(${PROJECT_NAME} PUBLIC
         Qt5::Core
         Qt5::Gui
         Qt5::Widgets
         )
 
 target_include_directories(${PROJECT_NAME} PUBLIC
-        ${CMAKE_CURRENT_SOURCE_DIR}/XWin
+        include
         )

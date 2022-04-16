@@ -9,6 +9,7 @@ const char *XWin::styleSheet = R"(
 		#frame {
 	      border:none;
 		  border-radius: 8px;
+		  background:#FFF;
 		}
 	)";
 const char *XWinTitle::styleSheet = R"(
@@ -22,16 +23,15 @@ const char *XWinTitle::styleSheet = R"(
 		}
 )";
 
-
 XWin::XWin(QWidget *Client, QWidget *parent)
-		: QWidget(parent), mClient(Client), moveEnable(false), padding(15), titleHeight(32), shadowSize(6)
+	: QWidget(parent), mClient(Client), moveEnable(false), padding(15), titleHeight(32), shadowSize(6)
 {
 	oldPos = {};
 	oldRect = {};
 	mouseArea = 22;
 	//设置窗口属性
-	this->setWindowFlags(windowFlags() | Qt::Window);//作为一个单独窗口显示
-	this->setWindowFlag(Qt::FramelessWindowHint, true);//设置无边框属性
+	this->setWindowFlags(windowFlags() | Qt::Window);	//作为一个单独窗口显示
+	this->setWindowFlag(Qt::FramelessWindowHint, true); //设置无边框属性
 	this->setAttribute(Qt::WA_TranslucentBackground, true);
 	this->setAttribute(Qt::WA_Hover, true);
 	this->setObjectName("Main");
@@ -39,9 +39,10 @@ XWin::XWin(QWidget *Client, QWidget *parent)
 	setStyleSheet(styleSheet);
 	mFrame = new QFrame(this);
 	mFrame->setObjectName("frame");
-	mWinTitle = new XWinTitle(mFrame);//标题栏
-	mWinTitle->resize(0,titleHeight);
+	mWinTitle = new XWinTitle(mFrame); //标题栏
+	mWinTitle->resize(0, titleHeight);
 	setClient(Client);
+	// setMinimumSize(300, 300);
 #if 1
 	auto shadowEffect = new QGraphicsDropShadowEffect(mFrame);
 	shadowEffect->setColor({"#000"});
@@ -52,12 +53,12 @@ XWin::XWin(QWidget *Client, QWidget *parent)
 	this->installEventFilter(this);
 	mWinTitle->installEventFilter(this);
 
-	auto lambda = [this]() { isMaximized() ? showNormal() : showMaximized(); };
+	auto lambda = [this]()
+	{ isMaximized() ? showNormal() : showMaximized(); };
 
 	connect(mWinTitle, &XWinTitle::clickMin, this, &QWidget::showMinimized);
 	connect(mWinTitle, &XWinTitle::clickMax, this, lambda);
 	connect(mWinTitle, &XWinTitle::clickClose, this, &QWidget::close);
-
 }
 
 XWinTitle::XWinTitle(QWidget *parent) : QWidget(parent)
@@ -91,28 +92,23 @@ XWinTitle::XWinTitle(QWidget *parent) : QWidget(parent)
 	connect(btn_max, &QPushButton::clicked, this, &XWinTitle::clickMax);
 	connect(btn_close, &QPushButton::clicked, this, &XWinTitle::clickClose);
 	connect(btn_icon, &QPushButton::clicked, this, &XWinTitle::clickIcon);
-
-
 }
 
-
-XWin::~XWin()
-= default;
-
+XWin::~XWin() = default;
 
 void XWin::onResize(QResizeEvent *event)
 {
-	int w=event->size().width() - 2 * shadowSize;
-	int h=event->size().height() - 2 * shadowSize;
+	int w = event->size().width() - 2 * shadowSize;
+	int h = event->size().height() - 2 * shadowSize;
 
 	mWinTitle->setGeometry(0, 0, w, titleHeight);
 	if (mClient != nullptr)
 	{
-		mClient->setGeometry(0, mWinTitle->height(), w, h-mWinTitle->height());
-		mFrame->setGeometry(shadowSize, shadowSize, mClient->width(), mClient->height()+mWinTitle->height());
+		mClient->setGeometry(0, mWinTitle->height(), w, h - mWinTitle->height());
+		mFrame->setGeometry(shadowSize, shadowSize, mClient->width(), mClient->height() + mWinTitle->height());
 	}
 	else
-		mFrame->setGeometry(shadowSize, shadowSize,w,h);
+		mFrame->setGeometry(shadowSize, shadowSize, w, h);
 }
 
 int XWin::getTitleHeight() const
@@ -166,8 +162,8 @@ unsigned short XWin::getMouseArea(const QPoint &pos)
 	int posY = pos.y();
 	int Width = width();
 	int Height = height();
-	int X;//x所在区域
-	int Y;//y所在区域
+	int X; // x所在区域
+	int Y; // y所在区域
 	//判断x所在区域
 	if (posX > (Width - padding))
 		X = 3;
@@ -192,43 +188,43 @@ bool XWin::eventFilter(QObject *watched, QEvent *event)
 	{
 		switch (event->type())
 		{
-			case QEvent::Resize:
-				onResize(static_cast<QResizeEvent*>(event));
-				return true;
-			case QEvent::HoverMove:
-				onHover(static_cast<QHoverEvent *>(event));
-				break;
-			case QEvent::MouseButtonPress:
-				onMousePressed(static_cast<QMouseEvent *>(event));
-				break;
-			case QEvent::MouseButtonRelease:
-				mouseArea = 22;
-				moveEnable = false;
-				setCursor(Qt::ArrowCursor);
-				break;
-			default:
-				break;
+		case QEvent::Resize:
+			onResize(static_cast<QResizeEvent *>(event));
+			return true;
+		case QEvent::HoverMove:
+			onHover(static_cast<QHoverEvent *>(event));
+			break;
+		case QEvent::MouseButtonPress:
+			onMousePressed(static_cast<QMouseEvent *>(event));
+			break;
+		case QEvent::MouseButtonRelease:
+			mouseArea = 22;
+			moveEnable = false;
+			setCursor(Qt::ArrowCursor);
+			break;
+		default:
+			break;
 		}
-	} else if (watched == mWinTitle && event->type() == QEvent::MouseButtonDblClick)
+	}
+	else if (watched == mWinTitle && event->type() == QEvent::MouseButtonDblClick)
 		isMaximized() ? showNormal() : showMaximized();
 	return QObject::eventFilter(watched, event);
 }
 
 void XWin::onMousePressed(QMouseEvent *event)
 {
-	oldPos = event->globalPos();//鼠标相对于 左上角的偏移
+	oldPos = event->globalPos(); //鼠标相对于 左上角的偏移
 	oldRect = this->geometry();
 	mouseArea = getMouseArea(event->pos());
-	moveEnable = mWinTitle->geometry().contains(event->pos());//标记可以拖动位置
+	moveEnable = mWinTitle->geometry().contains(event->pos()); //标记可以拖动位置
 }
 
 void XWin::onHover(QHoverEvent *event)
 {
-	auto curArea= getMouseArea(event->pos());
+	auto curArea = getMouseArea(event->pos());
 	setMouseCursor(curArea);
 	stretchWindow(curArea);
 }
-
 
 void XWin::setClient(QWidget *client)
 {
@@ -236,14 +232,14 @@ void XWin::setClient(QWidget *client)
 	{
 		mClient = client;
 		mClient->setParent(mFrame);
-		resize(mClient->minimumWidth()+2*shadowSize,mClient->minimumHeight()+mWinTitle->height()+2*shadowSize);
+		resize(mClient->minimumWidth() + 2 * shadowSize, mClient->minimumHeight() + mWinTitle->height() + 2 * shadowSize);
 		setMinimumSize(this->size());
 	}
 }
 
 void XWin::setStyleSheet(const QString &styleSheet)
 {
-	QWidget::setStyleSheet(styleSheet + XWin::styleSheet);
+	QWidget::setStyleSheet(XWin::styleSheet + styleSheet);
 }
 
 void XWin::setTitleStyleSheet(const QString &styleSheet)
@@ -262,83 +258,82 @@ void XWin::setMouseCursor(unsigned short area)
 {
 	switch (area)
 	{
-		//左上 右下
-		case 11:
-		case 33:
-			setCursor(Qt::SizeFDiagCursor);
-			break;
-			//左下 右上
-		case 13:
-		case 31:
-			setCursor(Qt::SizeBDiagCursor);
-			break;
-			//上下
-		case 12:
-		case 32:
-			setCursor(Qt::SizeVerCursor);
-			break;
-			//左右
-		case 21:
-		case 23:
-			setCursor(Qt::SizeHorCursor);
-			break;
-		default:
-			setCursor(Qt::ArrowCursor);
-			break;
+	//左上 右下
+	case 11:
+	case 33:
+		setCursor(Qt::SizeFDiagCursor);
+		break;
+		//左下 右上
+	case 13:
+	case 31:
+		setCursor(Qt::SizeBDiagCursor);
+		break;
+		//上下
+	case 12:
+	case 32:
+		setCursor(Qt::SizeVerCursor);
+		break;
+		//左右
+	case 21:
+	case 23:
+		setCursor(Qt::SizeHorCursor);
+		break;
+	default:
+		setCursor(Qt::ArrowCursor);
+		break;
 	}
 }
 void XWin::stretchWindow(unsigned short area)
 {
 	auto curPos = QCursor::pos();
-	if(mouseArea!=22)
+	if (mouseArea != 22)
 	{
 		int offsetW = oldPos.x() - curPos.x();
 		int offsetH = oldPos.y() - curPos.y();
-		QRect rect;//窗口被拖动之后的大小
+		QRect rect; //窗口被拖动之后的大小
 		switch (mouseArea)
 		{
-			//左上
-			case 11:
-				rect.setRect(curPos.x(), curPos.y(), oldRect.width() + offsetW, oldRect.height() + offsetH);
-				break;
-				//右下
-			case 33:
-				rect.setRect(oldRect.x(), oldRect.y(), oldRect.width() - offsetW, oldRect.height() - offsetH);
-				break;
-				//右上
-			case 13:
-				rect.setRect(curPos.x() - oldRect.width() + offsetW, curPos.y(), oldRect.width() - offsetW,
-				             oldRect.height() + offsetH);
-				break;
-				//左下
-			case 31:
-				rect.setRect(curPos.x(), curPos.y() + offsetH - oldRect.height(), oldRect.width() + offsetW,
-				             oldRect.height() - offsetH);
-				break;
-				//上
-			case 12:
-				rect.setRect(oldRect.x(), oldRect.y() - offsetH, oldRect.width(), oldRect.height() + offsetH);
-				break;
-				//下
-			case 32:
-				rect.setRect(oldRect.x(), oldRect.y(), oldRect.width(), oldRect.height() - offsetH);
-				break;
-				//左右
-			case 21:
-				rect.setRect(oldRect.x() - offsetW, oldRect.y(), oldRect.width() + offsetW, oldRect.height());
-				break;
-			case 23:
-				rect.setRect(oldRect.x(), oldRect.y(), oldRect.width() - offsetW, oldRect.height());
-				break;
-			default:
-				break;
+		//左上
+		case 11:
+			rect.setRect(curPos.x(), curPos.y(), oldRect.width() + offsetW, oldRect.height() + offsetH);
+			break;
+			//右下
+		case 33:
+			rect.setRect(oldRect.x(), oldRect.y(), oldRect.width() - offsetW, oldRect.height() - offsetH);
+			break;
+			//右上
+		case 13:
+			rect.setRect(curPos.x() - oldRect.width() + offsetW, curPos.y(), oldRect.width() - offsetW,
+						 oldRect.height() + offsetH);
+			break;
+			//左下
+		case 31:
+			rect.setRect(curPos.x(), curPos.y() + offsetH - oldRect.height(), oldRect.width() + offsetW,
+						 oldRect.height() - offsetH);
+			break;
+			//上
+		case 12:
+			rect.setRect(oldRect.x(), oldRect.y() - offsetH, oldRect.width(), oldRect.height() + offsetH);
+			break;
+			//下
+		case 32:
+			rect.setRect(oldRect.x(), oldRect.y(), oldRect.width(), oldRect.height() - offsetH);
+			break;
+			//左右
+		case 21:
+			rect.setRect(oldRect.x() - offsetW, oldRect.y(), oldRect.width() + offsetW, oldRect.height());
+			break;
+		case 23:
+			rect.setRect(oldRect.x(), oldRect.y(), oldRect.width() - offsetW, oldRect.height());
+			break;
+		default:
+			break;
 		}
 
-		if(rect.width()>=this->minimumWidth()&&rect.height()>=this->minimumHeight())
+		if (rect.width() >= this->minimumWidth() && rect.height() >= this->minimumHeight())
 			setGeometry(rect);
 	}
 	//拖动窗口
-	if (moveEnable && mouseArea==22)
-		this->move(curPos + (QPoint{oldRect.x(), oldRect.y()} - oldPos));//全局位置+偏移== 移动位置
+	if (moveEnable && mouseArea == 22)
+		this->move(curPos + (QPoint{oldRect.x(), oldRect.y()} - oldPos)); //全局位置+偏移== 移动位置
 }
-

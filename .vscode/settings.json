@@ -9,6 +9,7 @@
         "limits": "cpp",
         "qresizeevent": "cpp",
         "qcalendarwidget": "cpp",
-        "sstream": "cpp"
+        "sstream": "cpp",
+        "qgraphicsdropshadoweffect": "cpp"
     }
 }

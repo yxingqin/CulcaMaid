@@ -2,14 +2,14 @@ QLineEdit {
 	background: transparent;
 }
 
-#ledt_out1 {
+#ledt_out2 {
 	margin: 0px 0px;
 	padding: 0px;
 	font-size: 10pt;
 }
 
-#ledt_out2 {
-    font-weight:bolder;
+#ledt_out1 {
+	font-weight: bolder;
 	padding: 0px;
 	font-size: 24pt;
 }
@@ -20,7 +20,7 @@ QPushButton {
 	min-width: 40px;
 	font-size: 16px;
 	text-align: center;
-	background-color: #fbfbfb;
+	background-color: #FFF;
 }
 
 QPushButton:hover {
@@ -29,4 +29,35 @@ QPushButton:hover {
 
 QPushButton:pressed {
 	background-color: #f9f9f9
+}
+
+/* 等于号 */
+#btn_kb54 {
+	background-color: #0067c0;
+}
+
+#btn_kb54:hover {
+	background-color: #1975c5;
+}
+
+#btn_kb54:checked {
+	background-color: #3182ca;
+}
+
+#btn_kb11,
+#btn_kb12,
+#btn_kb13,
+#btn_kb14,
+#btn_kb24,
+#btn_kb34 {
+	background-color: #f6f9fc;
+}
+
+#btn_kb11:hover,
+#btn_kb12:hover,
+#btn_kb13:hover,
+#btn_kb14:hover,
+#btn_kb24:hover,
+#btn_kb34:hover {
+	background-color: #f3f7fa;
 }

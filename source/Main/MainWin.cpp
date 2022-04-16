@@ -24,7 +24,7 @@ MainWin::MainWin(QWidget *parent) : QWidget(parent), ui(new Ui::MainWin)
 	ui->swdg_sub->raise(); //防止被遮挡
 	connect(ui->btn_tool, &QPushButton::clicked, this, &MainWin::switchSubPage);
 	//设置页面切换
-	connect(mPopMenu->list_culca, &QListWidget::currentRowChanged, this, &MainWin::switchPageCal);
+	connect(mPopMenu, &PopMenu::switchPage, this, &MainWin::switchPage);
 	ui->swdg_main->setCurrentIndex(0);
 	ui->swdg_sub->setCurrentIndex(0);
 	//处理某部分事件
@@ -36,7 +36,9 @@ MainWin::MainWin(QWidget *parent) : QWidget(parent), ui(new Ui::MainWin)
 	animationSub1 = new QPropertyAnimation(ui->swdg_sub, "geometry", this);
 
 	setMinimumSize(320, 500);
-	ui->swdg_main->setCurrentIndex(3);
+
+	ui->lbl_title->setText("标准");
+	// ui->swdg_main->setCurrentIndex(3);
 }
 
 MainWin::~MainWin()
@@ -157,9 +159,11 @@ bool MainWin::eventFilter(QObject *watched, QEvent *event)
 	return QObject::eventFilter(watched, event);
 }
 
-void MainWin::switchPageCal(int row)
+void MainWin::switchPage(int row, QString title)
 {
 	ui->swdg_main->setCurrentIndex(row);
+	ui->lbl_title->setText(title);
+	ui->btn_tool->show();
 	switchMenu();
 }
 

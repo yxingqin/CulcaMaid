@@ -7,26 +7,24 @@
 
 #include <QWidget>
 
-
 QT_BEGIN_NAMESPACE
 namespace Ui
 {
-class PageStandard;
+	class PageStandard;
 }
 QT_END_NAMESPACE
 
 class PageStandard : public QWidget
 {
-Q_OBJECT
+	Q_OBJECT
 
 public:
 	explicit PageStandard(QWidget *parent = nullptr);
 	~PageStandard() override;
-
+public slots:
+	void btnInput(); //按钮输入
 private:
-
 	Ui::PageStandard *ui;
 };
 
-
-#endif //CALCULMAID_PAGESTANDARD_H
+#endif // CALCULMAID_PAGESTANDARD_H

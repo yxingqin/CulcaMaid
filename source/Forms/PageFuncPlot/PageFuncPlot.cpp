@@ -133,8 +133,9 @@ void PageFuncPlot::drawGridAxis(QPainter &painter)
 	for (double i = ceil(minX / spaceX) * spaceX; i < maxX; i += spaceX)
 	{
 
-		QString text = abs(i) > 0.001 && (spaceX > 100 || spaceX < 1) ? QString::number(i, 'e', 0) : QString::number(i, 'f', 0);
-
+		QString text = abs(i) > 0.001 && (spaceX > 10000 || spaceX < 1) ? QString::number(i, 'g', 0) : QString::number(i, 'f', 0);
+		// QString text = (spaceX > 100 || spaceX < 1) ? QString::number(i, 'e', 0) : QString::number(i, 'f', 0);
+		text.replace("e+", "· 10^");
 		int w = scaleFm.horizontalAdvance(text);
 		int di = LxToDx(i) - w / 2;
 		painter.setPen(Qt::white);
@@ -149,8 +150,8 @@ void PageFuncPlot::drawGridAxis(QPainter &painter)
 	{
 		if (abs(i) < 0.001)
 			continue;
-		QString text = (spaceY > 100 || spaceY < 1) ? QString::number(i, 'e', 0) : QString::number(i, 'f', 0);
-
+		QString text = (spaceY > 10000 || spaceY < 1) ? QString::number(i, 'g', 0) : QString::number(i, 'f', 0);
+		text.replace("e+", "· 10^");
 		int w = scaleFm.horizontalAdvance(text);
 		int di = LyToDy(i);
 		int y = Oy - w / 2;

@@ -1,5 +1,6 @@
 <RCC>
   <qresource prefix="/">
+    <file>res/icon/backspace.png</file>
     <file>res/icon/history.png</file>
     <file>res/icon/calcu.png</file>
     <file>res/icon/date.png</file>

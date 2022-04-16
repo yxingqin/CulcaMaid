@@ -70,12 +70,9 @@
     </layout>
    </item>
    <item>
-    <widget class="QTextBrowser" name="textBrowser">
+    <widget class="QPlainTextEdit" name="plainTextEdit">
      <property name="frameShape">
       <enum>QFrame::NoFrame</enum>
-     </property>
-     <property name="openLinks">
-      <bool>false</bool>
      </property>
     </widget>
    </item>

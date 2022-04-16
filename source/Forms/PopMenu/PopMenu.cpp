@@ -8,31 +8,31 @@
 #include "ui_PopMenu.h"
 #include <QGraphicsDropShadowEffect>
 #include "PopMenuItem.h"
-PopMenu::PopMenu(QWidget *parent) :
-		QFrame(parent), ui(new Ui::PopMenu)
+PopMenu::PopMenu(QWidget *parent) : QFrame(parent), ui(new Ui::PopMenu)
 {
 	ui->setupUi(this);
 	//设置页面
-	mpSetting=new PageSetting();
-	connect(ui->btn_setting,&QPushButton::clicked,this,[this]()
-	{
-		mpSetting->show();
-	});
+	mpSetting = new PageSetting();
+	connect(ui->btn_setting, &QPushButton::clicked, this, [this]()
+			{ mpSetting->show(); });
 	//阴影
-	auto shadowEffect=new QGraphicsDropShadowEffect(this);
+	auto shadowEffect = new QGraphicsDropShadowEffect(this);
 	shadowEffect->setColor("#778899");
-	shadowEffect->setOffset(1,5);
+	shadowEffect->setOffset(1, 5);
 	shadowEffect->setBlurRadius(22);
 	this->setGraphicsEffect(shadowEffect);
 	//添加 项目
-	addItem("标准",":/res/icon/calcu.png");
-	addItem("科学",":/res/icon/science.png");
-	addItem("程序员",":/res/icon/program.png");
-	addItem("绘图",":/res/icon/funimage.png");
-	addItem("日期",":/res/icon/date.png");
-	addItem("关系",":/res/icon/relation.png");
+	addItem("标准", ":/res/icon/calcu.png");
+	addItem("科学", ":/res/icon/science.png");
+	addItem("程序员", ":/res/icon/program.png");
+	addItem("绘图", ":/res/icon/funimage.png");
+	addItem("日期", ":/res/icon/date.png");
+	addItem("关系", ":/res/icon/relation.png");
 	ui->listw_calcu->setCurrentRow(0);
-	list_culca=ui->listw_calcu;
+	list_culca = ui->listw_calcu;
+
+	connect(ui->listw_calcu, &QListWidget::currentRowChanged, this, [this](int row)
+			{ emit switchPage(row, ui->listw_calcu->itemWidget(ui->listw_calcu->item(row))->findChild<QLabel *>("lbl_title")->text()); });
 }
 
 PopMenu::~PopMenu()
@@ -43,8 +43,7 @@ PopMenu::~PopMenu()
 
 void PopMenu::addItem(QString title, QString icon)
 {
-	QListWidgetItem * newWidget = new QListWidgetItem(ui->listw_calcu);
-	PopMenuItem* popMenuItem=new PopMenuItem(ui->listw_calcu,title,icon);
-	ui->listw_calcu->setItemWidget(newWidget,popMenuItem);
+	QListWidgetItem *newWidget = new QListWidgetItem(ui->listw_calcu);
+	PopMenuItem *popMenuItem = new PopMenuItem(ui->listw_calcu, title, icon);
+	ui->listw_calcu->setItemWidget(newWidget, popMenuItem);
 }
-

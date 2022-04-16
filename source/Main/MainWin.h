@@ -7,11 +7,10 @@
 
 #include <QWidget>
 
-
 QT_BEGIN_NAMESPACE
 namespace Ui
 {
-class MainWin;
+	class MainWin;
 }
 QT_END_NAMESPACE
 #include <QMainWindow>
@@ -21,25 +20,28 @@ QT_END_NAMESPACE
 #include <QPoint>
 #include "PopMenu/PopMenu.h"
 
-
 class MainWin : public QWidget
 {
-Q_OBJECT
+	Q_OBJECT
 
 public:
 	explicit MainWin(QWidget *parent = nullptr);
 	~MainWin() override;
-public:
 
+public:
 	bool eventFilter(QObject *watched, QEvent *event) override;
-	bool event(QEvent *event)override;
+	bool event(QEvent *event) override;
 private slots:
 	void switchMenu();
 	void switchSubPage();
-	void switchPageCal(int row);//切换计算器的主页页面和子页面
-	//void switchPageCv(int row);//切换转换器的页面
+	/**
+	 * row  ：swg_main 的索引 titile
+	 */
+	void switchPage(int row, QString title); //切换计算器的主页页面和子页面
+											 // void switchPageCv(int row);//切换转换器的页面
 private:
-	void resizeEvent(QResizeEvent *event)override;
+	void resizeEvent(QResizeEvent *event) override;
+
 private:
 	Ui::MainWin *ui;
 	PopMenu *mPopMenu;
@@ -47,5 +49,4 @@ private:
 	QPropertyAnimation *animationSub1;
 };
 
-
-#endif //CALCULMAID_MAINWIN_H
+#endif // CALCULMAID_MAINWIN_H
