@@ -6,12 +6,12 @@
 
 #include "PageHistory.h"
 #include "ui_PageHistory.h"
+#include "LoadFile.h"
 
-
-PageHistory::PageHistory(QWidget *parent) :
-		QFrame(parent), ui(new Ui::PageHistory)
+PageHistory::PageHistory(QWidget *parent) : QFrame(parent), ui(new Ui::PageHistory)
 {
 	ui->setupUi(this);
+	setStyleSheet(Load::loadStyle(":/res/qss/history.qss"));
 }
 
 PageHistory::~PageHistory()
@@ -19,3 +19,6 @@ PageHistory::~PageHistory()
 	delete ui;
 }
 
+void PageHistory::addHistory(const QString &expr, const QString &result)
+{
+}

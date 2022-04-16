@@ -104,19 +104,31 @@ namespace expr
 		{
 			ret = ret * 10 + expr[i].digitValue();
 			i++;
+			if (i < len && expr[i] == ',') //特殊符号  千位分隔符 过滤掉
+			{
+				++i;
+				continue;
+			}
 		}
-		double point = 1; //小数点
+		double point = 0; //小数点
 		if (i < len && expr[i] == '.')
 		{
-			point = 0;
 			++i;
 			while (i < len && expr[i].isDigit())
 			{
+
 				ret = ret * 10 + expr[i].digitValue();
 				point += 10;
 				i++;
+				if (i < len && expr[i] == ',') //特殊符号  千位分隔符 过滤掉
+				{
+					++i;
+					continue;
+				}
 			}
 		}
+		if (point == 0)
+			point = 1;
 		return ret * sign / point;
 	}
 	XKey getXkey(const QString &expr, int &i)
@@ -178,7 +190,8 @@ namespace expr
 			++i;
 			return optEnum::POWER;
 		case u'%':
-			return optEnum::MOD;
+			++i;
+			return optEnum::PERCENTAGE;
 		case u'(':
 			++i;
 			return optEnum::LEFT;
@@ -247,10 +260,10 @@ namespace expr
 			return 1;
 		case optEnum::MUL:
 		case optEnum::DIV:
-		case optEnum::MOD:
 			return 2;
 		case optEnum::POWER:
 			return 4;
+		case optEnum::PERCENTAGE:
 		case optEnum::ABS:
 		case optEnum::SIN:
 		case optEnum::SEC:
@@ -368,8 +381,6 @@ namespace expr
 			return num2 * num1;
 		case optEnum::DIV:
 			return num2 / num1;
-		case optEnum::MOD:
-			return num2 / num1;
 		case optEnum::POWER:
 			return pow(num2, num1);
 		default:
@@ -398,6 +409,8 @@ namespace expr
 			return log(num);
 		case optEnum::LG:
 			return log10(num);
+		case optEnum::PERCENTAGE:
+			return num / 100;
 		default:
 			return 0;
 		}
@@ -449,7 +462,7 @@ namespace expr
 		ret = stack.back();
 		return true;
 	}
-	QDebug& operator<<(QDebug& dbg, const expr::exprMeta &meta)
+	QDebug &operator<<(QDebug &dbg, const expr::exprMeta &meta)
 	{
 		switch (meta.getType())
 		{
@@ -483,7 +496,7 @@ namespace expr
 			case optEnum::DIV:
 				dbg << "÷";
 				break;
-			case optEnum::MOD:
+			case optEnum::PERCENTAGE:
 				dbg << "%";
 				break;
 			case optEnum::POWER:
@@ -521,35 +534,35 @@ namespace expr
 			}
 			break;
 		case expr::exprMeta::Type::XKEY:
-			switch(meta.getXkey())
+			switch (meta.getXkey())
 			{
-				case XKey::UNKNOWN:
-					dbg<<"?x";
-					break;
-				case XKey::px:
-					dbg<<"x";
-					break;
-				case XKey::py:
-					dbg<<"y";
-					break;
-				case XKey::pz:
-					dbg<<"z";
-					break;
-				case XKey::pw:
-					dbg<<"w";
-					break;
-				case XKey::nx:
-					dbg<<"-x";
-					break;
-				case XKey::ny:
-					dbg<<"-y";
-					break;
-				case XKey::nz:
-					dbg<<"-z";
-					break;
-				case XKey::nw:
-					dbg<<"-w";
-					break;
+			case XKey::UNKNOWN:
+				dbg << "?x";
+				break;
+			case XKey::px:
+				dbg << "x";
+				break;
+			case XKey::py:
+				dbg << "y";
+				break;
+			case XKey::pz:
+				dbg << "z";
+				break;
+			case XKey::pw:
+				dbg << "w";
+				break;
+			case XKey::nx:
+				dbg << "-x";
+				break;
+			case XKey::ny:
+				dbg << "-y";
+				break;
+			case XKey::nz:
+				dbg << "-z";
+				break;
+			case XKey::nw:
+				dbg << "-w";
+				break;
 			}
 			break;
 		default:

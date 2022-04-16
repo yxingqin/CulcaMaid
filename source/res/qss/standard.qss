@@ -18,8 +18,9 @@ QPushButton {
 	margin: 3px;
 	min-height: 40px;
 	min-width: 40px;
-	font-size: 16px;
+	font-size: 16pt;
 	text-align: center;
+	font-weight: bolder;
 	background-color: #FFF;
 }
 
@@ -34,6 +35,8 @@ QPushButton:pressed {
 /* 等于号 */
 #btn_kb54 {
 	background-color: #0067c0;
+	font-size: 20pt;
+	color: #FFF;
 }
 
 #btn_kb54:hover {

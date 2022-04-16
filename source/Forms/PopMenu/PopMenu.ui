@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>158</width>
+    <width>172</width>
     <height>699</height>
    </rect>
   </property>
@@ -20,44 +20,7 @@
    <string>PopMenu</string>
   </property>
   <property name="styleSheet">
-   <string notr="true">/*弹出菜单*/
-* {
-background-color:#FFF;
-border:0;
-font-size:12pt;
-}
-#scrollAreaWidgetContents&gt;QLabel{
-margin:12px 0;
-}
-
-#PopMenu {
-border-top-left-radius:0px; 
-border-top-right-radius:8px;
-border-bottom-left-radius:8px; 
-border-bottom-right-radius:8px; 
-
-}
-
-QFrame#frame{
-border:2px;
-padding:0;
-}
-
-
-/*列表框*/
-.QListWidget {border-radius:5px;}
-QListWidget::item {
-height:40px; margin-left:10px;
-background-color: transparent;
-}
-QListWidget::item:hover {
-background-color: #f1f4f7;
-}
-QListWidget::item:selected {
-border:none;
-border-left: 3px solid #0067c0;
-}
-</string>
+   <string notr="true"/>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout_2">
    <property name="spacing">
@@ -113,8 +76,8 @@ border-left: 3px solid #0067c0;
           <rect>
            <x>0</x>
            <y>0</y>
-           <width>127</width>
-           <height>848</height>
+           <width>137</width>
+           <height>792</height>
           </rect>
          </property>
          <layout class="QVBoxLayout" name="verticalLayout_4">

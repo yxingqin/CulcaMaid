@@ -50,7 +50,7 @@
       <string/>
      </property>
      <property name="text">
-      <string>0</string>
+      <string/>
      </property>
      <property name="frame">
       <bool>false</bool>
@@ -81,7 +81,7 @@
       </size>
      </property>
      <property name="text">
-      <string>输出框1</string>
+      <string/>
      </property>
      <property name="frame">
       <bool>false</bool>
@@ -159,7 +159,7 @@
          </sizepolicy>
         </property>
         <property name="text">
-         <string>/</string>
+         <string>÷</string>
         </property>
        </widget>
       </item>
@@ -220,8 +220,8 @@
         </property>
         <property name="iconSize">
          <size>
-          <width>42</width>
-          <height>42</height>
+          <width>32</width>
+          <height>32</height>
          </size>
         </property>
        </widget>
@@ -352,7 +352,7 @@
          </sizepolicy>
         </property>
         <property name="text">
-         <string>*</string>
+         <string>×</string>
         </property>
        </widget>
       </item>

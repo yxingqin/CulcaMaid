@@ -8,9 +8,11 @@
 #include "ui_PopMenu.h"
 #include <QGraphicsDropShadowEffect>
 #include "PopMenuItem.h"
+#include "LoadFile.h"
 PopMenu::PopMenu(QWidget *parent) : QFrame(parent), ui(new Ui::PopMenu)
 {
 	ui->setupUi(this);
+	setStyleSheet(Load::loadStyle(":/res/qss/popmenu.qss"));
 	//设置页面
 	mpSetting = new PageSetting();
 	connect(ui->btn_setting, &QPushButton::clicked, this, [this]()

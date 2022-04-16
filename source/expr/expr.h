@@ -31,7 +31,6 @@ namespace expr
 		SUB,
 		MUL,
 		DIV,
-		MOD, //取模
 		POWER,
 
 		//一元函数
@@ -43,7 +42,8 @@ namespace expr
 		TAN,
 		COT,
 		LN,
-		LG
+		LG,
+		PERCENTAGE //百分比
 		//	ROOT2//平方根号
 	};
 	/**
@@ -79,10 +79,10 @@ namespace expr
 	 * @brief  求解含有一个未知数 的表达式
 	 * @param post 后缀表达式
 	 * @param ret 结果
-	 * @param keyVal  未知数值  这里未知数 值的是 x
+	 * @param keyVal  未知数值   该函数仅支持一个 未知数
 	 * @return  false 计算有误
 	 */
-	bool getResult(const Postfix &post, double &ret, double keyVal);
+	bool getResult(const Postfix &post, double &ret, double keyVal=0);
 	// bool getResult(const Postfix& post,double&ret,...)//带多个未知数的
 
 	/**

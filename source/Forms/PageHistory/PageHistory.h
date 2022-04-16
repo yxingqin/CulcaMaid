@@ -22,7 +22,8 @@ Q_OBJECT
 public:
 	explicit PageHistory(QWidget *parent = nullptr);
 	~PageHistory() override;
-
+public slots:
+	void addHistory(const QString& expr,const QString& result);
 private:
 	Ui::PageHistory *ui;
 };

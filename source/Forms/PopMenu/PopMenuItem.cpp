@@ -7,13 +7,10 @@
 #include "PopMenuItem.h"
 #include "ui_PopMenuItem.h"
 
-
-PopMenuItem::PopMenuItem(QWidget *parent,QString title,QString ico) :
-		QWidget(parent), ui(new Ui::PopMenuItem)
+PopMenuItem::PopMenuItem(QWidget *parent, QString title, QString ico) : QWidget(parent), ui(new Ui::PopMenuItem)
 {
 	ui->setupUi(this);
 	ui->lbl_title->setText(title);
-
 	QPixmap pixmap(ico);
 	pixmap.scaled(ui->lbl_icon->size(), Qt::KeepAspectRatio, Qt::SmoothTransformation);
 	ui->lbl_icon->setScaledContents(true);
@@ -24,4 +21,3 @@ PopMenuItem::~PopMenuItem()
 {
 	delete ui;
 }
-

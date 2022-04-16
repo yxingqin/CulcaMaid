@@ -13,8 +13,12 @@
     <file>res/icon/min.png</file>
     <file>res/icon/max.png</file>
     <file>res/icon/close.png</file>
+    <file>res/icon/close.png</file>
+    <file>res/icon/del.png</file>
     <file>res/qss/all.qss</file>
     <file>res/qss/mainwin.qss</file>
     <file>res/qss/standard.qss</file>
+     <file>res/qss/popmenu.qss</file>
+     <file>res/qss/history.qss</file>
   </qresource>
 </RCC>

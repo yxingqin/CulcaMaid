@@ -1,8 +1,8 @@
 /*主页面*/
 
 .QWidget {
-    background-color: #edf5f9;
-    border: none;
+  background-color: #edf5f9;
+  border: none;
 }
 
 #btn_popMune {
@@ -10,7 +10,10 @@
   border: none;
 }
 
+#page_sub1 {
+  background-color: #edf5f9;
+}
+
 #swdg_main {
   margin-top: 10px;
 }
-

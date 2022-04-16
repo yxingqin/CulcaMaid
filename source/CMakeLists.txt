@@ -1,8 +1,6 @@
 project(source)
 
-include_directories(Forms)
-include_directories(unit)
-include_directories(expr)
+include_directories(Forms expr unit )
 file(GLOB_RECURSE   SRCS  RELATIVE ${CMAKE_CURRENT_SOURCE_DIR}  LIST_DIRECTORIES false ${CMAKE_CURRENT_SOURCE_DIR}/*.cpp ${CMAKE_CURRENT_SOURCE_DIR}/*.ui)
 LIST(APPEND  SRCS res.qrc)
 
