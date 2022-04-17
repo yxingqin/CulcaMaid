@@ -10,7 +10,8 @@ PageStandard::PageStandard(QWidget *parent) : QWidget(parent), ui(new Ui::PageSt
 	setStyleSheet(Load::loadStyle(":/res/qss/standard.qss"));
 
 	ui->ledt_out1->setAttribute(Qt::WA_InputMethodEnabled, false); //输入法禁用
-	this->startTimer(1000);
+	// ui->ledt_out1->setFocus();
+	this->startTimer(500);
 
 	// 输入 处理
 	for (auto it : ui->fm_calcuKb->findChildren<QPushButton *>())
@@ -52,7 +53,6 @@ void PageStandard::inputFilter(const QString &text)
 {
 	//过滤
 	QString old = ui->ledt_out1->displayText();
-	qDebug() << "old" << old;
 	qDebug() << "text" << text;
 	ui->ledt_out1->setText(formatThousands(text));
 
@@ -62,7 +62,7 @@ void PageStandard::inputFilter(const QString &text)
 	{
 		double result;
 		expr::getResult(post, result);
-		ui->ledt_out2->setText(QString::number(result));
+		ui->ledt_out2->setText(formatThousands(QString::number(result, 'g')));
 	}
 	else
 	{
@@ -72,23 +72,21 @@ void PageStandard::inputFilter(const QString &text)
 
 void PageStandard::timerEvent(QTimerEvent *event)
 {
-	ui->ledt_out1->setFocus();
+	if (!ui->ledt_out1->hasFocus())
+		ui->ledt_out1->setFocus();
 }
 
 QString PageStandard::formatThousands(const QString &text) const
 {
 	QString ret(text);
-	for (int i = 0; i < ret.length(); ++i)
+	for (int i = ret.length() - 1; i >= 0; --i)
 	{
 		int n = 0;
-		while (i < ret.length() && ret[i].isDigit())
+		while (i >= 0 && ret[i].isDigit())
 		{
-			if (n != 0 && n % 3 == 0)
-			{
+			if (n % 3 == 2 && i != 0)
 				ret.insert(i, ',');
-			}
-
-			++i;
+			--i;
 			++n;
 		}
 	}
