@@ -25,7 +25,7 @@ find_package(Qt5 COMPONENTS
         Widgets
         REQUIRED
         )
-include_directories("${CMAKE_BINARY_DIR}/${PROJECT_NAME}_autogen/include")
+
 
 
 

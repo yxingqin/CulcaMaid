@@ -6,13 +6,9 @@
 #define CALCULMAID_PAGESTANDARD_H
 
 #include <QWidget>
+#include "ExpressionBar/ExpressionBar.h"
+#include "KeyBoard/StandardKB.h"
 
-QT_BEGIN_NAMESPACE
-namespace Ui
-{
-	class PageStandard;
-}
-QT_END_NAMESPACE
 
 class PageStandard : public QWidget
 {
@@ -21,18 +17,13 @@ class PageStandard : public QWidget
 public:
 	explicit PageStandard(QWidget *parent = nullptr);
 	~PageStandard() override;
-private slots:
-	void btnInput();					   //按钮输入
-	void on_btn_kb54_clicked();			   //等于号
-	void on_btn_kb11_clicked();			   // clear
-	void on_btn_kb14_clicked();			   // 退格
-	void inputFilter(const QString &text); //输入过滤
+	void  onKeyPress(QKeyEvent *event);//数字输入 等按键消息
 private:
-	void timerEvent(QTimerEvent *event) override; //维持输入焦点
-	QString formatThousands(const QString &text) const;
+	void  initUi();
+private:
 
-private:
-	Ui::PageStandard *ui;
+	ExpressionBar *fm_bar;
+	StandardKB *fm_kb;
 };
 
 #endif // CALCULMAID_PAGESTANDARD_H

@@ -8,11 +8,11 @@
 #include "ui_PopMenu.h"
 #include <QGraphicsDropShadowEffect>
 #include "PopMenuItem.h"
-#include "LoadFile.h"
+#include "Load.h"
 PopMenu::PopMenu(QWidget *parent) : QFrame(parent), ui(new Ui::PopMenu)
 {
 	ui->setupUi(this);
-	setStyleSheet(Load::loadStyle(":/res/qss/popmenu.qss"));
+	setStyleSheet(Load::loadStyle(":/qss/popmenu.qss"));
 	//设置页面
 	mpSetting = new PageSetting();
 	connect(ui->btn_setting, &QPushButton::clicked, this, [this]()
@@ -24,12 +24,12 @@ PopMenu::PopMenu(QWidget *parent) : QFrame(parent), ui(new Ui::PopMenu)
 	shadowEffect->setBlurRadius(22);
 	this->setGraphicsEffect(shadowEffect);
 	//添加 项目
-	addItem("标准", ":/res/icon/calcu.png");
-	addItem("科学", ":/res/icon/science.png");
-	addItem("程序员", ":/res/icon/program.png");
-	addItem("绘图", ":/res/icon/funimage.png");
-	addItem("日期", ":/res/icon/date.png");
-	addItem("关系", ":/res/icon/relation.png");
+	addItem("标准", ":/icon/calcu.png");
+	addItem("科学", ":/icon/science.png");
+	addItem("程序员", ":/icon/program.png");
+	addItem("绘图", ":/icon/funimage.png");
+	addItem("日期", ":/icon/date.png");
+	addItem("关系", ":/icon/relation.png");
 	ui->listw_calcu->setCurrentRow(0);
 	list_culca = ui->listw_calcu;
 

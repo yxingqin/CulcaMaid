@@ -1,5 +1,5 @@
 #include "MainWin.h"
-#include "LoadFile.h"
+#include "Load.h"
 #include "ui_MainWin.h"
 #include <QDebug>
 
@@ -11,7 +11,7 @@ MainWin::MainWin(QWidget *parent) : QWidget(parent), ui(new Ui::MainWin)
 {
 	ui->setupUi(this);
 	//加载qss
-	setStyleSheet(Load::loadStyle(":/res/qss/mainwin.qss"));
+	setStyleSheet(Load::loadStyle(":/qss/mainwin.qss"));
 	setAttribute(Qt::WA_StyledBackground, true);
 	//跟踪鼠标位置
 	setMouseTracking(true);
@@ -38,6 +38,7 @@ MainWin::MainWin(QWidget *parent) : QWidget(parent), ui(new Ui::MainWin)
 	setMinimumSize(320, 500);
 
 	ui->lbl_title->setText("标准");
+	ui->swdg_main->currentWidget()->setFocus();
 	// ui->swdg_main->setCurrentIndex(3);
 }
 
@@ -164,10 +165,18 @@ void MainWin::switchPage(int row, QString title)
 	ui->swdg_main->setCurrentIndex(row);
 	ui->lbl_title->setText(title);
 	ui->btn_tool->show();
+	ui->swdg_main->currentWidget()->setFocus();
 	switchMenu();
 }
 
 bool MainWin::event(QEvent *event)
 {
 	return QWidget::event(event);
+}
+
+void MainWin::keyPressEvent(QKeyEvent *event)
+{
+	if(ui->swdg_main->currentIndex()==0)
+		ui->pStandard->onKeyPress(event);
+	QWidget::keyPressEvent(event);
 }

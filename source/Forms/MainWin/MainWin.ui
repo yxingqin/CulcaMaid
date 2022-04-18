@@ -71,7 +71,7 @@
         </property>
         <property name="icon">
          <iconset>
-          <selectedon>:/res/icon/menu.png</selectedon>
+          <selectedon>:/icon/menu.png</selectedon>
          </iconset>
         </property>
         <property name="autoDefault">
@@ -106,7 +106,7 @@
         </property>
         <property name="icon">
          <iconset>
-          <selectedon>:/res/icon/history.png</selectedon>
+          <selectedon>:/icon/other.png</selectedon>
          </iconset>
         </property>
         <property name="iconSize">
@@ -446,7 +446,7 @@
   </customwidget>
  </customwidgets>
  <resources>
-  <include location="../res.qrc"/>
+  <include location="../../assets/res.qrc"/>
  </resources>
  <connections/>
 </ui>

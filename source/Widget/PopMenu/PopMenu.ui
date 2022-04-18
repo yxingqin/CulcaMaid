@@ -165,7 +165,7 @@
            </property>
            <property name="icon">
             <iconset>
-             <selectedoff>:/res/icon/setting.png</selectedoff>
+             <selectedoff>:/icon/setting.png</selectedoff>
             </iconset>
            </property>
           </widget>
@@ -194,6 +194,8 @@
    </item>
   </layout>
  </widget>
- <resources/>
+ <resources>
+  <include location="../../assets/res.qrc"/>
+ </resources>
  <connections/>
 </ui>

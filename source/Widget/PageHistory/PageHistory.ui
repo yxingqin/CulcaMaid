@@ -43,7 +43,7 @@
        </property>
        <property name="icon">
         <iconset>
-         <selectedon>:/res/icon/del.png</selectedon>
+         <selectedon>:/icon/del.png</selectedon>
         </iconset>
        </property>
        <property name="iconSize">
@@ -78,7 +78,7 @@
   </layout>
  </widget>
  <resources>
-  <include location="../../res.qrc"/>
+  <include location="../../assets/res.qrc"/>
  </resources>
  <connections/>
 </ui>

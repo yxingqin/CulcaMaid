@@ -41,7 +41,7 @@ private slots:
 											 // void switchPageCv(int row);//切换转换器的页面
 private:
 	void resizeEvent(QResizeEvent *event) override;
-
+	void keyPressEvent(QKeyEvent *event)override;
 private:
 	Ui::MainWin *ui;
 	PopMenu *mPopMenu;

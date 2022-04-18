@@ -1,4 +1,4 @@
-#include "LoadFile.h"
+#include "Load.h"
 #include <QFile>
 
 namespace Load
