@@ -6,27 +6,24 @@
 #define CALCULMAID_PAGESTANDARD_H
 
 #include <QWidget>
+#include "ExpressionBar/ExpressionBar.h"
+#include "KeyBoard/StandardKB.h"
 
-
-QT_BEGIN_NAMESPACE
-namespace Ui
-{
-class PageStandard;
-}
-QT_END_NAMESPACE
 
 class PageStandard : public QWidget
 {
-Q_OBJECT
+	Q_OBJECT
 
 public:
 	explicit PageStandard(QWidget *parent = nullptr);
 	~PageStandard() override;
-
+	void  onKeyPress(QKeyEvent *event);//数字输入 等按键消息
+private:
+	void  initUi();
 private:
 
-	Ui::PageStandard *ui;
+	ExpressionBar *fm_bar;
+	StandardKB *fm_kb;
 };
 
-
-#endif //CALCULMAID_PAGESTANDARD_H
+#endif // CALCULMAID_PAGESTANDARD_H

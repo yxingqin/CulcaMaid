@@ -1,0 +1,17 @@
+QLineEdit {
+	background: transparent;
+	margin: 0px 0px;
+	padding: 0px;
+
+
+}
+
+#output {
+	font-size: 16pt;
+	font-weight: bolder;
+}
+
+#input {
+	font-weight: bolder;
+	font-size: 32pt;
+}

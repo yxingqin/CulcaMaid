@@ -1,0 +1,25 @@
+<RCC>
+  <qresource prefix="/">
+    <file>icon/other.png</file>
+    <file>icon/backspace.png</file>
+    <file>icon/calcu.png</file>
+    <file>icon/close.png</file>
+    <file>icon/date.png</file>
+    <file>icon/del.png</file>
+    <file>icon/funimage.png</file>
+    <file>icon/history.png</file>
+    <file>icon/max.png</file>
+    <file>icon/menu.png</file>
+    <file>icon/min.png</file>
+    <file>icon/program.png</file>
+    <file>icon/relation.png</file>
+    <file>icon/science.png</file>
+    <file>icon/setting.png</file>
+    <file>qss/all.qss</file>
+    <file>qss/history.qss</file>
+    <file>qss/mainwin.qss</file>
+    <file>qss/popmenu.qss</file>
+    <file>qss/standardkb.qss</file>
+    <file>qss/exprbar.qss</file>
+  </qresource>
+</RCC>

@@ -1,0 +1,43 @@
+/*标准键盘样式*/
+
+QPushButton {
+	margin: 3px;
+	min-height: 40px;
+	min-width: 40px;
+	font-size: 22pt;
+	text-align: center;
+	font-weight: bolder;
+	background-color: #faf8fa;
+	border-radius: 20px;
+	border: 1px solid #DCDCDC;
+}
+
+
+QPushButton:hover {
+	background-color: #f3f7fa;
+}
+
+#btn_kb00,
+#btn_kb01,
+#btn_kb02,
+#btn_kb03,
+#btn_kb13,
+#btn_kb23 {
+	color: #024fec;
+	background-color: #f4f6f8;
+}
+
+
+QPushButton:pressed {
+	background-color: #f9f9f9
+}
+
+#btn_kb33 {
+	background-color: #024fec;
+	font-size: 20pt;
+	color: #FFF;
+}
+
+#btn_kb33:hover {
+	background-color: #1975c5;
+}

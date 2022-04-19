@@ -1,9 +1,9 @@
 project(source)
 
-include_directories(Forms)
-include_directories(unit)
+include_directories(Forms core Widget)
+include_directories("${CMAKE_BINARY_DIR}/${PROJECT_NAME}_autogen/include")
 file(GLOB_RECURSE   SRCS  RELATIVE ${CMAKE_CURRENT_SOURCE_DIR}  LIST_DIRECTORIES false ${CMAKE_CURRENT_SOURCE_DIR}/*.cpp ${CMAKE_CURRENT_SOURCE_DIR}/*.ui)
-LIST(APPEND  SRCS res.qrc)
+LIST(APPEND  SRCS assets/res.qrc)
 
 
 
