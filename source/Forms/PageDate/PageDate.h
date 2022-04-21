@@ -8,7 +8,7 @@
 #include <QFrame>
 #include <qmath.h>
 #include <QTime>
-
+#include "XCalendar.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui
@@ -25,9 +25,16 @@ public:
 	explicit PageDate(QWidget *parent = nullptr);
 	~PageDate() override;
 
+private:
+	QDate addDate(QDate startDate, int addNumber);
+	int intervalDate(QDate startDate, QDate endDate);
 
+
+private slots:
+	void on_comboBox_currentIndexChanged(const QString &arg1);
 private:
 	Ui::PageDate *ui;
+
 };
 
 
