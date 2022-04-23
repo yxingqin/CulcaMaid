@@ -13,8 +13,10 @@ PageDate::PageDate(QWidget *parent) :
 		QFrame(parent), ui(new Ui::PageDate)
 {
 	ui->setupUi(this);
-	XCalendar *calendar = new XCalendar(this);
-	ui->horizontalLayout->addWidget(calendar);
+	//XCalendar *calendar = new XCalendar(this);
+	//ui->horizontalLayout->addWidget(calendar);
+
+
 
 
 }
@@ -40,12 +42,17 @@ void PageDate::on_comboBox_currentIndexChanged(const QString &arg1)
 {
 	if(ui->comboBox->currentIndex()==0)
 	{
-		addDate(QDate::currentDate(),4);
+		ui->stackedWidget->setCurrentIndex(0);
+		XCalendar *calendar = new XCalendar(this);
+		ui->stackedWidget->addWidget(calendar);
+
+		//addDate(QDate::currentDate(),4);
 	}
 	if(ui->comboBox->currentIndex()==1)
 	{
+		ui->stackedWidget->setCurrentIndex(1);
 		qDebug()<<"1被调用";
-		intervalDate(QDate::currentDate(),QDate::currentDate().addDays(3));
+		//intervalDate(QDate::currentDate(),QDate::currentDate().addDays(3));
 	}
 }
 

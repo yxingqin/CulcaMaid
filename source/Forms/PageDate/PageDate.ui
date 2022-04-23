@@ -21,17 +21,15 @@
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
    <item>
-    <layout class="QVBoxLayout" name="verticalLayout_2">
-     <item>
-      <widget class="QComboBox" name="comboBox">
-       <property name="sizePolicy">
-        <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
-         <horstretch>0</horstretch>
-         <verstretch>0</verstretch>
-        </sizepolicy>
-       </property>
-       <property name="styleSheet">
-        <string notr="true">QComboBox {
+    <widget class="QComboBox" name="comboBox">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">QComboBox {
      border-width : 0px;
      border-radius:  3px ;
      padding :  1px  2px  1px  2px ;
@@ -43,23 +41,52 @@ QComboBox::drop-down {
      width :  20px ;
 
 }</string>
-       </property>
-       <item>
-        <property name="text">
-         <string>添加或减去天数</string>
-        </property>
-       </item>
-       <item>
-        <property name="text">
-         <string>日期之间的间隔事件</string>
-        </property>
-       </item>
-      </widget>
+     </property>
+     <item>
+      <property name="text">
+       <string>添加或减去天数</string>
+      </property>
      </item>
      <item>
-      <layout class="QHBoxLayout" name="horizontalLayout"/>
+      <property name="text">
+       <string>日期之间的间隔事件</string>
+      </property>
      </item>
-    </layout>
+    </widget>
+   </item>
+   <item>
+    <widget class="QStackedWidget" name="stackedWidget">
+     <widget class="QWidget" name="addDateWidget">
+      <widget class="QPushButton" name="pushButton">
+       <property name="geometry">
+        <rect>
+         <x>440</x>
+         <y>330</y>
+         <width>75</width>
+         <height>23</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>PushButton</string>
+       </property>
+      </widget>
+     </widget>
+     <widget class="QWidget" name="intervalDateWidget">
+      <widget class="QPushButton" name="pushButton_2">
+       <property name="geometry">
+        <rect>
+         <x>420</x>
+         <y>320</y>
+         <width>75</width>
+         <height>23</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>2</string>
+       </property>
+      </widget>
+     </widget>
+    </widget>
    </item>
   </layout>
  </widget>

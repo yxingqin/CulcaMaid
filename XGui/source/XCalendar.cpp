@@ -26,7 +26,7 @@ void XCalendar::initControl() //主要设置
 	calendar->setVerticalHeaderFormat(QCalendarWidget::NoVerticalHeader); //去掉列表头
 	calendar->setHorizontalHeaderFormat(QCalendarWidget::LongDayNames);
 	calendar->setSelectionMode(QCalendarWidget::SingleSelection); //单选
-	calendar->setMinimumSize(400, 400);							  //设置日历组件大小
+	calendar->setMinimumSize(200, 200);							  //设置日历组件大小
 
 	QTextCharFormat format; //设置文本框的显示
 	format.setForeground(QColor(51, 51, 51));
