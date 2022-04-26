@@ -4,15 +4,8 @@
 
 #ifndef CALCULMAID_PAGEFUNCPLOT_H
 #define CALCULMAID_PAGEFUNCPLOT_H
-#include <QGraphicsScene>
 #include <QFrame>
 
-QT_BEGIN_NAMESPACE
-namespace Ui
-{
-	class PageFuncPlot;
-}
-QT_END_NAMESPACE
 
 class PageFuncPlot : public QFrame
 {
@@ -49,7 +42,6 @@ private:
 	}
 
 private:
-	Ui::PageFuncPlot *ui;
 
 	//绘图相关
 	double minX, maxX, minY, maxY; //显示范围

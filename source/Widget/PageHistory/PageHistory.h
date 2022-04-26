@@ -24,6 +24,7 @@ public:
 	~PageHistory() override;
 public slots:
 	void addHistory(const QString& expr,const QString& result);
+	void on_btn_clear_clicked();
 private:
 	Ui::PageHistory *ui;
 };

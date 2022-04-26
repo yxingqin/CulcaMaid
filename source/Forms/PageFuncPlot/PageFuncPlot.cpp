@@ -1,15 +1,13 @@
 #include "PageFuncPlot.h"
-#include "ui_PageFuncPlot.h"
 
 #include <QDebug>
 #include <QResizeEvent>
 #include <QPainter>
 #include <cmath>
 PageFuncPlot::PageFuncPlot(QWidget *parent)
-	: QFrame(parent), ui(new Ui::PageFuncPlot), scaleFont("微软雅黑", 10, QFont::Thin, true),
+	: QFrame(parent), scaleFont("微软雅黑", 10, QFont::Thin, true),
 	  scaleFm(scaleFont)
 {
-	ui->setupUi(this);
 
 	minX = minY = -10;
 	maxX = maxY = 10;
@@ -17,7 +15,6 @@ PageFuncPlot::PageFuncPlot(QWidget *parent)
 
 PageFuncPlot::~PageFuncPlot()
 {
-	delete ui;
 }
 
 void PageFuncPlot::paintEvent(QPaintEvent *event)

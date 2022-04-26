@@ -18,13 +18,21 @@ public:
 	explicit PageStandard(QWidget *parent = nullptr);
 	~PageStandard() override;
 	void  onKeyPress(QKeyEvent *event);//数字输入 等按键消息
+signals:
+	void sendHistory(const QString& expr,const QString& result);
 private:
 	void  initUi();
+private slots:
+
 	/**
 	 * @brief 输入字符发生变化时触发
 	 * 尝试计算，将结果显示到 output中
 	 */
 	void onInputTextChanged();
+	/**
+	 * @brief 当按下等于号时
+	 */
+	void onEnter();
 private:
 	StandardKB *fm_kb;
 	InputText *input;

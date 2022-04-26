@@ -18,7 +18,7 @@ public slots:
 	void enterOpt(const QString &t);
 	void enterPoint();
 	void enterClear();
-	void enterEnter();
+	//void enterEnter();
 	void enterBackspace();
 	void enterParenLeft();
 	void enterParenRight();

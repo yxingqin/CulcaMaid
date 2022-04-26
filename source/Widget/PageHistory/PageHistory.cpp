@@ -7,6 +7,7 @@
 #include "PageHistory.h"
 #include "ui_PageHistory.h"
 #include "Load.h"
+#include "historyitem.h"
 
 PageHistory::PageHistory(QWidget *parent) : QFrame(parent), ui(new Ui::PageHistory)
 {
@@ -21,4 +22,13 @@ PageHistory::~PageHistory()
 
 void PageHistory::addHistory(const QString &expr, const QString &result)
 {
+	QListWidgetItem*  newItem=new QListWidgetItem();
+	HistoryItem* historyItem=new HistoryItem(expr,result,ui->listWidget);
+	ui->listWidget->insertItem(0,newItem);
+	ui->listWidget->setItemWidget(newItem,historyItem);
+}
+
+void PageHistory::on_btn_clear_clicked()
+{
+	ui->listWidget->clear();
 }

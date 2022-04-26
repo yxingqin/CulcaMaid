@@ -61,9 +61,9 @@ void InputText::onKeyPress(QKeyEvent *event)
 		case Qt::Key_Percent:
 			enterOpt("%");
 			break;
-		case Qt::Key_Enter:
-			enterEnter();
-			break;
+//		case Qt::Key_Enter:
+//			enterEnter();
+//			break;
 		case Qt::Key_Period:
 			enterPoint();
 			break;
@@ -203,10 +203,6 @@ void InputText::enterClear()
 	clear();
 }
 
-void InputText::enterEnter()
-{
-
-}
 
 void InputText::enterBackspace()
 {
