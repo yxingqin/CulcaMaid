@@ -3,33 +3,41 @@
 
 namespace expr
 {
-	constexpr double pi = 3.14159265;
-	constexpr double e = 2.718281828;
+constexpr double pi = 3.14159265;
+constexpr double e = 2.718281828;
+constexpr unsigned short optMap[] = {u'(', u')', u'＋', u'－', u'×', u'÷', u'^'};
 
-	exprMeta::exprMeta(double num)
-	{
-		this->type = Type::NUMBER;
-		this->meta.num = num;
-	}
-	exprMeta::exprMeta(XKey key)
-	{
-		this->type = Type::XKEY;
-		this->meta.xkey = key;
-	}
-	exprMeta::exprMeta(optEnum opt)
-	{
-		this->type = Type::OPT;
-		this->meta.opt = opt;
-	}
+constexpr unsigned short getOptChar(optEnum p)
+{
+	return optMap[static_cast<int>(p)];
+}
 
-	//判断是否为 未知数
-	bool isXkey(const QString &expr, int i)
+exprMeta::exprMeta(double num)
+{
+	this->type = Type::NUMBER;
+	this->meta.num = num;
+}
+
+exprMeta::exprMeta(XKey key)
+{
+	this->type = Type::XKEY;
+	this->meta.xkey = key;
+}
+
+exprMeta::exprMeta(optEnum opt)
+{
+	this->type = Type::OPT;
+	this->meta.opt = opt;
+}
+
+//判断是否为 未知数
+bool isXkey(const QString &expr, int i)
+{
+	if (i >= expr.size())
+		return false;
+	switch (expr[i].unicode())
 	{
-		if (i >= expr.size())
-			return false;
-		switch (expr[i].unicode())
-		{
-		case u'-':
+		case getOptChar(optEnum::SUB):
 		{
 			//当前一个字符为左括号 或者 位于第0个  而且后一个字符为 未知数
 			if ((i == 0 || (i >= 1 && expr[i - 1] == '(')) && ++i < expr.size())
@@ -46,16 +54,17 @@ namespace expr
 			return true;
 		default:
 			return false;
-		}
 	}
-	//判断是否为数值 不会移动i
-	bool isNumber(const QString &expr, int i)
+}
+
+//判断是否为数值 不会移动i
+bool isNumber(const QString &expr, int i)
+{
+	if (i >= expr.size())
+		return false;
+	switch (expr[i].unicode())
 	{
-		if (i >= expr.size())
-			return false;
-		switch (expr[i].unicode())
-		{
-		case u'-':
+		case u'－':
 		{
 			//当前一个字符为左括号 或者 位于第0个  而且后一个字符为数值
 			return (i == 0 || (i >= 1 && expr[i - 1] == '(')) && ++i < expr.size() && expr[i].isDigit();
@@ -75,34 +84,50 @@ namespace expr
 			return true;
 		default:
 			return false;
+	}
+}
+
+//得到number 会移动i
+double getNumber(const QString &expr, int &i)
+{
+	int len = expr.length();
+	double sign = 1; // 标记负号
+	if (i < len && expr[i] == getOptChar(optEnum::SUB))
+	{
+		sign = -1;
+		++i;
+	}
+	if (i < len && expr[i] == u'p')
+	{
+		i += 2; // pi 移动两位
+		return pi * sign;
+	}
+	if (i < len && expr[i] == u'e')
+	{
+		++i;
+		return pi * e;
+	}
+	//处理实数
+	double ret = 0;
+	while (i < len && expr[i].isDigit())
+	{
+		ret = ret * 10 + expr[i].digitValue();
+		i++;
+		if (i < len && expr[i] == ',') //特殊符号  千位分隔符 过滤掉
+		{
+			++i;
+			continue;
 		}
 	}
-
-	//得到number 会移动i
-	double getNumber(const QString &expr, int &i)
+	double point = 0; //小数点
+	if (i < len && expr[i] == '.')
 	{
-		int len = expr.length();
-		double sign = 1; // 标记负号
-		if (i < len && expr[i] == u'-')
-		{
-			sign = -1;
-			++i;
-		}
-		if (i < len && expr[i] == u'p')
-		{
-			i += 2; // pi 移动两位
-			return pi * sign;
-		}
-		if (i < len && expr[i] == u'e')
-		{
-			++i;
-			return pi * e;
-		}
-		//处理实数
-		double ret = 0;
+		++i;
 		while (i < len && expr[i].isDigit())
 		{
+
 			ret = ret * 10 + expr[i].digitValue();
+			point += 10;
 			i++;
 			if (i < len && expr[i] == ',') //特殊符号  千位分隔符 过滤掉
 			{
@@ -110,34 +135,24 @@ namespace expr
 				continue;
 			}
 		}
-		double point = 0; //小数点
-		if (i < len && expr[i] == '.')
-		{
-			++i;
-			while (i < len && expr[i].isDigit())
-			{
-
-				ret = ret * 10 + expr[i].digitValue();
-				point += 10;
-				i++;
-				if (i < len && expr[i] == ',') //特殊符号  千位分隔符 过滤掉
-				{
-					++i;
-					continue;
-				}
-			}
-		}
-		if (point == 0)
-			point = 1;
-		return ret * sign / point;
 	}
-	XKey getXkey(const QString &expr, int &i)
+	if (point == 0)
+		point = 1;
+	if(i<len&&expr[i]=='%')
 	{
-		if (expr[i] == '-')
+		point*=100;
+		++i;
+	}
+	return ret * sign / point;
+}
+
+XKey getXkey(const QString &expr, int &i)
+{
+	if (expr[i] == '-')
+	{
+		i += 2;
+		switch (expr[i - 1].unicode())
 		{
-			i += 2;
-			switch (expr[i - 1].unicode())
-			{
 			case u'x':
 				return XKey::nx;
 			case u'y':
@@ -148,10 +163,10 @@ namespace expr
 				return XKey::nw;
 			default:
 				return XKey::UNKNOWN;
-			}
 		}
-		switch (expr[i++].unicode())
-		{
+	}
+	switch (expr[i++].unicode())
+	{
 		case u'x':
 			return XKey::px;
 		case u'y':
@@ -162,40 +177,37 @@ namespace expr
 			return XKey::pw;
 		default:
 			return XKey::UNKNOWN;
-		}
 	}
+}
 
-	//获取操作符 会移动i
-	optEnum getOpt(const QString &expr, int &i)
+//获取操作符 会移动i
+optEnum getOpt(const QString &expr, int &i)
+{
+	auto len = expr.length();
+	if (i >= len)
+		return optEnum::UNKNOWN;
+
+	switch (expr[i].unicode())
 	{
-		auto len = expr.length();
-		if (i >= len)
-			return optEnum::UNKNOWN;
-
-		switch (expr[i].unicode())
-		{
-		case u'+':
+		case getOptChar(optEnum::ADD):
 			++i;
 			return optEnum::ADD;
-		case u'-':
+		case getOptChar(optEnum::SUB):
 			++i;
 			return optEnum::SUB;
-		case u'×':
+		case getOptChar(optEnum::MUL):
 			++i;
 			return optEnum::MUL;
-		case u'÷':
+		case getOptChar(optEnum::DIV):
 			++i;
 			return optEnum::DIV;
-		case u'^':
+		case getOptChar(optEnum::POWER):
 			++i;
 			return optEnum::POWER;
-		case u'%':
-			++i;
-			return optEnum::PERCENTAGE;
-		case u'(':
+		case getOptChar(optEnum::LEFT):
 			++i;
 			return optEnum::LEFT;
-		case u')':
+		case getOptChar(optEnum::RIGHT):
 			++i;
 			return optEnum::RIGHT;
 		case u's':
@@ -242,14 +254,15 @@ namespace expr
 		}
 		default:
 			return optEnum::UNKNOWN;
-		}
 	}
-	//获取优先级别
-	//优先级 '(' < 加减 < 乘除 < 函数 < 指数
-	int getPriority(optEnum opt)
+}
+
+//获取优先级别
+//优先级 '(' < 加减 < 乘除 < 函数 < 指数
+int getPriority(optEnum opt)
+{
+	switch (opt)
 	{
-		switch (opt)
-		{
 
 		case optEnum::UNKNOWN:
 		case optEnum::LEFT:
@@ -263,7 +276,6 @@ namespace expr
 			return 2;
 		case optEnum::POWER:
 			return 4;
-		case optEnum::PERCENTAGE:
 		case optEnum::ABS:
 		case optEnum::SIN:
 		case optEnum::SEC:
@@ -276,103 +288,104 @@ namespace expr
 			return 3;
 		default:
 			return 0;
-		}
 	}
+}
 
-	//判断是否 为 运算函数
-	inline bool isFunc(optEnum opt)
-	{
-		return opt > optEnum::POWER;
-	}
-	//检查后缀表达式 正确性 ，这里主要检查表达式的中的操作数和操作符号是否匹配
-	bool checkPost(const Postfix &post)
-	{
+//判断是否 为 运算函数
+inline bool isFunc(optEnum opt)
+{
+	return opt > optEnum::POWER;
+}
 
-		int n = 0; //数值类型的个数
-		for (auto &item : post)
+//检查后缀表达式 正确性 ，这里主要检查表达式的中的操作数和操作符号是否匹配
+bool checkPost(const Postfix &post)
+{
+
+	int n = 0; //数值类型的个数
+	for (auto &item: post)
+	{
+		if (item.isNumber())
+			++n;
+		else
 		{
-			if (item.isNumber())
-				++n;
+			auto opt = item.getOpt();
+			if (isFunc(opt)) //取走一个 放回一个
+			{
+				if (n < 1)
+					return false;
+			} else if (n >= 2) //取走两个 放回一个
+				--n;
 			else
-			{
-				auto opt = item.getOpt();
-				if (isFunc(opt)) //取走一个 放回一个
-				{
-					if (n < 1)
-						return false;
-				}
-				else if (n >= 2) //取走两个 放回一个
-					--n;
-				else
-					return false;
-			}
+				return false;
 		}
-		return n == 1;
 	}
+	return n == 1;
+}
 
-	//使栈做媒介进行转换
-	bool getPostfix(const QString &expr, Postfix &ret)
+//使栈做媒介进行转换
+bool getPostfix(const QString &expr, Postfix &ret)
+{
+	if (expr.isEmpty())
+		return false;
+	ret.clear();
+
+	std::vector<optEnum> stack; //符号栈
+	int i = 0;
+	int len = expr.length();
+
+	while (i < len)
 	{
-		if (expr.isEmpty())
-			return false;
-		ret.clear();
-
-		std::vector<optEnum> stack; //符号栈
-		int i = 0;
-		int len = expr.length();
-
-		while (i < len)
+		//数值直接进栈
+		if (isXkey(expr, i))
+			ret.push_back(getXkey(expr, i));
+		else if (isNumber(expr, i))
+			ret.push_back(getNumber(expr, i));
+		else //符号进行优先级比较
 		{
-			//数值直接进栈
-			if (isXkey(expr, i))
-				ret.push_back(getXkey(expr, i));
-			else if (isNumber(expr, i))
-				ret.push_back(getNumber(expr, i));
-			else //符号进行优先级比较
+			int ii = i;
+			auto nowOpt = getOpt(expr, i);
+			if (nowOpt == optEnum::UNKNOWN)
+				return false;
+			if (nowOpt == optEnum::RIGHT) //如果遇到右括号，则符号栈一直pop，pop的符号push到总栈中，直到遇到左括号，消除括号
 			{
-				int ii = i;
-				auto nowOpt = getOpt(expr, i);
-				if (nowOpt == optEnum::UNKNOWN)
-					return false;
-				if (nowOpt == optEnum::RIGHT) //如果遇到右括号，则符号栈一直pop，pop的符号push到总栈中，直到遇到左括号，消除括号
+				while (!stack.empty() && stack.back() != optEnum::LEFT)
 				{
-					while (!stack.empty() && stack.back() != optEnum::LEFT)
-					{
-						ret.push_back(stack.back());
-						stack.pop_back();
-					}
-					if (!stack.empty())
-						stack.pop_back();
+					ret.push_back(stack.back());
+					stack.pop_back();
 				}
-				else if (stack.empty() || nowOpt == optEnum::LEFT || stack.back() == optEnum::LEFT) // 如果当前符号栈为空或遇到左括号或栈顶是左括号，直接入符号栈
+				if (!stack.empty())
+					stack.pop_back();
+			} else if (stack.empty() || nowOpt == optEnum::LEFT ||
+			           stack.back() == optEnum::LEFT) // 如果当前符号栈为空或遇到左括号或栈顶是左括号，直接入符号栈
+				stack.push_back(nowOpt);
+			else //比较优先级
+			{
+				if (getPriority(nowOpt) > getPriority(stack.back()) ||
+				    (isFunc(nowOpt) && isFunc(stack.back()))) //当前运算符优先级高，或者都是栈顶和now都是fun 那么入栈
 					stack.push_back(nowOpt);
-				else //比较优先级
+				else
 				{
-					if (getPriority(nowOpt) > getPriority(stack.back()) || (isFunc(nowOpt) && isFunc(stack.back()))) //当前运算符优先级高，或者都是栈顶和now都是fun 那么入栈
-						stack.push_back(nowOpt);
-					else
-					{
-						// 运算符小于或等于 栈顶运算符的优先级，则pop出栈顶符号，push到总栈中，回溯 i
-						ret.push_back(stack.back());
-						stack.pop_back();
-						i = ii;
-					}
+					// 运算符小于或等于 栈顶运算符的优先级，则pop出栈顶符号，push到总栈中，回溯 i
+					ret.push_back(stack.back());
+					stack.pop_back();
+					i = ii;
 				}
 			}
 		}
-		//符号栈不为空 全部push dao ret
-		while (!stack.empty())
-		{
-			ret.push_back(stack.back());
-			stack.pop_back();
-		}
-		return checkPost(ret);
 	}
-
-	double optCalcul(optEnum opt, double num1, double num2) //符号计算
+	//符号栈不为空 全部push dao ret
+	while (!stack.empty())
 	{
-		switch (opt)
-		{
+		ret.push_back(stack.back());
+		stack.pop_back();
+	}
+	return checkPost(ret);
+}
+
+double optCalcul(optEnum opt, double num1, double num2) //符号计算
+{
+	switch (opt)
+	{
 		case optEnum::ADD:
 			return num1 + num2;
 		case optEnum::SUB:
@@ -385,12 +398,13 @@ namespace expr
 			return pow(num2, num1);
 		default:
 			return 0;
-		}
 	}
-	double funcCalcul(optEnum opt, double num)
+}
+
+double funcCalcul(optEnum opt, double num)
+{
+	switch (opt)
 	{
-		switch (opt)
-		{
 		case optEnum::ABS:
 			return abs(num);
 		case optEnum::SIN:
@@ -409,63 +423,60 @@ namespace expr
 			return log(num);
 		case optEnum::LG:
 			return log10(num);
-		case optEnum::PERCENTAGE:
-			return num / 100;
 		default:
 			return 0;
-		}
 	}
+}
 
-	bool getResult(const Postfix &post, double &ret, double keyVal)
+bool getResult(const Postfix &post, double &ret, double keyVal)
+{
+	std::vector<double> stack;
+
+	try //计算可能发生异常
 	{
-		std::vector<double> stack;
-
-		try //计算可能发生异常
+		for (auto &it: post)
 		{
-			for (auto &it : post)
+			if (it.getType() == exprMeta::Type::XKEY)
 			{
-				if (it.getType() == exprMeta::Type::XKEY)
+				if (it.getXkey() >= XKey::nx)
+					stack.push_back(-keyVal);
+				else
+					stack.push_back(keyVal);
+			} else if (it.getType() == exprMeta::Type::NUMBER)
+				stack.push_back(it.getNumber());
+			else //符号
+			{
+				if (isFunc(it.getOpt()))
 				{
-					if (it.getXkey() >= XKey::nx)
-						stack.push_back(-keyVal);
-					else
-						stack.push_back(keyVal);
-				}
-				else if (it.getType() == exprMeta::Type::NUMBER)
-					stack.push_back(it.getNumber());
-				else //符号
+					double num = stack.back();
+					stack.pop_back();
+					stack.push_back(funcCalcul(it.getOpt(), num));
+				} else
 				{
-					if (isFunc(it.getOpt()))
-					{
-						double num = stack.back();
-						stack.pop_back();
-						stack.push_back(funcCalcul(it.getOpt(), num));
-					}
-					else
-					{
-						double num1 = stack.back();
-						stack.pop_back();
-						double num2 = stack.back();
-						stack.pop_back();
-						stack.push_back(optCalcul(it.getOpt(), num1, num2));
-					}
+					double num1 = stack.back();
+					stack.pop_back();
+					double num2 = stack.back();
+					stack.pop_back();
+					stack.push_back(optCalcul(it.getOpt(), num1, num2));
 				}
 			}
 		}
-		catch (...)
-		{
-			return false;
-		}
-
-		if (stack.size() != 1)
-			return false;
-		ret = stack.back();
-		return true;
 	}
-	QDebug &operator<<(QDebug &dbg, const expr::exprMeta &meta)
+	catch (...)
 	{
-		switch (meta.getType())
-		{
+		return false;
+	}
+
+	if (stack.size() != 1)
+		return false;
+	ret = stack.back();
+	return true;
+}
+
+QDebug &operator<<(QDebug &dbg, const expr::exprMeta &meta)
+{
+	switch (meta.getType())
+	{
 		case expr::exprMeta::Type::UNKNOWN:
 			dbg << "?";
 			break;
@@ -475,100 +486,97 @@ namespace expr
 		case expr::exprMeta::Type::OPT:
 			switch (meta.getOpt())
 			{
-			case optEnum::UNKNOWN:
-				dbg << "unknown";
-				break;
-			case optEnum::LEFT:
-				dbg << "(";
-				break;
-			case optEnum::RIGHT:
-				dbg << ")";
-				break;
-			case optEnum::ADD:
-				dbg << "+";
-				break;
-			case optEnum::SUB:
-				dbg << "-";
-				break;
-			case optEnum::MUL:
-				dbg << "×";
-				break;
-			case optEnum::DIV:
-				dbg << "÷";
-				break;
-			case optEnum::PERCENTAGE:
-				dbg << "%";
-				break;
-			case optEnum::POWER:
-				dbg << "^";
-				break;
-			case optEnum::ABS:
-				dbg << "abs";
-				break;
-			case optEnum::SIN:
-				dbg << "sin";
-				break;
-			case optEnum::SEC:
-				dbg << "sec";
-				break;
-			case optEnum::COS:
-				dbg << "cos";
-				break;
-			case optEnum::CSC:
-				dbg << "scs";
-				break;
-			case optEnum::TAN:
-				dbg << "tan";
-				break;
-			case optEnum::COT:
-				dbg << "cot";
-				break;
-			case optEnum::LN:
-				dbg << "ln";
-				break;
-			case optEnum::LG:
-				dbg << "lg";
-				break;
-			default:
-				dbg << "?";
+				case optEnum::UNKNOWN:
+					dbg << "unknown";
+					break;
+				case optEnum::LEFT:
+					dbg << "(";
+					break;
+				case optEnum::RIGHT:
+					dbg << ")";
+					break;
+				case optEnum::ADD:
+					dbg << "+";
+					break;
+				case optEnum::SUB:
+					dbg << "-";
+					break;
+				case optEnum::MUL:
+					dbg << "×";
+					break;
+				case optEnum::DIV:
+					dbg << "÷";
+					break;
+				case optEnum::POWER:
+					dbg << "^";
+					break;
+				case optEnum::ABS:
+					dbg << "abs";
+					break;
+				case optEnum::SIN:
+					dbg << "sin";
+					break;
+				case optEnum::SEC:
+					dbg << "sec";
+					break;
+				case optEnum::COS:
+					dbg << "cos";
+					break;
+				case optEnum::CSC:
+					dbg << "scs";
+					break;
+				case optEnum::TAN:
+					dbg << "tan";
+					break;
+				case optEnum::COT:
+					dbg << "cot";
+					break;
+				case optEnum::LN:
+					dbg << "ln";
+					break;
+				case optEnum::LG:
+					dbg << "lg";
+					break;
+				default:
+					dbg << "?";
 			}
 			break;
 		case expr::exprMeta::Type::XKEY:
 			switch (meta.getXkey())
 			{
-			case XKey::UNKNOWN:
-				dbg << "?x";
-				break;
-			case XKey::px:
-				dbg << "x";
-				break;
-			case XKey::py:
-				dbg << "y";
-				break;
-			case XKey::pz:
-				dbg << "z";
-				break;
-			case XKey::pw:
-				dbg << "w";
-				break;
-			case XKey::nx:
-				dbg << "-x";
-				break;
-			case XKey::ny:
-				dbg << "-y";
-				break;
-			case XKey::nz:
-				dbg << "-z";
-				break;
-			case XKey::nw:
-				dbg << "-w";
-				break;
+				case XKey::UNKNOWN:
+					dbg << "?x";
+					break;
+				case XKey::px:
+					dbg << "x";
+					break;
+				case XKey::py:
+					dbg << "y";
+					break;
+				case XKey::pz:
+					dbg << "z";
+					break;
+				case XKey::pw:
+					dbg << "w";
+					break;
+				case XKey::nx:
+					dbg << "-x";
+					break;
+				case XKey::ny:
+					dbg << "-y";
+					break;
+				case XKey::nz:
+					dbg << "-z";
+					break;
+				case XKey::nw:
+					dbg << "-w";
+					break;
 			}
 			break;
 		default:
 			dbg << "?";
-		}
-		return dbg;
 	}
+	return dbg;
+}
 
 }

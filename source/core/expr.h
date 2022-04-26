@@ -21,7 +21,7 @@ namespace expr
 	 */
 	enum class optEnum
 	{
-		UNKNOWN = 0,
+		UNKNOWN = -1,
 		//括号
 		LEFT,
 		RIGHT,
@@ -42,8 +42,7 @@ namespace expr
 		TAN,
 		COT,
 		LN,
-		LG,
-		PERCENTAGE //百分比
+		LG
 		//	ROOT2//平方根号
 	};
 	/**

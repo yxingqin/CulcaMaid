@@ -6,9 +6,9 @@
 #define CALCULMAID_PAGESTANDARD_H
 
 #include <QWidget>
-#include "ExpressionBar/ExpressionBar.h"
 #include "KeyBoard/StandardKB.h"
-
+#include <QLineEdit>
+#include <InputText/InputText.h>
 
 class PageStandard : public QWidget
 {
@@ -20,10 +20,15 @@ public:
 	void  onKeyPress(QKeyEvent *event);//数字输入 等按键消息
 private:
 	void  initUi();
+	/**
+	 * @brief 输入字符发生变化时触发
+	 * 尝试计算，将结果显示到 output中
+	 */
+	void onInputTextChanged();
 private:
-
-	ExpressionBar *fm_bar;
 	StandardKB *fm_kb;
+	InputText *input;
+	QLineEdit *output;
 };
 
 #endif // CALCULMAID_PAGESTANDARD_H

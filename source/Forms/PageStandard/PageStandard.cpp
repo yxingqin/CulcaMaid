@@ -1,16 +1,27 @@
-#include "PageStandard.h"
 #include <QVBoxLayout>
 #include <QKeyEvent>
-
+#include "PageStandard.h"
+#include "Load.h"
+#include "expr.h"
 PageStandard::PageStandard(QWidget *parent) : QWidget(parent)
 {
 	initUi();
-	connect(fm_kb, &StandardKB::pressNum, fm_bar, &ExpressionBar::enterNumber);
+	output->setReadOnly(true);
+	output->setAlignment(Qt::AlignRight);
 
+	//事件处理
+	connect(fm_kb,&StandardKB::pressNum,input,&InputText::enterNumber);
+	connect(fm_kb,&StandardKB::pressOpt,input,&InputText::enterOpt);
+	connect(fm_kb,&StandardKB::pressBackspace,input,&InputText::enterBackspace);
+	connect(fm_kb,&StandardKB::pressPoint,input,&InputText::enterPoint);
+	connect(fm_kb,&StandardKB::pressClear,input,&InputText::enterClear);
+	connect(fm_kb,&StandardKB::pressClear,output,&QLineEdit::clear);
+	connect(input,&QLineEdit::textChanged,this,&PageStandard::onInputTextChanged);
 }
 
 PageStandard::~PageStandard()
 {
+
 }
 
 
@@ -20,17 +31,24 @@ void PageStandard::initUi()
 	verticalLayout->setSpacing(0);
 	verticalLayout->setContentsMargins(0, 0, 0, 0);
 
-	fm_bar = new ExpressionBar(this);
-	fm_bar->setMinimumSize(QSize(0, 160));
-	fm_bar->setFrameShape(QFrame::StyledPanel);
-	fm_bar->setFrameShadow(QFrame::Raised);
+	//输入栏
+	input = new InputText(this);
+	input->setObjectName("input");
+	input->setMinimumHeight(80);
+	output = new QLineEdit(this);
+	output->setObjectName("output");
+	output->setMinimumHeight(30);
+	QVBoxLayout *verticalLayout1 = new QVBoxLayout();
+	verticalLayout1->setSpacing(0);
+	verticalLayout1->setContentsMargins(0, 0, 0, 0);
 	QSizePolicy sizePolicy(QSizePolicy::Expanding, QSizePolicy::Maximum);
-	sizePolicy.setHorizontalStretch(0);
-	sizePolicy.setVerticalStretch(0);
-	sizePolicy.setHeightForWidth(fm_bar->sizePolicy().hasHeightForWidth());
-	fm_bar->setSizePolicy(sizePolicy);
-	verticalLayout->addWidget(fm_bar);
+	input->setSizePolicy(sizePolicy);
+	output->setSizePolicy(sizePolicy);
+	verticalLayout1->addWidget(input);
+	verticalLayout1->addWidget(output);
+	verticalLayout->addLayout(verticalLayout1);
 
+	//键盘
 	fm_kb = new StandardKB(this);
 	QSizePolicy sizePolicy1(QSizePolicy::Expanding, QSizePolicy::Expanding);
 	sizePolicy1.setHorizontalStretch(0);
@@ -40,11 +58,24 @@ void PageStandard::initUi()
 	fm_kb->setFrameShape(QFrame::StyledPanel);
 	fm_kb->setFrameShadow(QFrame::Raised);
 	verticalLayout->addWidget(fm_kb);
+
+	setStyleSheet(Load::loadStyle(":/qss/standard.qss"));
 }
 
 void PageStandard::onKeyPress(QKeyEvent *event)
 {
-	fm_bar->onKeyPress(event);
+	input->keyPressEvent(event);
+}
+
+void PageStandard::onInputTextChanged()
+{
+	expr::Postfix postfix;
+	if(expr::getPostfix(input->text(),postfix))
+	{
+		double result;
+		expr::getResult(postfix,result);
+		output->setText(QString::number(result));
+	}
 }
 
 
