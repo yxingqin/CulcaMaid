@@ -20,6 +20,6 @@
     <file>qss/mainwin.qss</file>
     <file>qss/popmenu.qss</file>
     <file>qss/standardkb.qss</file>
-    <file>qss/exprbar.qss</file>
+    <file>qss/standard.qss</file>
   </qresource>
 </RCC>

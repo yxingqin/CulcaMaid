@@ -64,7 +64,12 @@ private slots:
 	void onBtnPress(ButtonID);
 private:
 	void initUi();
-	inline QPushButton* findBtnById(ButtonID);
+	inline QPushButton* findBtnById(ButtonID id)
+	{
+		if (btnSet.contains(id))
+			return btnSet.find(id).value().btn;
+		return nullptr;
+	}
 private:
 	//按键表 用于判别发出何种信号
 	QHash<ButtonID,btnInfo> btnSet;

@@ -1,18 +1,13 @@
-* {
+#PageHistory,
+QListWidget {
     background-color: #f3f8fa;
 }
 
 QListWidget::item {
-    height: 40px;
-    margin-left: 10px;
-    background-color: transparent;
-}
-
-QListWidget::item:hover {
-    background-color: #f1f4f7;
-}
-
-QListWidget::item:selected {
-    border: none;
-    border-left: 3px solid #0067c0;
+    height: 80px;
+    margin: 10px;
+    border-radius: 40px;
+    font-size: 16pt;
+    font-weight: bold;
+    background-color: #FFF;
 }

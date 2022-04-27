@@ -11,6 +11,7 @@
 
 const StandardKB::BtnDescription StandardKB::btnDescriptions[] =
 	{
+			//u'(', u')', u'＋', u'－', u'×', u'÷', u'^'
 		{"C", KEY_CLEAR, 0, 0, 1, 1},
 		{"÷", KEY_DIV, 0, 1, 1, 1},
 		{"×", KEY_MULT, 0, 2, 1, 1},
@@ -19,12 +20,12 @@ const StandardKB::BtnDescription StandardKB::btnDescriptions[] =
 		{"7", KEY_7, 1, 0, 1, 1},
 		{"8", KEY_8, 1, 1, 1, 1},
 		{"9", KEY_9, 1, 2, 1, 1},
-		{"-", KEY_SUB, 1, 3, 1, 1},
+		{"－", KEY_SUB, 1, 3, 1, 1},
 
 		{"4", KEY_4, 2, 0, 1, 1},
 		{"5", KEY_5, 2, 1, 1, 1},
 		{"6", KEY_6, 2, 2, 1, 1},
-		{"+", KEY_PLUS, 2, 3, 1, 1},
+		{"＋", KEY_PLUS, 2, 3, 1, 1},
 
 		{"1", KEY_1, 3, 0, 1, 1},
 		{"2", KEY_2, 3, 1, 1, 1},
@@ -94,6 +95,7 @@ void StandardKB::onBtnPress(StandardKB::ButtonID id)
 	case KEY_DIV:
 	case KEY_PERCENT:
 		emit pressOpt(btnDescriptions[btnSet.find(id).value().index].text);
+		break;
 	case KEY_7:
 	case KEY_8:
 	case KEY_9:
@@ -115,9 +117,3 @@ void StandardKB::onBtnPress(StandardKB::ButtonID id)
 	}
 }
 
-QPushButton *StandardKB::findBtnById(StandardKB::ButtonID id)
-{
-	if (btnSet.contains(id))
-		return btnSet.find(id).value().btn;
-	return nullptr;
-}

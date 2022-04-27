@@ -35,8 +35,13 @@ MainWin::MainWin(QWidget *parent) : QWidget(parent), ui(new Ui::MainWin)
 	animationMenu = new QPropertyAnimation(mPopMenu, "pos", this);
 	animationSub1 = new QPropertyAnimation(ui->swdg_sub, "geometry", this);
 
-	setMinimumSize(320, 500);
 
+
+	//槽 链接
+	connect(ui->pStandard,&PageStandard::sendHistory,ui->pHistory,&PageHistory::addHistory);
+
+
+	setMinimumSize(320, 500);
 	ui->lbl_title->setText("标准");
 	ui->swdg_main->currentWidget()->setFocus();
 	// ui->swdg_main->setCurrentIndex(3);
