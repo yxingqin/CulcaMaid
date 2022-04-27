@@ -57,6 +57,12 @@ QComboBox::drop-down {
    <item>
     <widget class="QStackedWidget" name="stackedWidget">
      <widget class="QWidget" name="addDateWidget">
+      <property name="styleSheet">
+       <string notr="true">#addDateWidget
+{
+background-color：ff6ea
+}</string>
+      </property>
       <widget class="QPushButton" name="pushButton">
        <property name="geometry">
         <rect>
@@ -68,6 +74,16 @@ QComboBox::drop-down {
        </property>
        <property name="text">
         <string>PushButton</string>
+       </property>
+      </widget>
+      <widget class="XCalendar" name="widget" native="true">
+       <property name="geometry">
+        <rect>
+         <x>9</x>
+         <y>9</y>
+         <width>271</width>
+         <height>251</height>
+        </rect>
        </property>
       </widget>
      </widget>
@@ -90,6 +106,14 @@ QComboBox::drop-down {
    </item>
   </layout>
  </widget>
+ <customwidgets>
+  <customwidget>
+   <class>XCalendar</class>
+   <extends>QWidget</extends>
+   <header>XCalendar.h</header>
+   <container>1</container>
+  </customwidget>
+ </customwidgets>
  <resources/>
  <connections/>
 </ui>

@@ -4,7 +4,7 @@
 #include <QCalendarWidget>
 #include "../include/XCalendar.h"
 #include <QDebug>
-
+#include <QDebug>
 XCalendar::XCalendar(QWidget *parent)
 	: QWidget(parent)
 {
@@ -26,7 +26,12 @@ void XCalendar::initControl() //主要设置
 	calendar->setVerticalHeaderFormat(QCalendarWidget::NoVerticalHeader); //去掉列表头
 	calendar->setHorizontalHeaderFormat(QCalendarWidget::LongDayNames);
 	calendar->setSelectionMode(QCalendarWidget::SingleSelection); //单选
-	calendar->setMinimumSize(200, 200);							  //设置日历组件大小
+	calendar->setMinimumSize(200, 200);//设置日历组件大小
+	calendar->setStyleSheet("#");
+	calendar->setAttribute(Qt::WA_TranslucentBackground);
+
+
+
 
 	QTextCharFormat format; //设置文本框的显示
 	format.setForeground(QColor(51, 51, 51));
@@ -59,26 +64,32 @@ QWidget * XCalendar::initTopWidget()
 	hboxLayout_top->setSpacing(4);					  //各个控件之间的上下边距
 
 	leftMonthBtn = new QPushButton(this);
-	leftMonthBtn->setText("<"); //左右切换图标 TODO：需要更改为图片
 	rightMonthBtn = new QPushButton(this);
-	rightMonthBtn->setText(">");
-	dataLabel = new QLabel;
 	leftYearBtn = new QPushButton(this);
-	leftYearBtn->setText("<<");
 	rightYearBtn = new QPushButton(this);
+	dataLabel = new QLabel;
+
+	leftMonthBtn->setText("<"); //左右切换图标
+	rightMonthBtn->setText(">");
+	leftYearBtn->setText("<<");
+	rightYearBtn->setText(">>");
 
 
 	leftMonthBtn->setObjectName("XCalendarLeftButton");
 	rightMonthBtn->setObjectName("XCalendarRightButton");
+	rightYearBtn->setObjectName("XCalendarRightYearButton");
+	leftYearBtn->setObjectName("XCalendarLeftYearButton");
 	dataLabel->setObjectName("XCalendarDataLabel");
 	// btn大小设置
 	leftMonthBtn->setFixedSize(25, 25);
 	rightMonthBtn->setFixedSize(25, 25);
 	//布局设置
 	hboxLayout_top->addStretch(); //设计师中的弹簧
+	hboxLayout_top->addWidget(leftYearBtn);
 	hboxLayout_top->addWidget(leftMonthBtn);
 	hboxLayout_top->addWidget(dataLabel);
 	hboxLayout_top->addWidget(rightMonthBtn);
+	hboxLayout_top->addWidget(rightYearBtn);
 	hboxLayout_top->addStretch();
 	hboxLayout_top->setAlignment(Qt::AlignCenter); //设置居中
 
@@ -87,6 +98,8 @@ QWidget * XCalendar::initTopWidget()
 
 	connect(leftMonthBtn, &QPushButton::clicked, this, &XCalendar::onBtnClicked);
 	connect(rightMonthBtn, &QPushButton::clicked, this, &XCalendar::onBtnClicked);
+	connect(rightYearBtn, &QPushButton::clicked, this, &XCalendar::onBtnClicked);
+	connect(leftYearBtn, &QPushButton::clicked, this, &XCalendar::onBtnClicked);
 
 	setDataLabelText(calendar->selectedDate().year(), calendar->selectedDate().month());
 	return topWidget;
@@ -134,6 +147,14 @@ void XCalendar::onBtnClicked() //重写鼠标点击事件
 	else if (senderBtn == rightMonthBtn)
 	{
 		calendar->showNextMonth();
+	}
+	else if(senderBtn == leftYearBtn)
+	{
+		calendar->showPreviousYear();
+	}
+	else if(senderBtn == rightYearBtn)
+	{
+		calendar->showNextYear();
 	}
 	else if (senderBtn == todayBtn)
 	{
