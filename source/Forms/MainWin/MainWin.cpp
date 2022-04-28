@@ -39,12 +39,13 @@ MainWin::MainWin(QWidget *parent) : QWidget(parent), ui(new Ui::MainWin)
 
 	//槽 链接
 	connect(ui->pStandard,&PageStandard::sendHistory,ui->pHistory,&PageHistory::addHistory);
+	connect(ui->pScience,&PageScience::sendHistory,ui->pHistory,&PageHistory::addHistory);
 
 
 	setMinimumSize(320, 500);
 	ui->lbl_title->setText("标准");
 	ui->swdg_main->currentWidget()->setFocus();
-	// ui->swdg_main->setCurrentIndex(3);
+	ui->swdg_main->setCurrentIndex(0);
 }
 
 MainWin::~MainWin()

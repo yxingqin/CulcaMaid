@@ -83,18 +83,21 @@ void InputText::onKeyPress(QKeyEvent *event)
 
 void InputText::enterNumber(const QString &t)
 {
-	/**判断是否可以 加入数字**/
-	insert(t);
-
+	//前一个 字符为 数值的时候 插入 乘号
 	QString curText = text();
+	if(cursorPosition()-1>=0&& isValue(curText[cursorPosition()-1]))
+		insert("×");
+	insert(t);
+	curText = text();
 	/**找到 当前数值的 字符串 方便后续处理**/
 	int left = cursorPosition() - 1;//找到当前字串的边界
 	int right = left;
-	while (left > 0 && (curText[left - 1].isDigit() || curText[left - 1] == ","|| curText[left - 1] == ".")) --left;
+	while (left > 0 && (curText[left - 1].isDigit() || curText[left - 1] == "," || curText[left - 1] == ".")) --left;
 	while (right < curText.length() - 1 && (curText[right + 1].isDigit() || curText[right + 1] == ",")) ++right;
 	int numLen = right - left + 1;
 	QString numStr = curText.mid(left, numLen);
 	//qDebug()<<"numStr"<<numStr;
+
 	/**处理字符串**/
 	curText.replace(left, numLen, thousandFormat(numStr));//千分位 格式化
 
@@ -136,14 +139,14 @@ void InputText::enterOpt(const QString &t)
 		curText[curPos - 1] = t[0];
 		goto label_num;
 	}
-	//cLeft必须是数值时 或者 ‘)’ 才能 插入
-	if (cLeft.isNumber() || cLeft == ')'|| cLeft=='%')
+	//cLeft必须是数值时 或者 ‘)’ 'x' 'e' 'pi' 才能 插入
+	if (cLeft.isNumber() ||isValue(cLeft))
 	{
 		curText.insert(curPos, t);
 		goto label_num;
 	}
 
-label_num:
+	label_num:
 	setText(curText);
 }
 
@@ -160,26 +163,26 @@ void InputText::enterPoint()
 
 	/** 输入限制  **/
 	//检查 该数是否有有小数点 存在 取消插入
-	for(int i=curPos-1;i>=0;--i)//左边
+	for (int i = curPos - 1; i >= 0; --i)//左边
 	{
-		if(curText[i]=='.')
+		if (curText[i] == '.')
 			return;
-		if(!curText[i].isDigit() && curText[i] != ",")
+		if (!curText[i].isDigit() && curText[i] != ",")
 			break;
 	}
-	for(int i= curPos-1>0?curPos-1:0;i<curText.length();++i)//右边
+	for (int i = curPos - 1 > 0 ? curPos - 1 : 0; i < curText.length(); ++i)//右边
 	{
-		if(curText[i]=='.')
+		if (curText[i] == '.')
 			return;
-		if(!curText[i].isDigit() && curText[i] != ",")
+		if (!curText[i].isDigit() && curText[i] != ",")
 			break;
 	}
 	if (cRight == ',')
 		curText.remove(curPos, 1);
 	//cLeft 是 空时 或者为运算符 时    自动补 0
-	if(cLeft==' '|| isOpt(cLeft))
+	if (cLeft == ' ' || isOpt(cLeft))
 	{
-		curText.insert(curPos,"0.");
+		curText.insert(curPos, "0.");
 		goto label_point;
 	}
 	//cLeft == ‘,’ 直接替换掉
@@ -189,12 +192,12 @@ void InputText::enterPoint()
 		goto label_point;
 	}
 	//cLeft 为数值的时候 才能加入
-	if(cLeft.isNumber())
+	if (cLeft.isNumber())
 	{
-		curText.insert(curPos,".");
+		curText.insert(curPos, ".");
 		goto label_point;
 	}
-label_point:
+	label_point:
 	setText(curText);
 }
 
@@ -211,16 +214,49 @@ void InputText::enterBackspace()
 
 void InputText::enterFunc(const QString &t)
 {
+	QString curText = text();
+	int curPos = cursorPosition();
+	QChar cLeft(' ')/*, cRight(' ')*/;
+	if (curPos > 0)
+		cLeft = curText[curPos - 1];
+//	if (curPos < curText.length())
+//		cRight = curText[curPos];
 
+	//左边如果是 数值 x pi e 左括号 追加乘号
+	if(cLeft.isNumber() ||isValue(cLeft))
+	{
+		curText.insert(curPos,"×"+t);
+		goto label_func;
+	}
+	//左边必须是运算符 空 才可以插入
+	if(cLeft==' '|| isOpt(cLeft))
+		curText.insert(curPos,t);
+	label_func:
+	setText(curText);
 }
+
 void InputText::enterParenLeft()
 {
-
+	QString curText = text();
+	if(curText.length()>=1&& (isValue(curText[cursorPosition()-1])||curText[cursorPosition()-1].isDigit()))
+		insert("×");
+	insert("(");
 }
 
 void InputText::enterParenRight()
 {
-
+	QString curText = text();
+	//先前查找左括号数 和右括号数 如果 右括号数 小于左括号才可以 插入
+	int nLeft=0,nRight=0;
+	for(auto& it:curText)
+	{
+		if(it=='(')
+			++nLeft;
+		if(it==')')
+			++nRight;
+	}
+	if(nLeft>nRight)
+		insert(")");
 }
 
 
@@ -267,6 +303,67 @@ bool InputText::isOpt(const QChar &qChar)
 			return true;
 	}
 	return false;
+}
+
+void InputText::enterValue(const QString &t)
+{
+	QString curText = text();
+	int curPos = cursorPosition();
+	QChar cLeft(' '), cRight(' ');
+	if (curPos > 0)
+		cLeft = curText[curPos - 1];
+	if (curPos < curText.length())
+		cRight = curText[curPos];
+	//如果左边为 数值  插入 乘号
+	if(isValue(cLeft)|| cLeft.isDigit())
+	{
+		curText.insert(curPos,"×"+t);
+		goto label_value;
+	}
+	//左边 为 运算符或者 空 或者是右括号时 可以输入
+	if (cLeft == ' ' || isOpt(cLeft) || cLeft == '(')
+	{
+		curText.insert(curPos, t);
+		//如果右边式数值的 自动补×
+		if (cRight.isDigit())
+			curText.insert(curPos + 1, u'×');
+	}
+	label_value:
+	setText(curText);
+}
+
+
+bool InputText::isValue(const QChar &qChar)
+{
+	return  qChar == ')' || qChar == '%' || qChar == 'x' || qChar == 'e' || qChar == u'π';
+}
+
+void InputText::enterFrequentExpr1(const QString &t)
+{
+	QString curText = text();
+	int curPos = cursorPosition();
+	QChar cLeft(' '), cRight(' ');
+	if (curPos > 0)
+		cLeft = curText[curPos - 1];
+
+
+	//前一个数是 数值类型 才可以 插入
+	if(cLeft.isDigit()|| isValue(cLeft))
+		insert(t);
+
+}
+
+void InputText::enterFrequentExpr2(const QString &t)
+{
+	QString curText = text();
+	int curPos = cursorPosition();
+	QChar cLeft(' '), cRight(' ');
+	if (curPos > 0)
+		cLeft = curText[curPos - 1];
+	//前一个数是 数值类型  自动补充 ×
+	if(cLeft.isDigit()|| isValue(cLeft))
+		insert("x");
+	insert(t);
 }
 
 

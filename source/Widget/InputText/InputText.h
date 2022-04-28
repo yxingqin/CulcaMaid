@@ -18,12 +18,13 @@ public slots:
 	void enterOpt(const QString &t);
 	void enterPoint();
 	void enterClear();
-	//void enterEnter();
 	void enterBackspace();
 	void enterParenLeft();
 	void enterParenRight();
-
-	void enterFunc(const QString &t);
+	void enterFunc(const QString &t); //输入 函数 如 abs lg sin cos 等
+	void enterValue(const QString& t);//输入特殊值 如 pi e  未知数x
+	void enterFrequentExpr1(const QString& t);//输入 平凡使用的表达式
+	void enterFrequentExpr2(const QString& t);//输入 平凡使用的表达式
 private slots:
 	void onCurChanged(int oldPos, int newPos);//光标发生变化
 private:
@@ -35,6 +36,10 @@ private:
 	 * @brief 判断 char 是否为 符号 + - x 等
 	 */
 	bool isOpt(const QChar& qChar);
+	/**
+	 * @brief 判断是否为 数值类型 如  x e pi  0~9 等
+	 */
+	bool isValue(const QChar& qChar);
 private:
 //	QString m_oldText;// 对输入前的字串存档
 };

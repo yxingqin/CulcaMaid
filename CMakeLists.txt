@@ -31,3 +31,4 @@ find_package(Qt5 COMPONENTS
 
 add_subdirectory(XGui)
 add_subdirectory(source)
+add_subdirectory(test)

@@ -60,7 +60,7 @@ void PageStandard::initUi()
 	fm_kb->setFrameShadow(QFrame::Raised);
 	verticalLayout->addWidget(fm_kb);
 
-	setStyleSheet(Load::loadStyle(":/qss/standard.qss"));
+	setStyleSheet(Load::loadStyle(":/qss/culpage.qss"));
 }
 
 void PageStandard::onKeyPress(QKeyEvent *event)

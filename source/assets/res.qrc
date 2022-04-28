@@ -15,11 +15,15 @@
     <file>icon/relation.png</file>
     <file>icon/science.png</file>
     <file>icon/setting.png</file>
+    <file>icon/down.png</file>
+
     <file>qss/all.qss</file>
     <file>qss/history.qss</file>
     <file>qss/mainwin.qss</file>
     <file>qss/popmenu.qss</file>
     <file>qss/standardkb.qss</file>
-    <file>qss/standard.qss</file>
+    <file>qss/sciencekb.qss</file>
+    <file>qss/culpage.qss</file>
+    <file>qss/popkb.qss</file>
   </qresource>
 </RCC>

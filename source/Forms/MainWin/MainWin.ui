@@ -28,10 +28,10 @@
   <widget class="QWidget" name="wdg_main" native="true">
    <property name="geometry">
     <rect>
-     <x>60</x>
-     <y>40</y>
-     <width>351</width>
-     <height>251</height>
+     <x>20</x>
+     <y>30</y>
+     <width>431</width>
+     <height>671</height>
     </rect>
    </property>
    <property name="sizePolicy">
@@ -153,7 +153,7 @@
        <string notr="true"/>
       </property>
       <property name="currentIndex">
-       <number>3</number>
+       <number>5</number>
       </property>
       <widget class="QWidget" name="page_main0">
        <property name="styleSheet">
@@ -193,22 +193,19 @@
       <widget class="QWidget" name="page_main1">
        <property name="minimumSize">
         <size>
-         <width>425</width>
-         <height>690</height>
+         <width>0</width>
+         <height>0</height>
         </size>
        </property>
        <property name="maximumSize">
         <size>
-         <width>425</width>
-         <height>690</height>
+         <width>16777215</width>
+         <height>16777215</height>
         </size>
        </property>
-       <layout class="QVBoxLayout" name="verticalLayout_3">
+       <layout class="QHBoxLayout" name="horizontalLayout_2">
         <property name="spacing">
          <number>0</number>
-        </property>
-        <property name="sizeConstraint">
-         <enum>QLayout::SetMaximumSize</enum>
         </property>
         <property name="leftMargin">
          <number>0</number>
@@ -235,35 +232,6 @@
        </layout>
       </widget>
       <widget class="QWidget" name="page_main2">
-       <layout class="QVBoxLayout" name="verticalLayout_5">
-        <property name="spacing">
-         <number>0</number>
-        </property>
-        <property name="leftMargin">
-         <number>0</number>
-        </property>
-        <property name="topMargin">
-         <number>0</number>
-        </property>
-        <property name="rightMargin">
-         <number>0</number>
-        </property>
-        <property name="bottomMargin">
-         <number>0</number>
-        </property>
-        <item>
-         <widget class="PageProgram" name="pProgram">
-          <property name="frameShape">
-           <enum>QFrame::StyledPanel</enum>
-          </property>
-          <property name="frameShadow">
-           <enum>QFrame::Raised</enum>
-          </property>
-         </widget>
-        </item>
-       </layout>
-      </widget>
-      <widget class="QWidget" name="page_main3">
        <layout class="QVBoxLayout" name="verticalLayout">
         <property name="spacing">
          <number>0</number>
@@ -292,7 +260,7 @@
         </item>
        </layout>
       </widget>
-      <widget class="QWidget" name="page_main4">
+      <widget class="QWidget" name="page_main3">
        <layout class="QVBoxLayout" name="verticalLayout_7">
         <property name="spacing">
          <number>0</number>
@@ -321,7 +289,7 @@
         </item>
        </layout>
       </widget>
-      <widget class="QWidget" name="page_main5">
+      <widget class="QWidget" name="page_main4">
        <layout class="QVBoxLayout" name="verticalLayout_8">
         <property name="spacing">
          <number>0</number>
@@ -350,6 +318,35 @@
         </item>
        </layout>
       </widget>
+      <widget class="QWidget" name="page_main5">
+       <layout class="QVBoxLayout" name="verticalLayout_5">
+        <property name="spacing">
+         <number>0</number>
+        </property>
+        <property name="leftMargin">
+         <number>0</number>
+        </property>
+        <property name="topMargin">
+         <number>0</number>
+        </property>
+        <property name="rightMargin">
+         <number>0</number>
+        </property>
+        <property name="bottomMargin">
+         <number>0</number>
+        </property>
+        <item>
+         <widget class="PageProgram" name="pProgram">
+          <property name="frameShape">
+           <enum>QFrame::StyledPanel</enum>
+          </property>
+          <property name="frameShadow">
+           <enum>QFrame::Raised</enum>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </widget>
      </widget>
     </item>
    </layout>
@@ -357,9 +354,9 @@
   <widget class="QStackedWidget" name="swdg_sub">
    <property name="geometry">
     <rect>
-     <x>450</x>
+     <x>490</x>
      <y>130</y>
-     <width>331</width>
+     <width>231</width>
      <height>391</height>
     </rect>
    </property>
@@ -415,12 +412,6 @@
    <container>1</container>
   </customwidget>
   <customwidget>
-   <class>PageScience</class>
-   <extends>QFrame</extends>
-   <header>PageScience/PageScience.h</header>
-   <container>1</container>
-  </customwidget>
-  <customwidget>
    <class>PageProgram</class>
    <extends>QFrame</extends>
    <header>PageProgram/PageProgram.h</header>
@@ -442,6 +433,12 @@
    <class>PageHistory</class>
    <extends>QFrame</extends>
    <header>PageHistory/PageHistory.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>PageScience</class>
+   <extends>QFrame</extends>
+   <header>PageScience/PageScience.h</header>
    <container>1</container>
   </customwidget>
  </customwidgets>

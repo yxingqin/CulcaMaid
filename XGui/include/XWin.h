@@ -71,6 +71,7 @@ public:
 	void showEvent(QShowEvent *event) override; //
 	/** 事件过滤 **/
 	bool eventFilter(QObject *watched, QEvent *event); //处理 鼠标拖动位置拖动大小 等事件
+	void keyPressEvent(QKeyEvent *event)override;
 private:
 	void onMousePressed(QMouseEvent *event);
 	void onHover(QHoverEvent *event);

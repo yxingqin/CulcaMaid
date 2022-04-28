@@ -1,6 +1,6 @@
 #PageHistory,
 QListWidget {
-    background-color: #f3f8fa;
+    background-color: #edf5f9;
 }
 
 QListWidget::item {

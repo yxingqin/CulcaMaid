@@ -47,7 +47,6 @@ StandardKB::StandardKB(QWidget *parent) : QFrame(parent)
 
 	findBtnById(KEY_BACKSPACE)->setIcon(QIcon(":/icon/backspace.png"));
 	findBtnById(KEY_BACKSPACE)->setIconSize({28, 28});
-	connect(this, &StandardKB::btnPress, this, &StandardKB::onBtnPress);
 }
 
 StandardKB::~StandardKB()
@@ -75,7 +74,7 @@ void StandardKB::initUi()
 		gridLayout->addWidget(btn, d.row, d.column, d.rowcount, d.columncount);
 		btnSet.insert(d.id, {i, btn});
 		connect(btn, &QPushButton::clicked, this, [this, d]
-				{ emit btnPress(d.id); });
+				{ onBtnPress(d.id); });
 	}
 }
 
