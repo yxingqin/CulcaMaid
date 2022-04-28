@@ -1,10 +1,11 @@
 #ifndef CALCUMAID_STANDARDKB_H
 #define CALCUMAID_STANDARDKB_H
 
-#include <QFrame>
+
 #include <QPushButton>
 #include <QHash>
 #include <QGridLayout>
+#include <QFrame>
 
 
 /**
@@ -17,8 +18,8 @@ public:
 	explicit StandardKB(QWidget *parent = nullptr);
 	~StandardKB() override;
 signals:
-	void pressNum(const QString& num);				//数值  0-9
-	void pressOpt(const QString &opt);		//运算符 + - x ÷
+	void pressNum(const QString& num);	//数值  0-9
+	void pressOpt(const QString &opt);	//运算符 + - x ÷
 	void pressPoint();					//小数点按下
 	void pressBackspace();				//退格键按下
 	void pressClear();					//清空
@@ -58,9 +59,6 @@ private:
 	} btnDescriptions[];
 
 private:
-signals:
-	void btnPress(ButtonID);
-private slots:
 	void onBtnPress(ButtonID);
 private:
 	void initUi();

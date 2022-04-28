@@ -35,6 +35,7 @@ namespace expr
 
 		//一元函数
 		ABS, //绝对值
+		SQRROOT,//平方根
 		SIN,
 		SEC,
 		COS,

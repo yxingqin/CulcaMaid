@@ -1,0 +1,51 @@
+/*科学计算器键盘样式*/
+
+QPushButton {
+	margin: 3px;
+	min-width: 40px;
+	font-size: 16pt;
+	text-align: center;
+	font-weight: bolder;
+	background-color: #faf8fa;
+	border-radius: 20px;
+	border: 1px solid #DCDCDC;
+}
+
+
+QPushButton:hover {
+	background-color: #f3f7fa;
+}
+
+
+
+QPushButton:pressed {
+	background-color: #f9f9f9
+}
+
+#btn_kb00,
+#btn_kb01 {
+	font-size: 12pt;
+	padding:5px;
+}
+
+#btn_kb11,
+#btn_kb12,
+#btn_kb20,
+#btn_kb21,
+#btn_kb30,
+#btn_kb31,
+#btn_kb41,
+#btn_kb40,
+#btn_kb51,
+#btn_kb50 {
+	font-size: 10pt;
+}
+
+#btn_kb55 {
+	background-color: #024fec;
+	color: #FFF;
+}
+
+#btn_kb55:hover {
+	background-color: #1975c5;
+}

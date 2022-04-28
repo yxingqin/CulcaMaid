@@ -26,10 +26,11 @@ PopMenu::PopMenu(QWidget *parent) : QFrame(parent), ui(new Ui::PopMenu)
 	//添加 项目
 	addItem("标准", ":/icon/calcu.png");
 	addItem("科学", ":/icon/science.png");
-	addItem("程序员", ":/icon/program.png");
+
 	addItem("绘图", ":/icon/funimage.png");
 	addItem("日期", ":/icon/date.png");
-	addItem("关系", ":/icon/relation.png");
+	//	addItem("程序员", ":/icon/program.png");
+//	addItem("关系", ":/icon/relation.png");
 	ui->listw_calcu->setCurrentRow(0);
 	list_culca = ui->listw_calcu;
 

@@ -337,3 +337,14 @@ void XWin::stretchWindow(unsigned short area)
 	if (moveEnable && mouseArea == 22)
 		this->move(curPos + (QPoint{oldRect.x(), oldRect.y()} - oldPos)); //全局位置+偏移== 移动位置
 }
+
+void XWin::keyPressEvent(QKeyEvent *event)
+{
+#if 0
+	QKeyEvent* copyEvent=new QKeyEvent(QEvent::KeyPress,event->key(),Qt::NoModifier);
+	QApplication::postEvent(mClient,copyEvent);
+	event->ignore();
+#else
+	QWidget::keyPressEvent(event);
+#endif
+}

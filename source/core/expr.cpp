@@ -3,8 +3,8 @@
 
 namespace expr
 {
-constexpr double pi = 3.14159265;
-constexpr double e = 2.718281828;
+constexpr double pi = 3.1415926535897932384626433832795;
+constexpr double e = 2.7182818284590452353602874713527;
 constexpr unsigned short optMap[] = {u'(', u')', u'＋', u'－', u'×', u'÷', u'^'};
 
 constexpr unsigned short getOptChar(optEnum p)
@@ -79,7 +79,7 @@ bool isNumber(const QString &expr, int i)
 		case u'7':
 		case u'8':
 		case u'9':
-		case u'p':
+		case u'π':
 		case u'e':
 			return true;
 		default:
@@ -97,15 +97,15 @@ double getNumber(const QString &expr, int &i)
 		sign = -1;
 		++i;
 	}
-	if (i < len && expr[i] == u'p')
+	if (i < len && expr[i] == u'π')
 	{
-		i += 2; // pi 移动两位
+		i += 1;
 		return pi * sign;
 	}
 	if (i < len && expr[i] == u'e')
 	{
 		++i;
-		return pi * e;
+		return sign * e;
 	}
 	//处理实数
 	double ret = 0;
@@ -210,6 +210,9 @@ optEnum getOpt(const QString &expr, int &i)
 		case getOptChar(optEnum::RIGHT):
 			++i;
 			return optEnum::RIGHT;
+		case u'√':
+			++i;
+			return optEnum::SQRROOT;
 		case u's':
 		case u'c':
 		case u't':
@@ -219,7 +222,7 @@ optEnum getOpt(const QString &expr, int &i)
 			{
 
 				QString tmp = expr.mid(i, 3);
-				qDebug() << tmp;
+//				qDebug() << tmp;
 				i += 3;
 				if (tmp == u"sin")
 					return optEnum::SIN;
@@ -285,6 +288,7 @@ int getPriority(optEnum opt)
 		case optEnum::COT:
 		case optEnum::LN:
 		case optEnum::LG:
+		case optEnum::SQRROOT:
 			return 3;
 		default:
 			return 0;
@@ -407,6 +411,8 @@ double funcCalcul(optEnum opt, double num)
 	{
 		case optEnum::ABS:
 			return abs(num);
+		case optEnum::SQRROOT:
+			return sqrt(num);
 		case optEnum::SIN:
 			return sin(num);
 		case optEnum::SEC:
