@@ -27,12 +27,14 @@ public:
 	~PageDate() override;
 
 private:
-	QDate addDate(QDate startDate, int addNumber);
+	QDate addDate(const QDate& startDate, int addNumber);
+	QString date1;
 	int intervalDate(QDate startDate, QDate endDate);
 
 
 private slots:
 	void on_comboBox_currentIndexChanged(const QString &arg1);
+	void selectDate(const QDate& intoDate);
 private:
 	Ui::PageDate *ui;
 

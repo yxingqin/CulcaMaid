@@ -23,11 +23,12 @@ class XCalendar: public QWidget
 {
 Q_OBJECT
 	//Q_PROPERTY(QColor bgColor READ getBgColor WRITE setBgColor)//定义一个宏
-
 public:
-	 explicit XCalendar(QWidget *parent= nullptr);//构造函数
-	~XCalendar();//析构函数
+	 explicit XCalendar(QWidget *parent= nullptr);
+	~XCalendar()override;
 
+signals:
+	void SetCalendarTime(const QDate& data);
 private:
 	void initControl();
 	QWidget * initTopWidget();
@@ -37,8 +38,7 @@ private:
 
 
 
-signals:
-	void signalSetCalendarTime(const QDate& data);
+
 private slots:
 	void onBtnClicked();
 	void setDataLabelText(int year, int mounth);
@@ -61,13 +61,13 @@ private:
 
 };
 
-class QCustomStyle :public QProxyStyle
-{
-public:
-	QCustomStyle(QWidget *parent);
-private:
-	void drawPrimitive(PrimitiveElement element, const QStyleOption *option,
-	                   QPainter *painter, const QWidget *widget) const override;
-};
+//class QCustomStyle :public QProxyStyle
+//{
+//public:
+//	QCustomStyle(QWidget *parent);
+//private:
+//	void drawPrimitive(PrimitiveElement element, const QStyleOption *option,
+//	                   QPainter *painter, const QWidget *widget) const override;
+//};
 
 #endif //CALCUMAID_XCALENDAR_H

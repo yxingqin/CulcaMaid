@@ -44,7 +44,7 @@ MainWin::MainWin(QWidget *parent) : QWidget(parent), ui(new Ui::MainWin)
 	setMinimumSize(320, 500);
 	ui->lbl_title->setText("标准");
 	ui->swdg_main->currentWidget()->setFocus();
-	// ui->swdg_main->setCurrentIndex(3);
+	ui->swdg_main->setCurrentIndex(4);
 }
 
 MainWin::~MainWin()

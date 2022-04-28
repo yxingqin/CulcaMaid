@@ -26,7 +26,7 @@ void XCalendar::initControl() //主要设置
 	calendar->setVerticalHeaderFormat(QCalendarWidget::NoVerticalHeader); //去掉列表头
 	calendar->setHorizontalHeaderFormat(QCalendarWidget::LongDayNames);
 	calendar->setSelectionMode(QCalendarWidget::SingleSelection); //单选
-	calendar->setMinimumSize(200, 200);//设置日历组件大小
+	calendar->setMinimumSize(140, 140);//设置日历组件大小
 	calendar->setStyleSheet("#");
 	calendar->setAttribute(Qt::WA_TranslucentBackground);
 
@@ -36,7 +36,7 @@ void XCalendar::initControl() //主要设置
 	QTextCharFormat format; //设置文本框的显示
 	format.setForeground(QColor(51, 51, 51));
 	format.setBackground(QColor(247, 247, 247));
-	format.setFontFamily("Microsoft YaHei"); //后期这里要改掉 可能有版权风险 TODO:需要切换字体
+	format.setFontFamily("Microsoft YaHei"); //后期这里要改掉 可能有版权风险
 	format.setFontPointSize(9);
 	format.setFontWeight(QFont::Medium);
 	calendar->setWeekdayTextFormat(Qt::Saturday, format);
@@ -162,71 +162,73 @@ void XCalendar::onBtnClicked() //重写鼠标点击事件
 	}
 	else if(senderBtn == ensureBtn)
 	{
-		signalSetCalendarTime(calendar->selectedDate());
+		//signalSetCalendarTime(calendar->selectedDate());
+		emit SetCalendarTime(calendar->selectedDate());
 		qDebug()<<calendar->selectedDate();
 	}
 }
-
-void XCalendar::paintCell(QPainter *painter, const QRect &rect, const QDate &date) const //选中绘图部分
-{
-	if (date == calendar->selectedDate())
-	{
-		painter->save();
-		painter->setRenderHint(QPainter::Antialiasing);
-		painter->setPen(Qt::NoPen);
-		painter->setBrush(QColor(118, 178, 224));
-		painter->drawEllipse(QRect(rect.x() + rect.width() / 2 - 10, rect.y() + rect.height() / 2 - 10, 20, 20));
-		painter->setPen(QColor(255, 255, 255));
-		painter->drawText(rect, Qt::AlignCenter, QString::number(date.day()));
-		painter->restore();
-	}
-	else if (date == QDate::currentDate())
-	{
-		painter->save();
-		painter->setRenderHint(QPainter::Antialiasing);
-		painter->setPen(QColor(118, 178, 224));
-
-		painter->drawText(rect, Qt::AlignCenter, QString::number(date.day()));
-		painter->restore();
-	}
-	else if (date < calendar->minimumDate() || date > calendar->maximumDate())
-	{
-
-		painter->save();
-		painter->setRenderHint(QPainter::Antialiasing);
-		painter->setPen(Qt::NoPen);
-		painter->setBrush(QColor(249, 249, 249));
-
-		painter->drawRect(rect.x(), rect.y() + 3, rect.width(), rect.height() - 6);
-
-		painter->setPen(QColor(255, 0, 0));
-
-		painter->drawText(rect, Qt::AlignCenter, QString::number(date.day()));
-		painter->restore();
-	}
-
-	else
-	{
-		// calendar->paintCell(painter, rect, date);
-	}
-}
-
 void XCalendar::setDataLabelText(int year, int month)
 {
 	dataLabel->setText(QStringLiteral("%1年%2月").arg(year).arg(month));
 }
 
-QCustomStyle::QCustomStyle(QWidget *parent)
-{ 
-	setParent(parent);
-}
+//void XCalendar::paintCell(QPainter *painter, const QRect &rect, const QDate &date) const //选中绘图部分
+//{
+//	if (date == calendar->selectedDate())
+//	{
+//		painter->save();
+//		painter->setRenderHint(QPainter::Antialiasing);
+//		painter->setPen(Qt::NoPen);
+//		painter->setBrush(QColor(118, 178, 224));
+//		painter->drawEllipse(QRect(rect.x() + rect.width() / 2 - 10, rect.y() + rect.height() / 2 - 10, 20, 20));
+//		painter->setPen(QColor(255, 255, 255));
+//		painter->drawText(rect, Qt::AlignCenter, QString::number(date.day()));
+//		painter->restore();
+//	}
+//	else if (date == QDate::currentDate())
+//	{
+//		painter->save();
+//		painter->setRenderHint(QPainter::Antialiasing);
+//		painter->setPen(QColor(118, 178, 224));
+//
+//		painter->drawText(rect, Qt::AlignCenter, QString::number(date.day()));
+//		painter->restore();
+//	}
+//	else if (date < calendar->minimumDate() || date > calendar->maximumDate())
+//	{
+//
+//		painter->save();
+//		painter->setRenderHint(QPainter::Antialiasing);
+//		painter->setPen(Qt::NoPen);
+//		painter->setBrush(QColor(249, 249, 249));
+//
+//		painter->drawRect(rect.x(), rect.y() + 3, rect.width(), rect.height() - 6);
+//
+//		painter->setPen(QColor(255, 0, 0));
+//
+//		painter->drawText(rect, Qt::AlignCenter, QString::number(date.day()));
+//		painter->restore();
+//	}
+//
+//	else
+//	{
+//		// calendar->paintCell(painter, rect, date);
+//	}
+//}
 
-void QCustomStyle::drawPrimitive(PrimitiveElement element, const QStyleOption *option,
-                                 QPainter *painter, const QWidget *widget) const
-{
-	if (element == PE_FrameFocusRect)
-	{
-		return;
-	}
-	QProxyStyle::drawPrimitive(element, option, painter, widget);
-}
+
+
+//QCustomStyle::QCustomStyle(QWidget *parent)
+//{
+//	setParent(parent);
+//}
+
+//void QCustomStyle::drawPrimitive(PrimitiveElement element, const QStyleOption *option,
+//                                 QPainter *painter, const QWidget *widget) const
+//{
+//	if (element == PE_FrameFocusRect)
+//	{
+//		return;
+//	}
+//	QProxyStyle::drawPrimitive(element, option, painter, widget);
+//}

@@ -21,5 +21,6 @@
     <file>qss/popmenu.qss</file>
     <file>qss/standardkb.qss</file>
     <file>qss/standard.qss</file>
+    <file>qss/pagedata.qss</file>
   </qresource>
 </RCC>

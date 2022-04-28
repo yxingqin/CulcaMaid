@@ -1,0 +1,15 @@
+/* * {
+    background-color: #000;
+} */
+
+QPushButton {
+	margin: 3px;
+	font-size: 22pt;
+	text-align: center;
+	font-weight: bolder;
+	background-color: #faf8fa;
+	border-radius: 20px;
+	border: 1px solid #DCDCDC;
+}
+
+
