@@ -19,8 +19,8 @@
  background-color : #f3f3f3;
 }</string>
   </property>
-  <layout class="QVBoxLayout" name="verticalLayout">
-   <item>
+  <layout class="QGridLayout" name="gridLayout_3">
+   <item row="0" column="0">
     <widget class="QComboBox" name="comboBox">
      <property name="sizePolicy">
       <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
@@ -54,7 +54,7 @@ QComboBox::drop-down {
      </item>
     </widget>
    </item>
-   <item>
+   <item row="1" column="0">
     <widget class="QStackedWidget" name="stackedWidget">
      <property name="currentIndex">
       <number>1</number>

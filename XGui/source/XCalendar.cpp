@@ -24,10 +24,9 @@ void XCalendar::initControl() //主要设置
 	setLocale(QLocale(QLocale::Chinese));								  //设置中文
 	calendar->setNavigationBarVisible(false);							  //关闭导航条
 	calendar->setVerticalHeaderFormat(QCalendarWidget::NoVerticalHeader); //去掉列表头
-	calendar->setHorizontalHeaderFormat(QCalendarWidget::LongDayNames);
+	calendar->setHorizontalHeaderFormat(QCalendarWidget::ShortDayNames);
 	calendar->setSelectionMode(QCalendarWidget::SingleSelection); //单选
-	calendar->setMinimumSize(140, 140);//设置日历组件大小
-	calendar->setStyleSheet("#");
+	calendar->setMinimumSize(100, 120);//设置日历组件大小
 	calendar->setAttribute(Qt::WA_TranslucentBackground);
 
 
@@ -35,9 +34,9 @@ void XCalendar::initControl() //主要设置
 
 	QTextCharFormat format; //设置文本框的显示
 	format.setForeground(QColor(51, 51, 51));
-	format.setBackground(QColor(247, 247, 247));
+	format.setBackground(QColor("#EDF5F9"));
 	format.setFontFamily("Microsoft YaHei"); //后期这里要改掉 可能有版权风险
-	format.setFontPointSize(9);
+	format.setFontPointSize(8);
 	format.setFontWeight(QFont::Medium);
 	calendar->setWeekdayTextFormat(Qt::Saturday, format);
 	calendar->setWeekdayTextFormat(Qt::Sunday, format);
@@ -80,9 +79,12 @@ QWidget * XCalendar::initTopWidget()
 	rightYearBtn->setObjectName("XCalendarRightYearButton");
 	leftYearBtn->setObjectName("XCalendarLeftYearButton");
 	dataLabel->setObjectName("XCalendarDataLabel");
+	dataLabel->setStyleSheet("XCalendarDataLabel{font-size:10pt;}");
 	// btn大小设置
 	leftMonthBtn->setFixedSize(25, 25);
 	rightMonthBtn->setFixedSize(25, 25);
+	leftYearBtn->setFixedSize(35,25);
+	rightYearBtn->setFixedSize(35,25);
 	//布局设置
 	hboxLayout_top->addStretch(); //设计师中的弹簧
 	hboxLayout_top->addWidget(leftYearBtn);

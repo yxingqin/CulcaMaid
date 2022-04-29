@@ -16,7 +16,7 @@ PageDate::PageDate(QWidget *parent) :
 	ui->label_into->setText( QDate::currentDate().toString("yyyy年MM月dd日"));
 	connect(ui->widget, SIGNAL(SetCalendarTime(const QDate& )),this, SLOT(selectDate(const QDate& )));
 	//connect(ui->widget,&XCalendar::SetCalendarTime,this,&PageDate::selectDate);
-
+	ui->stackedWidget->setCurrentIndex(0);
 	setStyleSheet(Load::loadStyle(":/qss/pagedata.qss"));
 
 }
