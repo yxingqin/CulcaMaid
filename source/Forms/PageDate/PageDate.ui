@@ -57,7 +57,7 @@ QComboBox::drop-down {
    <item row="1" column="0">
     <widget class="QStackedWidget" name="stackedWidget">
      <property name="currentIndex">
-      <number>1</number>
+      <number>0</number>
      </property>
      <widget class="QWidget" name="addDateWidget">
       <property name="styleSheet">
@@ -67,6 +67,13 @@ background-color：ff6ea
 }</string>
       </property>
       <layout class="QGridLayout" name="gridLayout">
+       <item row="5" column="0" colspan="3">
+        <widget class="QLabel" name="label">
+         <property name="text">
+          <string>结果</string>
+         </property>
+        </widget>
+       </item>
        <item row="0" column="0" colspan="3">
         <widget class="XCalendar" name="widget" native="true"/>
        </item>
@@ -77,33 +84,33 @@ background-color：ff6ea
          </property>
         </widget>
        </item>
-       <item row="2" column="0">
-        <widget class="QRadioButton" name="radioButton">
-         <property name="text">
-          <string>添加</string>
-         </property>
-        </widget>
-       </item>
        <item row="2" column="1">
-        <widget class="QRadioButton" name="radioButton_2">
-         <property name="text">
-          <string>减去</string>
-         </property>
-        </widget>
-       </item>
-       <item row="2" column="2">
-        <widget class="QPushButton" name="pushButton">
-         <property name="text">
-          <string>OK</string>
-         </property>
-        </widget>
-       </item>
-       <item row="3" column="0" colspan="3">
-        <widget class="QLabel" name="label">
-         <property name="text">
-          <string>结果</string>
-         </property>
-        </widget>
+        <layout class="QHBoxLayout" name="horizontalLayout">
+         <item>
+          <widget class="QRadioButton" name="radioButton_2">
+           <property name="text">
+            <string>减去</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QRadioButton" name="radioButton">
+           <property name="text">
+            <string>添加</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QLineEdit" name="lineEdit"/>
+         </item>
+         <item>
+          <widget class="QPushButton" name="pushButton">
+           <property name="text">
+            <string>OK</string>
+           </property>
+          </widget>
+         </item>
+        </layout>
        </item>
       </layout>
      </widget>
