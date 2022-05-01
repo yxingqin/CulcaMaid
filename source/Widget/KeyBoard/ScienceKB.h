@@ -16,7 +16,7 @@ class PopKb : public QFrame
 	Q_OBJECT
 public:
 	using QFrame::QFrame;
-	void popup(QPushButton* btn ,int w=120,int h=60);
+	void popup(QPushButton* btn );
 	void leaveEvent(QEvent *event)override;
 	signals:
 	void pressFunc(const QString& t);

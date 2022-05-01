@@ -13,8 +13,7 @@ PlotPainter::PlotPainter(QWidget *parent)
 {
 	minX = minY = -10;
 	maxX = maxY = 10;
-	listPlot.push_back(Plot("x^2"));
-	listPlot.push_back(Plot("sin(x)"));
+	listPlot.push_back(Plot(""));
 
 	m_thread=new QThread();
 	m_thread->start();
@@ -57,14 +56,17 @@ void PlotPainter::drawPlot(QPainter &painter)
 	for(const auto& plot:listPlot)
 	{
 		QPainterPath path;
-		path.moveTo(LxToDx(plot.listPoint[0].first),LyToDy(plot.listPoint[0].second));
-		for(const auto&point:plot.listPoint)
+		if(!plot.listPoint.isEmpty())
 		{
-			path.lineTo(LxToDx(point.first),LyToDy(point.second));
+			path.moveTo(LxToDx(plot.listPoint[0].first),LyToDy(plot.listPoint[0].second));
+			for(const auto&point:plot.listPoint)
+			{
+				path.lineTo(LxToDx(point.first),LyToDy(point.second));
+			}
+			painter.setPen( QPen(plot.color,plot.width,plot.style));
+			painter.drawPath(path);
 		}
-		painter.setPen( QPen(plot.color,plot.width,plot.style));
 
-		painter.drawPath(path);
 	}
 }
 void PlotPainter::drawGridAxis(QPainter &painter)
@@ -204,8 +206,6 @@ void PlotPainter::wheelEvent(QWheelEvent *event)
 		maxY = maxY1;
 		minY = minY1;
 	}
-	qDebug()<<"maxY"<<maxY;
-	qDebug()<<"minY"<<minY;
 	updatePlot();
 	QFrame::wheelEvent(event);
 
@@ -225,5 +225,14 @@ void PlotPainter::updatePlot()
 void PlotPainter::updatePlot(int index)
 {
 	emit doSampling(index,minX,maxX,(maxX-minX)/width());
+}
+
+void PlotPainter::recExpr(const QString &expr)
+{
+	listPlot[0].expr=expr;
+	if(listPlot[0].parseExpr())
+	{
+		updatePlot(0);
+	}
 }
 

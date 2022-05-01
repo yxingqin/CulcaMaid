@@ -17,77 +17,23 @@ PageEditPlot::PageEditPlot(QWidget *parent) :
 	ui->setupUi(this);
 
 	setStyleSheet(Load::loadStyle(":/qss/pageplotedit.qss"));
-
-	delegate=new PlotDelegate(this);
-	ui->listView->setItemDelegate(delegate);
-	//ui->listView->openPersistentEditor({});
+	ui->frame->setMode(1);
+	connect(ui->frame,&ScienceKB::pressNum,ui->lineEdit,&InputText::enterNumber);
+	connect(ui->frame,&ScienceKB::pressOpt,ui->lineEdit,&InputText::enterOpt);
+	connect(ui->frame,&ScienceKB::pressBackspace,ui->lineEdit,&InputText::enterBackspace);
+	connect(ui->frame,&ScienceKB::pressPoint,ui->lineEdit,&InputText::enterPoint);
+	connect(ui->frame,&ScienceKB::pressParenLeft,ui->lineEdit,&InputText::enterParenLeft);
+	connect(ui->frame,&ScienceKB::pressParenRight,ui->lineEdit,&InputText::enterParenRight);
+	connect(ui->frame,&ScienceKB::pressFrequentExpr1,ui->lineEdit,&InputText::enterFrequentExpr1);
+	connect(ui->frame,&ScienceKB::pressFrequentExpr2,ui->lineEdit,&InputText::enterFrequentExpr2);
+	connect(ui->frame,&ScienceKB::pressClear,ui->lineEdit,&InputText::enterClear);
+	connect(ui->frame,&ScienceKB::pressValue,ui->lineEdit,&InputText::enterValue);
+	connect(ui->frame,&ScienceKB::pressFunc,ui->lineEdit,&InputText::enterFunc);
+	connect(ui->lineEdit,&QLineEdit::textChanged,this,&PageEditPlot::sendExpr);
 }
 
 PageEditPlot::~PageEditPlot()
 {
 	delete ui;
-	m_model->deleteLater();
-	delegate->deleteLater();
-}
-
-void PageEditPlot::setModel(PlotModel *model)
-{
-	m_model=model;
-	ui->listView->setModel(model);
-}
-
-void PageEditPlot::enterNumber(const QString &t)
-{
-	auto delegate=ui->listView->itemDelegate(ui->listView->currentIndex());
-
-}
-
-void PageEditPlot::enterOpt(const QString &t)
-{
-
-}
-
-void PageEditPlot::enterPoint()
-{
-
-}
-
-void PageEditPlot::enterClear()
-{
-
-}
-
-void PageEditPlot::enterBackspace()
-{
-
-}
-
-void PageEditPlot::enterParenLeft()
-{
-
-}
-
-void PageEditPlot::enterParenRight()
-{
-
-}
-
-void PageEditPlot::enterFunc(const QString &t)
-{
-
-}
-
-void PageEditPlot::enterValue(const QString &t)
-{
-
-}
-
-void PageEditPlot::enterFrequentExpr1(const QString &t)
-{
-
-}
-
-void PageEditPlot::enterFrequentExpr2(const QString &t)
-{
 
 }

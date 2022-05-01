@@ -1,5 +1,10 @@
+#popKb {
+    background-color: #FFF;
+    padding: 10px;
+    border: 1px solid #DCDCDC;
+}
+
 QPushButton {
-    background-color: #000;
     margin: 3px;
     font-size: 16pt;
     text-align: center;

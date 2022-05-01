@@ -34,11 +34,13 @@ public:
 			updatePlot(index);
 	}
 
+
 	signals:
 	void doSampling(double min,double max,double step);
 	void doSampling(int index,double min,double max,double step);
 public slots:
 	void recPoints(int index, const QList<point> &listPoint);
+	void recExpr(const QString& expr);
 private:
 	//事件
 	void paintEvent(QPaintEvent *event) override;

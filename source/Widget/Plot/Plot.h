@@ -22,7 +22,6 @@ struct Plot
 			post=postfix;
 			return true;
 		}
-		qDebug()<<postfix;
 		return false;
 	}
 	QString expr;

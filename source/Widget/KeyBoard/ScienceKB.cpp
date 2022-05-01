@@ -121,8 +121,10 @@ void ScienceKB::onBtnPress(ScienceKB::ButtonID id)
 		case KEY_MULT:
 		case KEY_DIV:
 		case KEY_PERCENT:
-		case KEY_POWER:
 			emit pressOpt(btnDescriptions[btnSet.find(id).value().index].text);
+			break;
+		case KEY_POWER:
+			emit pressOpt("^");
 			break;
 		case KEY_7:
 		case KEY_8:
@@ -182,7 +184,7 @@ void ScienceKB::onBtnPress(ScienceKB::ButtonID id)
 			break;
 		case KEY_TRIANGLE:
 			popFunc->hide();
-			popKbTriangle->popup(findBtnById(KEY_TRIANGLE),200,120);
+			popKbTriangle->popup(findBtnById(KEY_TRIANGLE));
 			break;
 		case KEY_FUNC:
 			popKbTriangle->hide();
@@ -234,7 +236,7 @@ void PopKbFunc::initUi()
 	gridLayout->addWidget(btn_Ln, 0, 1, 1, 1);
 }
 
-void PopKb::popup(QPushButton *btn,int w,int h)
+void PopKb::popup(QPushButton *btn)
 {
 	if(isHidden())
 	{

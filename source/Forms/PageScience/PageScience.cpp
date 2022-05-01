@@ -84,7 +84,6 @@ void PageScience::onInputTextChanged()
 		expr::getResult(postfix,result);
 		output->setText(QString::number(result));
 	}
-	qDebug()<<postfix;
 }
 
 void PageScience::onEnter()

@@ -40,18 +40,17 @@ MainWin::MainWin(QWidget *parent) : QWidget(parent), ui(new Ui::MainWin)
 	//槽 链接
 	connect(ui->pStandard,&PageStandard::sendHistory,ui->pHistory,&PageHistory::addHistory);
 	connect(ui->pScience,&PageScience::sendHistory,ui->pHistory,&PageHistory::addHistory);
-
+	connect(ui->pPlotEdit,&PageEditPlot::sendExpr,ui->pFuntPlot->getPainter(),&PlotPainter::recExpr);
 
 	//绘图页面初始化
-	PlotModel* model=new PlotModel(ui->pFuntPlot->getPainter());
-	ui->pPlotEdit->setModel(model);
+
 
 
 	setMinimumSize(320, 500);
 	ui->lbl_title->setText("标准");
 	ui->swdg_main->currentWidget()->setFocus();
-	ui->swdg_main->setCurrentIndex(2);
-	ui->swdg_sub->setCurrentIndex(1);
+//	ui->swdg_main->setCurrentIndex(2);
+//	ui->swdg_sub->setCurrentIndex(1);
 	//ui->swdg_main->setCurrentIndex(0);
 }
 

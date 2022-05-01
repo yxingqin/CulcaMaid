@@ -231,9 +231,9 @@ void InputText::enterFunc(const QString &t)
 		curText.insert(curPos,"×"+t);
 		goto label_func;
 	}
-	//左边必须是运算符 空 才可以插入
-	if(cLeft==' '|| isOpt(cLeft))
-		curText.insert(curPos,t);
+//	//左边必须是运算符 空 才可以插入
+//	if(cLeft==' '|| isOpt(cLeft)||cLeft=='(')
+	curText.insert(curPos,t);
 	label_func:
 	setText(curText);
 }
@@ -323,14 +323,15 @@ void InputText::enterValue(const QString &t)
 		curText.insert(curPos,"×"+t);
 		goto label_value;
 	}
-	//左边 为 运算符或者 空 或者是右括号时 可以输入
-	if (cLeft == ' ' || isOpt(cLeft) || cLeft == '(')
-	{
-		curText.insert(curPos, t);
-		//如果右边式数值的 自动补×
-		if (cRight.isDigit())
-			curText.insert(curPos + 1, u'×');
-	}
+	curText.insert(curPos, t);
+	//如果右边式数值的 自动补×
+	if (cRight.isDigit())
+		curText.insert(curPos + 1, u'×');
+//	//左边 为 运算符或者 空 或者是右括号时 可以输入
+//	if (cLeft == ' ' || isOpt(cLeft) || cLeft == '(')
+//	{
+//
+//	}
 	label_value:
 	setText(curText);
 }

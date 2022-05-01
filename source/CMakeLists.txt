@@ -1,4 +1,4 @@
-project(source)
+project(CalCulMaid)
 
 include_directories(Forms core Widget)
 include_directories("${CMAKE_BINARY_DIR}/${PROJECT_NAME}_autogen/include")

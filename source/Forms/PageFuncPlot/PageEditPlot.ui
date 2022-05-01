@@ -15,33 +15,54 @@
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
    <item>
-    <widget class="QListView" name="listView">
-     <property name="autoScrollMargin">
-      <number>20</number>
-     </property>
-     <property name="editTriggers">
-      <set>QAbstractItemView::AllEditTriggers</set>
-     </property>
-     <property name="dragEnabled">
-      <bool>false</bool>
-     </property>
-     <property name="movement">
-      <enum>QListView::Snap</enum>
-     </property>
-     <property name="layoutMode">
-      <enum>QListView::Batched</enum>
-     </property>
-     <property name="viewMode">
-      <enum>QListView::ListMode</enum>
-     </property>
-    </widget>
+    <layout class="QHBoxLayout" name="horizontalLayout">
+     <item>
+      <widget class="QLabel" name="label">
+       <property name="text">
+        <string>f(x)=</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="InputText" name="lineEdit">
+       <property name="minimumSize">
+        <size>
+         <width>0</width>
+         <height>60</height>
+        </size>
+       </property>
+      </widget>
+     </item>
+    </layout>
    </item>
    <item>
-    <widget class="ScienceKB" name="fmKb">
+    <spacer name="verticalSpacer">
+     <property name="orientation">
+      <enum>Qt::Vertical</enum>
+     </property>
+     <property name="sizeType">
+      <enum>QSizePolicy::Preferred</enum>
+     </property>
+     <property name="sizeHint" stdset="0">
+      <size>
+       <width>20</width>
+       <height>200</height>
+      </size>
+     </property>
+    </spacer>
+   </item>
+   <item>
+    <widget class="ScienceKB" name="frame">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Preferred" vsizetype="Expanding">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
      <property name="minimumSize">
       <size>
        <width>0</width>
-       <height>260</height>
+       <height>200</height>
       </size>
      </property>
      <property name="frameShape">
@@ -60,6 +81,11 @@
    <extends>QFrame</extends>
    <header>KeyBoard/ScienceKB.h</header>
    <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>InputText</class>
+   <extends>QLineEdit</extends>
+   <header>InputText/InputText.h</header>
   </customwidget>
  </customwidgets>
  <resources/>

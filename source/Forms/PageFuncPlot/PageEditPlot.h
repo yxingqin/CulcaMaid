@@ -24,25 +24,13 @@ Q_OBJECT
 public:
 	explicit PageEditPlot(QWidget *parent = nullptr);
 	~PageEditPlot() override;
-	void setModel(PlotModel* model);
 
-public slots:
-	void enterNumber(const QString &t);
-	void enterOpt(const QString &t);
-	void enterPoint();
-	void enterClear();
-	void enterBackspace();
-	void enterParenLeft();
-	void enterParenRight();
-	void enterFunc(const QString &t);
-	void enterValue(const QString& t);
-	void enterFrequentExpr1(const QString& t);
-	void enterFrequentExpr2(const QString& t);
+	signals:
+	void sendExpr(const QString& expr);
 
 
 private:
-	PlotDelegate* delegate;
-	PlotModel* m_model;
+
 	Ui::PageEditPlot *ui;
 };
 
