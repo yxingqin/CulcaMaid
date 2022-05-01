@@ -51,6 +51,7 @@ MainWin::MainWin(QWidget *parent) : QWidget(parent), ui(new Ui::MainWin)
 	ui->swdg_main->currentWidget()->setFocus();
 //	ui->swdg_main->setCurrentIndex(2);
 //	ui->swdg_sub->setCurrentIndex(1);
+	ui->swdg_main->setCurrentIndex(0);
 	//ui->swdg_main->setCurrentIndex(0);
 }
 
