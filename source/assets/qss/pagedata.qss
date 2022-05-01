@@ -18,3 +18,29 @@ QPushButton:hover {
 QPushButton:pressed {
 	background-color: #f9f9f9
 }
+QLineEdit {
+	background-color: #fdfaf7;
+	border-width: 1px;
+	border-style: solid;
+	border-color: rgb(0, 123, 168);
+}
+QComboBox {
+	background-color: #edf5f9;
+	border: 1px solid #DCDCDC;
+	border-radius: 4px;
+}
+QComboBOX::drop-down {
+	border: 1px solid #DCDCDC;
+	border-radius: 8px;
+}
+QComboBox QAbstractItemView {
+	background-color: #edf5f9;
+    border:1px solid rgba(228,228,228,1);
+    border-radius:0px 0px 5px 5px;
+	font-size:14px;
+    outline: 0px;  
+}
+QComboBox QAbstractItemView {
+	border-radius: 4px ;
+
+}

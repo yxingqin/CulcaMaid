@@ -37,6 +37,7 @@ private:
 
 private slots:
 	void on_pushButton_clicked();
+	void on_startDayBtn_clicked();	
 	void on_comboBox_currentIndexChanged(const QString &arg1);
 	void selectDate1(const QDate& intoDate);
 	void selectDate2(const QDate& intoDate);

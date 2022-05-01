@@ -29,27 +29,11 @@
       </sizepolicy>
      </property>
      <property name="styleSheet">
-      <string notr="true">QComboBox {
-     border-width : 0px;
-     border-radius:  3px ;
-     padding :  1px  2px  1px  2px ;
-	 background-color : #f3f3f3;    
-}
-QComboBox::drop-down {
-     subcontrol-origin: padding;
-     subcontrol- position :  top  right ;
-     width :  20px ;
-
-}</string>
+      <string notr="true"/>
      </property>
      <item>
       <property name="text">
        <string>添加或减去天数</string>
-      </property>
-     </item>
-     <item>
-      <property name="text">
-       <string>日期之间的间隔事件</string>
       </property>
      </item>
     </widget>
@@ -117,17 +101,52 @@ background-color：ff6ea
      <widget class="QWidget" name="intervalDateWidget">
       <layout class="QGridLayout" name="gridLayout_2">
        <item row="0" column="0">
-        <widget class="XCalendar" name="widget_2" native="true"/>
-       </item>
-       <item row="1" column="0">
-        <widget class="XCalendar" name="widget_3" native="true"/>
-       </item>
-       <item row="1" column="1">
-        <widget class="QPushButton" name="pushButton_2">
-         <property name="text">
-          <string>2</string>
-         </property>
-        </widget>
+        <layout class="QVBoxLayout" name="verticalLayout">
+         <item>
+          <layout class="QHBoxLayout" name="horizontalLayout_2">
+           <item>
+            <widget class="QLineEdit" name="lineEdit_2"/>
+           </item>
+           <item>
+            <widget class="QPushButton" name="startDayBtn">
+             <property name="text">
+              <string>PushButton</string>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </item>
+         <item>
+          <layout class="QHBoxLayout" name="horizontalLayout_3">
+           <item>
+            <widget class="QLineEdit" name="lineEdit_3"/>
+           </item>
+           <item>
+            <widget class="QPushButton" name="endDayBtn">
+             <property name="text">
+              <string>PushButton</string>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </item>
+         <item>
+          <spacer name="verticalSpacer">
+           <property name="orientation">
+            <enum>Qt::Vertical</enum>
+           </property>
+           <property name="sizeType">
+            <enum>QSizePolicy::Preferred</enum>
+           </property>
+           <property name="sizeHint" stdset="0">
+            <size>
+             <width>20</width>
+             <height>40</height>
+            </size>
+           </property>
+          </spacer>
+         </item>
+        </layout>
        </item>
       </layout>
      </widget>
