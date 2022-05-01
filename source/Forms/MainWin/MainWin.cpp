@@ -215,6 +215,7 @@ void MainWin::enableSub(bool enable)
 	{
 		ui->btn_tool->show();
 		enableSubPage=true;
+		ui->swdg_sub->show();
 	}else
 	{
 		ui->btn_tool->hide();
