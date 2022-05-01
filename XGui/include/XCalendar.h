@@ -28,7 +28,7 @@ public:
 	~XCalendar()override;
 
 signals:
-	void SetCalendarTime(const QDate& data);
+	 void SetCalendarTime(const QDate& data);
 private:
 	void initControl();
 	QWidget * initTopWidget();

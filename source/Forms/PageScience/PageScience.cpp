@@ -12,6 +12,7 @@ PageScience::PageScience(QWidget *parent) :
 		QFrame(parent)
 {
 	initUi();
+	input->setAlignment(Qt::AlignRight);
 	output->setReadOnly(true);
 	output->setAlignment(Qt::AlignRight);
 	m_kb->setMode(0);

@@ -6,9 +6,9 @@
 InputText::InputText(QWidget *parent) : QLineEdit(parent)
 {
 	setAttribute(Qt::WA_InputMethodEnabled, false); //禁止中文输入法
-	setAlignment(Qt::AlignRight);
 	setFocusPolicy(Qt::StrongFocus);
 	connect(this, &QLineEdit::cursorPositionChanged, this, &InputText::onCurChanged);
+	numThousandFormatFlag= true;
 }
 
 void InputText::onKeyPress(QKeyEvent *event)
@@ -99,7 +99,10 @@ void InputText::enterNumber(const QString &t)
 	//qDebug()<<"numStr"<<numStr;
 
 	/**处理字符串**/
-	curText.replace(left, numLen, thousandFormat(numStr));//千分位 格式化
+	if(numThousandFormatFlag)
+	{
+		curText.replace(left, numLen, thousandFormat(numStr));//千分位 格式化
+	}
 
 	setText(curText);
 }
@@ -364,6 +367,11 @@ void InputText::enterFrequentExpr2(const QString &t)
 	if(cLeft.isDigit()|| isValue(cLeft))
 		insert("x");
 	insert(t);
+}
+
+void InputText::enableThousandFormat(bool enable)
+{
+	numThousandFormatFlag=enable;
 }
 
 

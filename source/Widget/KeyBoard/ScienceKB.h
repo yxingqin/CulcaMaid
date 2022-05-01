@@ -11,11 +11,11 @@
  * @brief 弹出的键盘
  * 200x100
  */
-class PopKb : public QWidget
+class PopKb : public QFrame
 {
 	Q_OBJECT
 public:
-	using QWidget::QWidget;
+	using QFrame::QFrame;
 	void popup(QPushButton* btn ,int w=120,int h=60);
 	void leaveEvent(QEvent *event)override;
 	signals:

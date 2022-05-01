@@ -115,6 +115,10 @@ namespace expr
 		{
 			return type==Type::NUMBER;
 		}
+		inline bool isXkey() const
+		{
+			return type==Type::XKEY;
+		}
 		inline XKey getXkey() const
 		{
 			return meta.xkey;

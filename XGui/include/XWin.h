@@ -7,6 +7,9 @@
 #include <QPushButton>
 #include <QLabel>
 
+
+
+
 class XWin;
 
 /**

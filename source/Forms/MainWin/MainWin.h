@@ -42,11 +42,14 @@ private slots:
 private:
 	void resizeEvent(QResizeEvent *event) override;
 	void keyPressEvent(QKeyEvent *event)override;
+	void enableSub(bool enable);
 private:
 	Ui::MainWin *ui;
 	PopMenu *mPopMenu;
 	QPropertyAnimation *animationMenu;
 	QPropertyAnimation *animationSub1;
+
+	bool enableSubPage;
 };
 
 #endif // CALCULMAID_MAINWIN_H

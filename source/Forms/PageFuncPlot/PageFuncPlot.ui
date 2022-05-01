@@ -6,14 +6,34 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>754</width>
-    <height>793</height>
+    <width>721</width>
+    <height>756</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>PageFuncPlot</string>
   </property>
+  <layout class="QVBoxLayout" name="verticalLayout">
+   <item>
+    <widget class="PlotPainter" name="plotPainter">
+     <property name="frameShape">
+      <enum>QFrame::StyledPanel</enum>
+     </property>
+     <property name="frameShadow">
+      <enum>QFrame::Raised</enum>
+     </property>
+    </widget>
+   </item>
+  </layout>
  </widget>
+ <customwidgets>
+  <customwidget>
+   <class>PlotPainter</class>
+   <extends>QFrame</extends>
+   <header>Plot/PlotPainter.h</header>
+   <container>1</container>
+  </customwidget>
+ </customwidgets>
  <resources/>
  <connections/>
 </ui>

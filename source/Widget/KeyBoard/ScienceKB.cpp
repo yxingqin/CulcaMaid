@@ -62,6 +62,7 @@ const ScienceKB::BtnDescription ScienceKB::btnDescriptions[] =
 ScienceKB::ScienceKB(QWidget *parent) : QFrame(parent)
 {
 
+
 	initUi();
 
 	setStyleSheet(Load::loadStyle(":/qss/sciencekb.qss"));
@@ -72,8 +73,8 @@ ScienceKB::ScienceKB(QWidget *parent) : QFrame(parent)
 	findBtnById(KEY_FUNC)->setIcon(QIcon(":/icon/down.png"));
 
 	popFunc = new PopKbFunc(this);
-	connect(popFunc,&PopKbFunc::pressFunc,this,&ScienceKB::pressFunc);
 	popKbTriangle=new PopKbTriangle(this);
+	connect(popFunc,&PopKbFunc::pressFunc,this,&ScienceKB::pressFunc);
 	connect(popKbTriangle,&PopKbTriangle::pressFunc,this,&ScienceKB::pressFunc);
 }
 
@@ -283,7 +284,7 @@ void PopKbTriangle::initUi()
 PopKbTriangle::PopKbTriangle(QWidget *parent):PopKb(parent)
 {
 	initUi();
-	//setStyleSheet(Load::loadStyle(":/qss/popkb.qss"));
+	setStyleSheet(Load::loadStyle(":/qss/popkb.qss"));
 	hide();
 	raise();
 }

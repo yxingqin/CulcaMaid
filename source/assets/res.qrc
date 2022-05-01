@@ -26,5 +26,6 @@
     <file>qss/sciencekb.qss</file>
     <file>qss/culpage.qss</file>
     <file>qss/popkb.qss</file>
+    <file>qss/pageplotedit.qss</file>
   </qresource>
 </RCC>

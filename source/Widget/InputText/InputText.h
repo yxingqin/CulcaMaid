@@ -11,6 +11,7 @@ class InputText:public QLineEdit
 public:
 	explicit InputText(QWidget* parent = nullptr);
 	void keyPressEvent(QKeyEvent *event)override;//处理按键事件 阻止QLineEdit 的输入事件 转移到 onKeyPress 中去处理
+	void enableThousandFormat(bool enable);
 public slots:
 	void onKeyPress(QKeyEvent* event);
 	//输入
@@ -42,6 +43,7 @@ private:
 	bool isValue(const QChar& qChar);
 private:
 //	QString m_oldText;// 对输入前的字串存档
+	bool numThousandFormatFlag;
 };
 
 

@@ -35,17 +35,23 @@ MainWin::MainWin(QWidget *parent) : QWidget(parent), ui(new Ui::MainWin)
 	animationMenu = new QPropertyAnimation(mPopMenu, "pos", this);
 	animationSub1 = new QPropertyAnimation(ui->swdg_sub, "geometry", this);
 
-
+	enableSubPage=true;
 
 	//槽 链接
 	connect(ui->pStandard,&PageStandard::sendHistory,ui->pHistory,&PageHistory::addHistory);
 	connect(ui->pScience,&PageScience::sendHistory,ui->pHistory,&PageHistory::addHistory);
 
 
+	//绘图页面初始化
+	PlotModel* model=new PlotModel(ui->pFuntPlot->getPainter());
+	ui->pPlotEdit->setModel(model);
+
+
 	setMinimumSize(320, 500);
 	ui->lbl_title->setText("标准");
 	ui->swdg_main->currentWidget()->setFocus();
-	ui->swdg_main->setCurrentIndex(4);
+	ui->swdg_main->setCurrentIndex(2);
+	ui->swdg_sub->setCurrentIndex(1);
 	//ui->swdg_main->setCurrentIndex(0);
 }
 
@@ -114,7 +120,7 @@ void MainWin::resizeEvent(QResizeEvent *event)
 
 void MainWin::switchSubPage()
 {
-	if (this->width() < NARROW_WIDTH)
+	if (enableSubPage&&this->width() < NARROW_WIDTH)
 	{
 		if (ui->swdg_sub->y() >= this->height()) //显示
 		{
@@ -173,6 +179,21 @@ void MainWin::switchPage(int row, QString title)
 	ui->lbl_title->setText(title);
 	ui->btn_tool->show();
 	ui->swdg_main->currentWidget()->setFocus();
+	switch (row)
+	{
+		case 0:
+		case 1:
+			enableSub(true);
+			ui->swdg_sub->setCurrentIndex(0);
+			break;
+		case 2:
+			enableSub(true);
+			ui->swdg_sub->setCurrentIndex(1);
+			break;
+		default:
+			enableSub(false);
+			break;
+	}
 	switchMenu();
 }
 
@@ -186,4 +207,18 @@ void MainWin::keyPressEvent(QKeyEvent *event)
 	if(ui->swdg_main->currentIndex()==0)
 		ui->pStandard->onKeyPress(event);
 	QWidget::keyPressEvent(event);
+}
+
+void MainWin::enableSub(bool enable)
+{
+	if(enable)
+	{
+		ui->btn_tool->show();
+		enableSubPage=true;
+	}else
+	{
+		ui->btn_tool->hide();
+		enableSubPage=false;
+		ui->swdg_sub->hide();
+	}
 }

@@ -308,7 +308,7 @@ bool checkPost(const Postfix &post)
 	int n = 0; //数值类型的个数
 	for (auto &item: post)
 	{
-		if (item.isNumber())
+		if (item.isNumber()||item.isXkey())
 			++n;
 		else
 		{

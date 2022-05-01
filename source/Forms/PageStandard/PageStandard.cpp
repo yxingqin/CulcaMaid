@@ -18,6 +18,8 @@ PageStandard::PageStandard(QWidget *parent) : QWidget(parent)
 	connect(fm_kb,&StandardKB::pressClear,output,&QLineEdit::clear);
 	connect(input,&QLineEdit::textChanged,this,&PageStandard::onInputTextChanged);
 	connect(fm_kb,&StandardKB::pressEnter,this,&PageStandard::onEnter);
+
+	input->setAlignment(Qt::AlignRight);
 }
 
 PageStandard::~PageStandard()
