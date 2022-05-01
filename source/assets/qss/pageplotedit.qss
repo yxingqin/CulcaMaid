@@ -1,0 +1,3 @@
+QListView::item {
+    min-height: 80px;
+}
