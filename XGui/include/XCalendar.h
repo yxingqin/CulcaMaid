@@ -6,7 +6,6 @@
 #define CALCUMAID_XCALENDAR_H
 #include <QWidget>
 #include <QDate>
-#include <QtUiPlugin/QDesignerExportWidget>
 #include <QPushButton>
 #include <QColor>
 #include <QProxyStyle>
