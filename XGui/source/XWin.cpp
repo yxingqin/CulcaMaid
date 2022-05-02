@@ -5,6 +5,9 @@
 #include <QApplication>
 #include <QGraphicsDropShadowEffect>
 
+
+
+
 const char *XWin::styleSheet = R"(
 		#frame {
 	      border:none;

@@ -8,8 +8,8 @@ set(CMAKE_AUTORCC ON)
 set(CMAKE_AUTOUIC ON)
 
 if(CMAKE_SYSTEM_NAME MATCHES "Windows")
-    #set(CMAKE_PREFIX_PATH "D:/Software/SDK/Qt/5.15.2/mingw81_64")# yxqin
-    set(CMAKE_PREFIX_PATH "C:/Qt/5.15.2/mingw81_64")# xzl
+    set(CMAKE_PREFIX_PATH "D:/Software/SDK/Qt/5.15.2/mingw81_64")# yxqin
+    #set(CMAKE_PREFIX_PATH "C:/Qt/5.15.2/mingw81_64")# xzl
 endif()
 
 #指定输出路径
@@ -30,5 +30,5 @@ find_package(Qt5 COMPONENTS
 
 
 add_subdirectory(XGui)
-add_subdirectory(source)
 add_subdirectory(test)
+add_subdirectory(source)

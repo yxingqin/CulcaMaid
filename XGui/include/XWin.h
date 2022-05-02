@@ -8,37 +8,12 @@
 #include <QLabel>
 
 
-
-
-class XWin;
+class XWinTitle;
 
 /**
  * @brief 自定义标题栏
  */
-class XWinTitle : public QWidget
-{
-	Q_OBJECT
-	friend class XWin;
-public:
-	XWinTitle(QWidget *parent);
-signals: //传递给父窗口
-	void clickMax();
-	void clickMin();
-	void clickClose();
-	void clickIcon();
 
-private:
-	QHBoxLayout *horizontalLayout;
-	QPushButton *btn_icon;
-	QLabel *lbl_title;
-	QSpacerItem *horizontalSpacer;
-	QPushButton *btn_max;
-	QPushButton *btn_min;
-	QPushButton *btn_close;
-
-private:
-	static const char *styleSheet;
-};
 
 /**
  * @brief 自定义 无边框QWidget
@@ -46,7 +21,7 @@ private:
  * @note
  * 构造参数中传入 客户区窗口
  */
-class XWin : public QWidget
+class  XWin : public QWidget
 {
 	Q_OBJECT
 public:
@@ -93,6 +68,32 @@ private:
 	QRect oldRect;	 //鼠标按下时 窗口位置和大小
 	int mouseArea;	 //当鼠标按下时 鼠标所在区域 用于判定是否可以拖动大小
 	bool moveEnable; //当前是否可以 拖动窗口
+private:
+	static const char *styleSheet;
+};
+
+
+class XWinTitle : public QWidget
+{
+Q_OBJECT
+	friend class XWin;
+public:
+	XWinTitle(QWidget *parent);
+signals: //传递给父窗口
+	void clickMax();
+	void clickMin();
+	void clickClose();
+	void clickIcon();
+
+private:
+	QHBoxLayout *horizontalLayout;
+	QPushButton *btn_icon;
+	QLabel *lbl_title;
+	QSpacerItem *horizontalSpacer;
+	QPushButton *btn_max;
+	QPushButton *btn_min;
+	QPushButton *btn_close;
+
 private:
 	static const char *styleSheet;
 };

@@ -1,9 +1,12 @@
 #include <QApplication>
 #include <QPushButton>
 #include <QDesktopWidget>
-#include <XWin.h>
+
 #include "MainWin/MainWin.h"
 #include "Load.h"
+
+#define XGUI_LIBRARY
+#include "XWin.h"
 int main(int argc, char *argv[])
 {
 	//高分屏 设置
