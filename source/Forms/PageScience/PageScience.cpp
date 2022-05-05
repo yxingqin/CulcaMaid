@@ -82,7 +82,7 @@ void PageScience::onInputTextChanged()
 
 		double result;
 		expr::getResult(postfix,result);
-		output->setText(QString::number(result));
+		output->setText(QString::number(result,'f',2));
 	}
 }
 
